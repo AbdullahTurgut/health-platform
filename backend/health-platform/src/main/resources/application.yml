@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: health-platform
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:health_platform}
+    username: ${DB_USERNAME:health_admin}
+    password: ${DB_PASSWORD:health_admin_dev}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+
+server:
+  port: 8080
