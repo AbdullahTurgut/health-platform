@@ -2,7 +2,7 @@
 
 **Project:** Health Platform
 **Repository:** AbdullahTurgut/health-platform
-**Status:** 🟢 Database Foundation / Domain Modeling
+**Status:** 🟢 Database Foundation Complete / JPA Entity Layer Next
 **Last Updated:** 15 August 2026
 
 ---
@@ -13,36 +13,38 @@ Health Platform, kullanıcıların kişisel sağlık geçmişlerini tek bir plat
 
 Platformun temel amacı:
 
-* Hastalık takibi
-* Hastane ziyaretlerinin kaydı
-* Doktor bilgilerinin takibi
-* Testlerin ve test sonuçlarının saklanması
-* MR / CT / X-Ray gibi görüntüleme kayıtlarının yönetilmesi
-* Sağlık belgelerinin saklanması
-* İlaç takibi
-* Sağlık geçmişinin timeline üzerinden görüntülenmesi
-* Sağlık kayıtları içerisinde hızlı arama yapılabilmesi
+- Hastalık takibi
+- Hastane ziyaretlerinin kaydı
+- Doktor bilgilerinin takibi
+- Testlerin ve test sonuçlarının saklanması
+- MR / CT / X-Ray gibi görüntüleme kayıtlarının yönetilmesi
+- Sağlık belgelerinin saklanması
+- İlaç kullanım geçmişinin takibi
+- Sağlık geçmişinin timeline üzerinden görüntülenmesi
+- Sağlık kayıtları içerisinde hızlı arama yapılabilmesi
 
 Platform tıbbi teşhis veya tedavi önerisi sunmayı amaçlamaz.
 
 ---
 
-# 2. Project Goals
+# 2. Core Product Goal
 
 Ana problem:
 
-> Kullanıcıların zaman içerisinde artan hastane ziyaretleri, test sonuçları, görüntüleme raporları ve sağlık belgelerini takip etmekte zorlanması.
+> Kullanıcıların zaman içerisinde artan hastane ziyaretleri, test sonuçları, görüntüleme raporları, ilaç kayıtları ve sağlık belgelerini takip etmekte zorlanması.
 
 Platform bu problemi:
 
-* Merkezi sağlık arşivi
-* Hastalık bazlı organizasyon
-* Timeline
-* Search
-* Filtreleme
-* Doktor / hastane geçmişi
-* Yapılandırılmış test sonuçları
-* Sağlık kayıtlarının ilişkisel şekilde tutulması
+- Merkezi sağlık arşivi
+- Hastalık bazlı organizasyon
+- Yapılandırılmış test sonuçları
+- Doktor ve hastane geçmişi
+- Görüntüleme kayıtları
+- Belge arşivi
+- İlaç geçmişi
+- Timeline
+- Global search
+- Filtreleme
 
 ile çözmeyi hedeflemektedir.
 
@@ -52,35 +54,40 @@ ile çözmeyi hedeflemektedir.
 
 ## MVP
 
-* User registration
-* User authentication
-* JWT authentication
-* Disease management
-* Doctor management
-* Hospital management
-* Hospital visit management
-* Medical test management
-* Test result management
-* Imaging records
-* Medical document management
-* Medication management
-* Health timeline
-* Basic search
-* Filtering
+- User registration
+- User authentication
+- JWT authentication
+- Disease management
+- Doctor management
+- Hospital management
+- Visit management
+- Medical test management
+- Test result management
+- Imaging management
+- Medical document management
+- Medication management
+- Health timeline
+- Global search
+- Filtering
+- User profile
 
 ## Future
 
-* Mobile application
-* Push notifications
-* Appointment reminders
-* Advanced search
-* OCR
-* AI-assisted document understanding
-* AI-powered health record search
-* Health trends and analytics
-* Family member profiles
-* Data export
-* Sharing / access permissions
+- Mobile application
+- Push notifications
+- Appointment / control reminders
+- Advanced health analytics
+- Test result trend charts
+- Health Snapshot
+- PDF health summary export
+- OCR
+- AI-assisted document understanding
+- AI-powered health record search
+- RAG / Knowledge Layer
+- Doctor Share
+- Temporary read-only health record sharing
+- Family profiles
+- External healthcare integrations
 
 ---
 
@@ -88,110 +95,151 @@ ile çözmeyi hedeflemektedir.
 
 ## Backend
 
-* Java
-* Spring Boot
-* Spring Data JPA
-* Spring Security
-* JWT
-* PostgreSQL
-* Flyway
-* Maven
-* Validation
-* Lombok
+- Java
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- PostgreSQL
+- Flyway
+- Maven
+- Bean Validation
+- Lombok
+
+Planned:
+
+- Spring Security
+- JWT Authentication
 
 ## Frontend
 
 Planned:
 
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-* React Router
-* Axios
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+- React Router
+- Axios
 
 ## Infrastructure
 
-* Docker
-* Docker Compose
-* PostgreSQL
+- Docker
+- Docker Compose
+- PostgreSQL
+
+## File Storage
+
+Development:
+
+- Local file storage
+
+Production target:
+
+- S3-compatible object storage
 
 ## Future Mobile
 
-Planned:
-
-* React Native
-* Expo
+- React Native
+- Expo
+- TypeScript
 
 ---
 
-# 5. Database Domain Model
-
-## Implemented
-
-* User
-* Disease
-* Doctor
-* Hospital
-* Visit
-* MedicalTest
-* TestResult
-
-## Planned
-
-* Imaging
-* MedicalDocument
-* Medication
-
-Timeline will initially be generated through a service/read-model approach rather than stored as a generic polymorphic database table.
-
-Current relationship model:
+# 5. Repository Structure
 
 ```text
-User
+health-platform/
 │
-├── Disease
-├── Doctor
-├── Hospital
-├── Visit
-│     ├── Disease?
-│     ├── Doctor?
-│     └── Hospital?
+├── backend/
+│   └── health-platform/
+│       ├── src/
+│       │   ├── main/
+│       │   │   ├── java/
+│       │   │   │   └── com/healthplatform/
+│       │   │   │
+│       │   │   └── resources/
+│       │   │       ├── application.yml
+│       │   │       │
+│       │   │       └── db/
+│       │   │           └── migration/
+│       │   │               ├── V1__init_schema.sql
+│       │   │               ├── V2__remove_schema_test.sql
+│       │   │               ├── V3__create_users.sql
+│       │   │               ├── V4__create_diseases.sql
+│       │   │               ├── V5__create_doctors.sql
+│       │   │               ├── V6__create_hospitals.sql
+│       │   │               ├── V7__create_visits.sql
+│       │   │               ├── V8__create_medical_tests.sql
+│       │   │               ├── V9__create_test_results.sql
+│       │   │               ├── V10__create_imaging.sql
+│       │   │               ├── V11__create_medical_documents.sql
+│       │   │               └── V12__create_medications.sql
+│       │   │
+│       │   └── test/
+│       │
+│       └── pom.xml
 │
-└── MedicalTest
-      ├── Disease?
-      ├── Visit?
-      └── TestResult
-             ├── parameter_name
-             ├── value_text
-             ├── numeric_value
-             ├── unit
-             ├── reference_range
-             └── flag
+├── frontend/
+├── docker-compose.yml
+├── .env
+├── .gitignore
+└── PROJECT_STATUS.md
 ```
 
 ---
 
-# 6. Database Architecture Principles
+# 6. Database Foundation
 
-* PostgreSQL is the primary relational database.
-* UUID is used for entity identifiers.
-* Database schema is managed exclusively through Flyway migrations.
-* Applied Flyway migrations are treated as immutable.
-* Medical records are scoped to their owning user.
-* User medical data must never be accessible by another user.
-* Optional historical relationships use `ON DELETE SET NULL` where deleting the related entity must not delete the medical record.
-* Parent-child records such as `MedicalTest → TestResult` use cascade deletion where the child has no independent meaning.
-* Database constraints are used in addition to application-level validation.
-* Sensitive credentials must never be stored in plain text.
-* Database credentials are provided through environment variables.
-* Production secrets must never be committed to Git.
+## Status
+
+🟢 **COMPLETE**
+
+PostgreSQL database:
+
+```text
+health_platform
+```
+
+Database runs through Docker with persistent volume storage.
+
+Database schema is managed exclusively through Flyway.
+
+Current migration state:
+
+```text
+V1 → V12
+```
+
+All migrations have been successfully applied and verified through PostgreSQL / DBeaver.
 
 ---
 
-# 7. Database Migration History
+# 7. Implemented Database Domain
 
-## V1 — Init Schema ✅
+The following domain tables are implemented:
+
+- `users`
+- `diseases`
+- `doctors`
+- `hospitals`
+- `visits`
+- `medical_tests`
+- `test_results`
+- `imaging`
+- `medical_documents`
+- `medications`
+
+Infrastructure table:
+
+- `flyway_schema_history`
+
+---
+
+# 8. Migration History
+
+## V1 — Flyway Foundation ✅
 
 ```text
 V1__init_schema.sql
@@ -199,8 +247,8 @@ V1__init_schema.sql
 
 Purpose:
 
-* Verify Spring Boot → Flyway → PostgreSQL migration flow.
-* Temporary `schema_test` table created.
+- Verify Spring Boot → Flyway → PostgreSQL migration flow.
+- Temporary `schema_test` table created.
 
 ---
 
@@ -210,9 +258,9 @@ Purpose:
 V2__remove_schema_test.sql
 ```
 
-Completed:
+Temporary Flyway validation table removed.
 
-* Temporary Flyway validation table removed.
+Migration immutability strategy established.
 
 ---
 
@@ -224,22 +272,22 @@ V3__create_users.sql
 
 Implemented:
 
-* UUID primary key
-* First name
-* Last name
-* Unique email
-* Password hash
-* Date of birth
-* Enabled flag
-* Created timestamp
-* Updated timestamp
+- UUID primary key
+- First name
+- Last name
+- Unique email
+- Password hash
+- Date of birth
+- Enabled status
+- Creation timestamp
+- Update timestamp
 
 Verified:
 
-* UUID generation
-* Unique email constraint
-* Duplicate email rejection
-* Timestamp defaults
+- UUID generation
+- UNIQUE email constraint
+- Duplicate email rejection
+- Timestamp behavior
 
 ---
 
@@ -251,14 +299,14 @@ V4__create_diseases.sql
 
 Implemented:
 
-* User ownership
-* Disease name
-* Diagnosis date
-* Disease status
-* Description
-* User foreign key
-* User index
-* Status constraint
+- User ownership
+- Disease name
+- Diagnosis date
+- Disease status
+- Description
+- Foreign key
+- User index
+- Status constraint
 
 Relationship:
 
@@ -268,10 +316,10 @@ User 1 ─── N Disease
 
 Verified:
 
-* Foreign key enforcement
-* Disease status validation
-* User → Disease query
-* Cascade cleanup
+- Foreign key enforcement
+- Invalid status rejection
+- User → Disease query
+- User cascade cleanup
 
 ---
 
@@ -283,12 +331,12 @@ V5__create_doctors.sql
 
 Implemented:
 
-* User ownership
-* Doctor name
-* Specialization
-* Contact information
-* Notes
-* Search-oriented indexes
+- User ownership
+- Doctor name
+- Specialization
+- Contact information
+- Notes
+- Search-oriented indexes
 
 Relationship:
 
@@ -306,13 +354,13 @@ V6__create_hospitals.sql
 
 Implemented:
 
-* User ownership
-* Hospital name
-* City
-* Address
-* Phone
-* Notes
-* User / name / city indexes
+- User ownership
+- Hospital name
+- City
+- Address
+- Phone
+- Notes
+- Search-oriented indexes
 
 Relationship:
 
@@ -330,15 +378,15 @@ V7__create_visits.sql
 
 Implemented:
 
-* User ownership
-* Optional Disease relationship
-* Optional Doctor relationship
-* Optional Hospital relationship
-* Visit date
-* Department
-* Reason
-* Diagnosis note
-* Notes
+- User ownership
+- Optional Disease
+- Optional Doctor
+- Optional Hospital
+- Visit date
+- Department
+- Reason
+- Diagnosis note
+- Notes
 
 Relationships:
 
@@ -354,16 +402,14 @@ Historical relationships use:
 ON DELETE SET NULL
 ```
 
-so deleting a Disease, Doctor, or Hospital does not delete the Visit record.
-
 Verified:
 
-* Disease → Doctor query through Visit
-* Disease → Hospital query through Visit
-* Doctor → Disease query through Visit
-* Nullable foreign keys
-* SET NULL behavior
-* User cascade cleanup
+- Disease → Doctor through Visit
+- Disease → Hospital through Visit
+- Doctor → Disease through Visit
+- Nullable relationships
+- SET NULL behavior
+- User cascade cleanup
 
 ---
 
@@ -375,41 +421,42 @@ V8__create_medical_tests.sql
 
 Implemented:
 
-* User ownership
-* Optional Disease relationship
-* Optional Visit relationship
-* Test name
-* Test category
-* Test date
-* Laboratory
-* Notes
-* Search and timeline indexes
+- User ownership
+- Optional Disease
+- Optional Visit
+- Test name
+- Category
+- Test date
+- Laboratory
+- Notes
 
 Relationships:
 
 ```text
 User 1 ─── N MedicalTest
+
 Disease 1 ─── N MedicalTest
+
 Visit 1 ─── N MedicalTest
 ```
 
-Supported categories currently include:
+Supported categories:
 
-* BLOOD
-* URINE
-* HORMONE
-* BIOCHEMISTRY
-* GENETIC
-* PATHOLOGY
-* MICROBIOLOGY
-* OTHER
+- BLOOD
+- URINE
+- HORMONE
+- BIOCHEMISTRY
+- GENETIC
+- PATHOLOGY
+- MICROBIOLOGY
+- OTHER
 
 Verified:
 
-* Category constraint
-* Disease `SET NULL`
-* Visit `SET NULL`
-* User ownership
+- Category constraint
+- Visit SET NULL
+- Disease SET NULL
+- User cascade behavior
 
 ---
 
@@ -421,14 +468,14 @@ V9__create_test_results.sql
 
 Implemented:
 
-* MedicalTest ownership
-* Parameter name
-* Text value
-* Numeric value
-* Unit
-* Reference range
-* Result flag
-* Notes
+- MedicalTest ownership
+- Parameter name
+- Text value
+- Numeric value
+- Unit
+- Reference range
+- Result flag
+- Notes
 
 Relationship:
 
@@ -436,104 +483,525 @@ Relationship:
 MedicalTest 1 ─── N TestResult
 ```
 
-Result values support both numeric and textual medical results.
+Result modeling supports:
+
+```text
+Hemoglobin → 13.5
+
+PCR → Negative
+
+Marker → <5
+```
+
+`numeric_value` exists separately from `value_text` to support future:
+
+- Trend charts
+- Analytics
+- Historical comparison
+
+Supported flags:
+
+- NORMAL
+- LOW
+- HIGH
+- CRITICAL
+- ABNORMAL
+- POSITIVE
+- NEGATIVE
+- UNKNOWN
+
+Verified:
+
+- Numeric result
+- Text result
+- Invalid flag rejection
+- Parent MedicalTest cascade
+- Parameter querying
+- Complete health record JOIN
+
+---
+
+## V10 — Imaging ✅
+
+```text
+V10__create_imaging.sql
+```
+
+Implemented:
+
+- User ownership
+- Optional Disease
+- Optional Visit
+- Optional Doctor
+- Optional Hospital
+- Imaging type
+- Body part
+- Imaging date
+- Report text
+- Notes
+
+Supported types:
+
+- MRI
+- CT
+- ULTRASOUND
+- XRAY
+- PET
+- MAMMOGRAPHY
+- OTHER
+
+Relationships:
+
+```text
+User 1 ─── N Imaging
+
+Disease 1 ─── N Imaging
+
+Visit 1 ─── N Imaging
+
+Doctor 1 ─── N Imaging
+
+Hospital 1 ─── N Imaging
+```
+
+Verified:
+
+- Standalone imaging records
+- Invalid type rejection
+- Disease SET NULL
+- Visit SET NULL
+- Doctor SET NULL
+- Hospital SET NULL
+- User cascade cleanup
+- Full Imaging JOIN
+
+---
+
+## V11 — Medical Documents ✅
+
+```text
+V11__create_medical_documents.sql
+```
+
+Implemented:
+
+- User ownership
+- Optional Disease
+- Optional Visit
+- Optional MedicalTest
+- Optional Imaging
+- Display name
+- Document type
+- Original file name
+- Storage key
+- MIME type
+- File size
+- Upload timestamp
+
+Supported document types:
+
+- LAB_REPORT
+- IMAGING_REPORT
+- PRESCRIPTION
+- EPICRISIS
+- DOCTOR_NOTE
+- DISCHARGE_SUMMARY
+- PATHOLOGY_REPORT
+- OTHER
+
+Relationships:
+
+```text
+User 1 ─── N MedicalDocument
+
+Disease 1 ─── N MedicalDocument
+
+Visit 1 ─── N MedicalDocument
+
+MedicalTest 1 ─── N MedicalDocument
+
+Imaging 1 ─── N MedicalDocument
+```
+
+Verified:
+
+- Standalone document
+- MedicalTest report
+- Imaging report
+- File size constraint
+- Document type constraint
+- Disease SET NULL
+- Visit SET NULL
+- MedicalTest SET NULL
+- Imaging SET NULL
+- User cascade cleanup
+
+---
+
+## V12 — Medications ✅
+
+```text
+V12__create_medications.sql
+```
+
+Implemented:
+
+- User ownership
+- Optional Disease
+- Medication name
+- Dosage
+- Frequency
+- Administration route
+- Start date
+- End date
+- Medication status
+- Prescriber text
+- Notes
+
+Relationships:
+
+```text
+User 1 ─── N Medication
+
+Disease 1 ─── N Medication
+```
+
+Supported statuses:
+
+- ACTIVE
+- COMPLETED
+- DISCONTINUED
+- PAUSED
+
+Supported routes:
+
+- ORAL
+- TOPICAL
+- INJECTION
+- INHALATION
+- SUBLINGUAL
+- OTHER
+
+Verified:
+
+- Disease-bound medication
+- Standalone medication
+- Completed medication
+- Invalid status rejection
+- Invalid route rejection
+- Invalid date rejection
+- Disease SET NULL
+- User cascade cleanup
+
+---
+
+# 9. Current Relational Model
+
+```text
+                              USER
+                               │
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+          ▼                    ▼                    ▼
+      DISEASE               DOCTOR              HOSPITAL
+          │                    │                    │
+          └────────────────────┼────────────────────┘
+                               │
+                               ▼
+                             VISIT
+                          ┌─────┴─────┐
+                          │           │
+                          ▼           ▼
+                    MEDICAL TEST    IMAGING
+                          │           │
+                          ▼           │
+                     TEST RESULT      │
+                                      │
+                          ┌───────────┘
+                          ▼
+                  MEDICAL DOCUMENT
+
+
+USER
+ │
+ └── MEDICATION
+       │
+       └── Disease?
+
+
+MEDICAL DOCUMENT
+ ├── Disease?
+ ├── Visit?
+ ├── MedicalTest?
+ └── Imaging?
+```
+
+---
+
+# 10. Core Database Architecture Decisions
+
+## UUID Identifiers
+
+All primary domain identifiers use UUID.
+
+Goals:
+
+- Avoid sequential public IDs
+- Improve API identifier safety
+- Support future distributed architecture
+- Work cleanly across web and mobile clients
+
+---
+
+## Flyway Migration Discipline
+
+Database schema changes are performed exclusively through Flyway.
+
+Applied migrations are treated as immutable.
+
+Example:
+
+```text
+V12 applied
+     ↓
+new schema requirement
+     ↓
+V13 migration
+```
+
+Existing migration files must not be modified after successful application.
+
+---
+
+## User Ownership
+
+Every major health record is associated with its owning User.
+
+Expected application-level repository strategy:
+
+```text
+findByIdAndUserId(...)
+```
+
+instead of unrestricted:
+
+```text
+findById(...)
+```
+
+for user-owned resources.
+
+---
+
+## Historical Record Preservation
+
+Health records should not disappear simply because a related organizational record is deleted.
+
+Example:
+
+```text
+Doctor DELETE
+      ↓
+Visit.doctor_id = NULL
+```
+
+rather than:
+
+```text
+Doctor DELETE
+      ↓
+Visit DELETE
+```
+
+`ON DELETE SET NULL` is therefore used for optional historical relationships.
+
+---
+
+## Parent-Child Cascades
+
+Child entities with no independent domain meaning may cascade.
+
+Example:
+
+```text
+MedicalTest
+     ↓ DELETE
+TestResult
+```
+
+TestResult has no independent meaning without its MedicalTest.
+
+---
+
+## Medical Result Modeling
+
+Test results may be numeric or textual.
+
+Therefore:
+
+```text
+value_text
+numeric_value
+```
+
+are stored separately.
+
+This supports both:
+
+```text
+PCR → Negative
+```
+
+and:
+
+```text
+TSH → 2.31
+```
+
+while preserving future analytics capability.
+
+---
+
+## Document Storage
+
+Binary medical files are not stored directly inside PostgreSQL.
+
+Database stores:
+
+```text
+metadata
++
+storage_key
+```
+
+while actual file storage will be handled by a dedicated storage service.
+
+Planned architecture:
+
+```text
+MedicalDocument
+      ↓
+StorageService
+      ↓
+Local Storage / S3-compatible Storage
+```
+
+Document access must later pass through authenticated ownership checks.
+
+---
+
+## Timeline
+
+No generic polymorphic `timeline_events` database table is currently used.
+
+Timeline will initially be produced through aggregation:
+
+```text
+Visits
+MedicalTests
+Imaging
+MedicalDocuments
+Medications
+       ↓
+TimelineService
+       ↓
+Unified Timeline DTO
+       ↓
+sort by event date
+```
+
+This avoids weak `reference_id + type` database relationships.
+
+---
+
+# 11. Search Foundation
+
+Current database design already supports future search across:
+
+```text
+Diseases
+Doctors
+Hospitals
+Visits
+MedicalTests
+TestResults
+Imaging
+MedicalDocuments
+Medications
+```
 
 Examples:
 
 ```text
-Hemoglobin → 13.5
-PCR → Negative
-Marker → <5
+"MR"
+
+"TSH"
+
+"Dr. Ahmet"
+
+"Migren"
+
+"Epikriz"
+
+"Levothyroxine"
 ```
 
-`numeric_value` exists to support future result trends and analytics.
+Initial search can use PostgreSQL queries.
 
-Supported flags currently include:
-
-* NORMAL
-* LOW
-* HIGH
-* CRITICAL
-* ABNORMAL
-* POSITIVE
-* NEGATIVE
-* UNKNOWN
-
-Verified:
-
-* Numeric results
-* Text results
-* Result flag constraint
-* Parameter search
-* Parent test cascade deletion
-* Complete Patient → Disease → Visit → MedicalTest → TestResult relationship
+Advanced search infrastructure will be evaluated only when necessary.
 
 ---
 
-# 8. Current Database State
+# 12. Completed Development Phases
 
-Current implemented schema:
+## Product Specification ✅
 
-```text
-health_platform
-│
-├── flyway_schema_history
-├── users
-├── diseases
-├── doctors
-├── hospitals
-├── visits
-├── medical_tests
-└── test_results
-```
-
-Current domain flow:
-
-```text
-User
- │
- ├── Disease
- │
- ├── Doctor
- │
- ├── Hospital
- │
- └── Visit
-       │
-       └── MedicalTest
-               │
-               └── TestResult
-```
-
-Medical tests can also directly reference their owning User and optional Disease.
+- Product vision
+- MVP scope
+- Core modules
+- Long-term roadmap
+- AI boundary
+- Mobile roadmap
 
 ---
 
-# 9. Completed Steps
+## ER Modeling ✅
+
+- Core entities
+- Ownership relationships
+- Historical relationships
+- Parent-child relationships
+- Timeline strategy
+- Document storage strategy
+
+---
 
 ## STEP 1 — PostgreSQL Foundation ✅
 
-* Docker PostgreSQL container
-* PostgreSQL database
-* Persistent Docker volume
-* Database connection
-* DBeaver verification
-* PostgreSQL health check
+Completed:
+
+- Docker PostgreSQL
+- Persistent Docker volume
+- `health_platform` database
+- Database health verification
+- DBeaver connection
 
 ---
 
 ## STEP 2-A — Spring Boot Foundation ✅
 
-* Spring Boot application
-* Maven
-* Spring Web
-* Spring Data JPA
-* PostgreSQL Driver
-* Flyway
-* Validation
-* Lombok
-* PostgreSQL connection
-* Health endpoint
+Completed:
+
+- Spring Boot project
+- Maven
+- Spring Web
+- Spring Data JPA
+- PostgreSQL Driver
+- Flyway
+- Bean Validation
+- Lombok
+- Database connection
+- API startup
 
 Health endpoint:
 
@@ -549,215 +1017,237 @@ Health Platform API is running
 
 ---
 
-## STEP 2-B — Database Schema 🟡 IN PROGRESS
+## STEP 2-B — Database Schema ✅
 
-Completed:
+**Status: COMPLETE**
 
-* Flyway infrastructure
-* Users
-* User → Disease
-* Doctors
-* Hospitals
-* Visits
-* Medical Tests
-* Test Results
-* Foreign key behavior
-* Database constraints
-* Initial indexes
-* Relationship verification
-
-Next:
+Completed through:
 
 ```text
-Imaging
-    ↓
-Medical Documents
-    ↓
-Medications
+Flyway V12
 ```
+
+Implemented:
+
+- User
+- Disease
+- Doctor
+- Hospital
+- Visit
+- MedicalTest
+- TestResult
+- Imaging
+- MedicalDocument
+- Medication
+
+Verified:
+
+- Foreign keys
+- CHECK constraints
+- UUID generation
+- UNIQUE constraints
+- Nullable relationships
+- SET NULL behavior
+- Cascade behavior
+- Date constraints
+- Result modeling
+- Document metadata
+- Relevant indexes
+- Full relationship JOIN queries
+- Synthetic test-data cleanup
 
 ---
 
-# 10. Important Architectural Decisions
+# 13. Current Milestones
 
-## Timeline
-
-Timeline will not initially be stored as a polymorphic database table.
-
-Instead:
-
-```text
-Visits
-Medical Tests
-Imaging
-Documents
-Medications
-        ↓
-Timeline Service
-        ↓
-Unified Timeline Response
-```
-
-This keeps relational integrity intact.
+- [x] Project concept
+- [x] Product Specification v0.1
+- [x] Initial ER model
+- [x] GitHub repository
+- [x] PostgreSQL Docker setup
+- [x] Spring Boot foundation
+- [x] Flyway infrastructure
+- [x] User schema
+- [x] Disease schema
+- [x] Doctor schema
+- [x] Hospital schema
+- [x] Visit schema
+- [x] Medical Test schema
+- [x] Test Result schema
+- [x] Imaging schema
+- [x] Medical Document schema
+- [x] Medication schema
+- [x] Database foundation
+- [ ] JPA BaseEntity
+- [ ] JPA enums
+- [ ] User JPA entity
+- [ ] Disease JPA entity
+- [ ] Doctor JPA entity
+- [ ] Hospital JPA entity
+- [ ] Visit JPA entity
+- [ ] MedicalTest JPA entity
+- [ ] TestResult JPA entity
+- [ ] Imaging JPA entity
+- [ ] MedicalDocument JPA entity
+- [ ] Medication JPA entity
+- [ ] Repository layer
+- [ ] Authentication
+- [ ] JWT
+- [ ] Disease API
+- [ ] Doctor API
+- [ ] Hospital API
+- [ ] Visit API
+- [ ] Medical Test API
+- [ ] Test Result API
+- [ ] Imaging API
+- [ ] Document API
+- [ ] Medication API
+- [ ] Timeline
+- [ ] Global Search
+- [ ] Dashboard
+- [ ] Web frontend
+- [ ] Mobile application
+- [ ] AI layer
 
 ---
 
-## User Data Ownership
+# 14. Current Development Phase
 
-User-owned resources must always be queried using the authenticated user's identity.
+**Previous Phase:** Database Foundation ✅
 
-Expected repository pattern:
+**Current Phase:** Spring JPA Entity Layer
+
+**Current Step:**
 
 ```text
-findByIdAndUserId(...)
+STEP 3
+Spring JPA Entity Layer
 ```
 
-rather than unrestricted:
+Planned order:
 
 ```text
-findById(...)
-```
-
-for user-owned health resources.
-
----
-
-## Historical Record Preservation
-
-Deleting related metadata should not unnecessarily destroy historical medical records.
-
-For example:
-
-```text
-Doctor DELETE
+BaseEntity
      ↓
-Visit.doctor_id = NULL
-```
-
-rather than deleting the Visit.
-
-The same principle currently applies to Disease / Visit relationships used by medical tests.
-
----
-
-## Test Result Modeling
-
-Medical results may be:
-
-* Numeric
-* Textual
-* Positive / negative
-* Threshold based
-
-Therefore TestResult stores:
-
-```text
-value_text
-numeric_value
-```
-
-separately.
-
-This keeps raw/display information while allowing future numeric analytics.
-
----
-
-# 11. Project Milestones
-
-* [x] Project concept
-* [x] Product specification v0.1
-* [x] ER model
-* [x] PostgreSQL setup
-* [x] Spring Boot foundation
-* [x] Flyway foundation
-* [x] User database schema
-* [x] Disease database schema
-* [x] Doctor database schema
-* [x] Hospital database schema
-* [x] Visit database schema
-* [x] Medical test database schema
-* [x] Test result database schema
-* [ ] Imaging database schema
-* [ ] Medical document database schema
-* [ ] Medication database schema
-* [ ] JPA entity layer
-* [ ] User domain module
-* [ ] Authentication
-* [ ] JWT
-* [ ] Disease API
-* [ ] Doctor API
-* [ ] Hospital API
-* [ ] Visit API
-* [ ] Medical Test API
-* [ ] Test Result API
-* [ ] Timeline
-* [ ] Search
-* [ ] Web frontend
-* [ ] Mobile application
-* [ ] AI features
-
----
-
-# 12. Current Development Phase
-
-**Phase:** Backend Foundation / Database Modeling
-
-**Current Step:** STEP 2-B
-
-**Completed Through:** Flyway V9
-
-**Next Immediate Task:**
-
-```text
-V10
- ↓
+Enums
+     ↓
+User
+     ↓
+Disease
+     ↓
+Doctor
+     ↓
+Hospital
+     ↓
+Visit
+     ↓
+MedicalTest
+     ↓
+TestResult
+     ↓
 Imaging
- ↓
-Disease / Visit / Doctor / Hospital relationships
+     ↓
+MedicalDocument
+     ↓
+Medication
 ```
 
-Following:
+---
+
+# 15. Next Immediate Task
+
+## STEP 3-A — BaseEntity + Shared Enums
+
+First Java domain foundation:
 
 ```text
-V11 → Medical Documents
-V12 → Medications
+common/
+└── entity/
+    └── BaseEntity.java
 ```
 
-After the database foundation is complete:
+Then shared/domain enums:
 
 ```text
-Database Schema
-      ↓
-Spring JPA Entities
-      ↓
+DiseaseStatus
+TestCategory
+ResultFlag
+ImagingType
+DocumentType
+MedicationStatus
+MedicationRoute
+```
+
+After the common foundation is verified:
+
+```text
+User Entity
+    ↓
+Disease Entity
+```
+
+will become the first JPA relationship implementation.
+
+---
+
+# 16. Development Strategy
+
+Each major backend step follows:
+
+1. Design or review the relationship.
+2. Implement the smallest logical unit.
+3. Compile the project.
+4. Start the application.
+5. Verify Hibernate/Flyway compatibility.
+6. Test persistence behavior.
+7. Test API behavior when applicable.
+8. Verify the database through DBeaver when necessary.
+9. Update documentation at meaningful milestones.
+10. Commit.
+11. Push.
+12. Continue to the next step.
+
+---
+
+# 17. Current Project Checkpoint
+
+```text
+Product Specification      ✅
+        ↓
+ER Model                   ✅
+        ↓
+PostgreSQL                 ✅
+        ↓
+Spring Boot Foundation     ✅
+        ↓
+Flyway                     ✅
+        ↓
+Database Schema V1-V12     ✅
+        ↓
+JPA Entity Layer           ← NEXT
+        ↓
 Repositories
-      ↓
-Authentication
-      ↓
-Domain APIs
+        ↓
+Authentication / JWT
+        ↓
+Domain Services & APIs
+        ↓
+Timeline
+        ↓
+Search
+        ↓
+Dashboard
+        ↓
+React Web
+        ↓
+Mobile
+        ↓
+Future AI Layer
 ```
 
 ---
 
-# 13. Development Strategy
-
-Each major step follows:
-
-1. Design the domain relationship.
-2. Create Flyway migration.
-3. Start the application.
-4. Verify migration history.
-5. Inspect the schema through DBeaver.
-6. Test foreign keys and constraints.
-7. Test deletion behavior.
-8. Remove synthetic test data.
-9. Commit code.
-10. Update project documentation when the project state materially changes.
-11. Push to GitHub.
-
----
-
-# 14. Status Legend
+# 18. Status Legend
 
 🟢 Completed
 🟡 In Progress
