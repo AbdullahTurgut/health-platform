@@ -11,14 +11,14 @@ import java.util.UUID;
 
 public interface DiseaseRepository extends JpaRepository<Disease, UUID> {
 
-    List<Disease> findAllByUser_Id(UUID userId);
+    List<Disease> findAllByUser_IdOrderByCreatedAtDesc(UUID userId);
 
     Optional<Disease> findByIdAndUser_Id(
             UUID id,
             UUID userId
     );
 
-    List<Disease> findAllByUser_IdAndStatus(
+    List<Disease> findAllByUser_IdAndStatusOrderByCreatedAtDesc(
             UUID userId,
             DiseaseStatus status
     );
