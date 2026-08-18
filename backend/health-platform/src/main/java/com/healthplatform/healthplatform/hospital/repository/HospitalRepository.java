@@ -20,4 +20,18 @@ public interface HospitalRepository extends JpaRepository<Hospital, UUID> {
             UUID userId,
             String city
     );
+
+    List<Hospital> findAllByUser_IdOrderByCreatedAtDesc(
+            UUID userId
+    );
+
+    List<Hospital> findAllByUser_IdAndCityIgnoreCaseOrderByCreatedAtDesc(
+            UUID userId,
+            String city
+    );
+
+    List<Hospital> findAllByUser_IdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(
+            UUID userId,
+            String name
+    );
 }

@@ -20,4 +20,18 @@ public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
             UUID userId,
             String specialization
     );
+
+    List<Doctor> findAllByUser_IdOrderByCreatedAtDesc(
+            UUID userId
+    );
+
+    List<Doctor> findAllByUser_IdAndSpecializationIgnoreCaseOrderByCreatedAtDesc(
+            UUID userId,
+            String specialization
+    );
+
+    List<Doctor> findAllByUser_IdAndLastNameContainingIgnoreCaseOrderByCreatedAtDesc(
+            UUID userId,
+            String lastName
+    );
 }
