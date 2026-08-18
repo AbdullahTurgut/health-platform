@@ -10,8 +10,6 @@ import java.util.UUID;
 public interface TestResultRepository
         extends JpaRepository<TestResult, UUID> {
 
-    List<TestResult> findAllByMedicalTest_Id(UUID medicalTestId);
-
     List<TestResult> findAllByMedicalTest_IdOrderByParameterNameAsc(
             UUID medicalTestId
     );
@@ -21,7 +19,8 @@ public interface TestResultRepository
             UUID userId
     );
 
-    List<TestResult> findAllByMedicalTest_User_IdAndParameterNameIgnoreCaseOrderByMedicalTest_TestDateDesc(
+    List<TestResult>
+    findAllByMedicalTest_User_IdAndParameterNameIgnoreCaseOrderByMedicalTest_TestDateDesc(
             UUID userId,
             String parameterName
     );
