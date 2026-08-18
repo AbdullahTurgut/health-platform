@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
+import com.healthplatform.healthplatform.storage.FileStorageException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -237,6 +238,60 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 null
         );
+
+        return ResponseEntity
+                .status(status)
+                .body(response);
+    }
+
+    @ExceptionHandler(FileStorageException.class)
+    public ResponseEntity<ApiErrorResponse> handleFileStorageException(
+            FileStorageException exception,
+            HttpServletRequest request
+    ) {
+
+        log.error(
+                "File storage error while processing request: {}",
+                request.getRequestURI(),
+                exception
+        );
+
+        HttpStatus status =
+                HttpStatus.INTERNAL_SERVER_ERROR;
+
+        ApiErrorResponse response =
+                new ApiErrorResponse(
+                        Instant.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        "A file storage error occurred",
+                        request.getRequestURI(),
+                        null
+                );
+
+        return ResponseEntity
+                .status(status)
+                .body(response);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<ApiErrorResponse> handleMaxUploadSizeExceeded(
+            MaxUploadSizeExceededException exception,
+            HttpServletRequest request
+    ) {
+
+        HttpStatus status =
+                HttpStatus.CONTENT_TOO_LARGE;
+
+        ApiErrorResponse response =
+                new ApiErrorResponse(
+                        Instant.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        "File size cannot exceed 10 MB",
+                        request.getRequestURI(),
+                        null
+                );
 
         return ResponseEntity
                 .status(status)
