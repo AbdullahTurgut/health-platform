@@ -9,7 +9,9 @@ import java.util.UUID;
 
 public interface VisitRepository extends JpaRepository<Visit, UUID> {
 
-    List<Visit> findAllByUser_IdOrderByVisitDateDesc(UUID userId);
+    List<Visit> findAllByUser_IdOrderByVisitDateDesc(
+            UUID userId
+    );
 
     Optional<Visit> findByIdAndUser_Id(
             UUID id,
