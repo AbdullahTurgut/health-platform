@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface ImagingRepository extends JpaRepository<Imaging, UUID> {
 
+
     List<Imaging> findAllByUser_IdOrderByImagingDateDesc(
             UUID userId
     );
