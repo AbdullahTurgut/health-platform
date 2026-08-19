@@ -297,4 +297,30 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(response);
     }
+
+    @ExceptionHandler(
+            org.springframework.web.bind.MissingServletRequestParameterException.class
+    )
+    public ResponseEntity<ApiErrorResponse> handleMissingRequestParameter(
+            org.springframework.web.bind.MissingServletRequestParameterException exception,
+            HttpServletRequest request
+    ) {
+
+        HttpStatus status =
+                HttpStatus.BAD_REQUEST;
+
+        ApiErrorResponse response =
+                new ApiErrorResponse(
+                        Instant.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        "Required request parameter is missing",
+                        request.getRequestURI(),
+                        null
+                );
+
+        return ResponseEntity
+                .status(status)
+                .body(response);
+    }
 }

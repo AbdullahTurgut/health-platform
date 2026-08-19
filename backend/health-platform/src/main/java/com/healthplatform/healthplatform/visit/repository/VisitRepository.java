@@ -32,4 +32,24 @@ public interface VisitRepository extends JpaRepository<Visit, UUID> {
             UUID userId,
             UUID hospitalId
     );
+
+    List<Visit> findAllByUser_IdAndDepartmentContainingIgnoreCaseOrderByVisitDateDesc(
+            UUID userId,
+            String department
+    );
+
+    List<Visit> findAllByUser_IdAndReasonContainingIgnoreCaseOrderByVisitDateDesc(
+            UUID userId,
+            String reason
+    );
+
+    List<Visit> findAllByUser_IdAndDiagnosisNoteContainingIgnoreCaseOrderByVisitDateDesc(
+            UUID userId,
+            String diagnosisNote
+    );
+
+    List<Visit> findAllByUser_IdAndNotesContainingIgnoreCaseOrderByVisitDateDesc(
+            UUID userId,
+            String notes
+    );
 }

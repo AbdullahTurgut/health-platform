@@ -49,4 +49,9 @@ public interface MedicalDocumentRepository
             UUID userId,
             String name
     );
+
+    List<MedicalDocument> findAllByUser_IdAndFileNameContainingIgnoreCaseOrderByUploadedAtDesc(
+            UUID userId,
+            String fileName
+    );
 }

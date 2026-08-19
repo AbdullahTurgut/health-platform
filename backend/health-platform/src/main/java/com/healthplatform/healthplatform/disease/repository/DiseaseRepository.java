@@ -22,4 +22,9 @@ public interface DiseaseRepository extends JpaRepository<Disease, UUID> {
             UUID userId,
             DiseaseStatus status
     );
+
+    List<Disease> findAllByUser_IdAndNameContainingIgnoreCaseOrderByCreatedAtDesc(
+            UUID userId,
+            String name
+    );
 }

@@ -34,4 +34,9 @@ public interface MedicationRepository
             UUID userId,
             String name
     );
+
+    List<Medication> findAllByUser_IdAndPrescribedByContainingIgnoreCaseOrderByStartDateDesc(
+            UUID userId,
+            String prescribedBy
+    );
 }

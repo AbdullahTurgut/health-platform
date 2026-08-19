@@ -49,4 +49,14 @@ public interface ImagingRepository extends JpaRepository<Imaging, UUID> {
             UUID userId,
             String bodyPart
     );
+
+    List<Imaging> findAllByUser_IdAndReportContainingIgnoreCaseOrderByImagingDateDesc(
+            UUID userId,
+            String report
+    );
+
+    List<Imaging> findAllByUser_IdAndNotesContainingIgnoreCaseOrderByImagingDateDesc(
+            UUID userId,
+            String notes
+    );
 }

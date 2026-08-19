@@ -24,4 +24,14 @@ public interface TestResultRepository
             UUID userId,
             String parameterName
     );
+
+    List<TestResult> findAllByMedicalTest_User_IdAndParameterNameContainingIgnoreCaseOrderByMedicalTest_TestDateDesc(
+            UUID userId,
+            String parameterName
+    );
+
+    List<TestResult> findAllByMedicalTest_User_IdAndValueTextContainingIgnoreCaseOrderByMedicalTest_TestDateDesc(
+            UUID userId,
+            String valueText
+    );
 }

@@ -34,4 +34,14 @@ public interface MedicalTestRepository
             UUID userId,
             TestCategory category
     );
+
+    List<MedicalTest> findAllByUser_IdAndNameContainingIgnoreCaseOrderByTestDateDesc(
+            UUID userId,
+            String name
+    );
+
+    List<MedicalTest> findAllByUser_IdAndLaboratoryContainingIgnoreCaseOrderByTestDateDesc(
+            UUID userId,
+            String laboratory
+    );
 }

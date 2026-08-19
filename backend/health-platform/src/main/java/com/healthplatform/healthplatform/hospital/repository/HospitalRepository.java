@@ -34,4 +34,9 @@ public interface HospitalRepository extends JpaRepository<Hospital, UUID> {
             UUID userId,
             String name
     );
+
+    List<Hospital> findAllByUser_IdAndCityContainingIgnoreCaseOrderByCreatedAtDesc(
+            UUID userId,
+            String city
+    );
 }
