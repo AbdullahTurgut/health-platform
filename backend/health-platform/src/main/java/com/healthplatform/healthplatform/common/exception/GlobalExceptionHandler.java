@@ -14,10 +14,13 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import com.healthplatform.healthplatform.storage.FileStorageException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.time.Instant;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -100,28 +103,31 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleUnexpectedException(
+    public ResponseEntity<ApiErrorResponse> handleGenericException(
             Exception exception,
             HttpServletRequest request
     ) {
 
         log.error(
-                "Unhandled exception while processing request: {}",
+                "Unhandled error while processing request: {}",
                 request.getRequestURI(),
                 exception
         );
 
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        HttpStatus status =
+                HttpStatus.INTERNAL_SERVER_ERROR;
 
-        ApiErrorResponse response = new ApiErrorResponse(
-                Instant.now(),
-                status.value(),
-                status.getReasonPhrase(),
-                "An unexpected error occurred",
-                request.getRequestURI(),
-                null
-        );
+        ApiErrorResponse response =
+                new ApiErrorResponse(
+                        Instant.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        "An unexpected error occurred",
+                        request.getRequestURI(),
+                        null
+                );
 
         return ResponseEntity
                 .status(status)
@@ -222,28 +228,6 @@ public class GlobalExceptionHandler {
                 .body(response);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiErrorResponse> handleIllegalArgument(
-            IllegalArgumentException exception,
-            HttpServletRequest request
-    ) {
-
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-
-        ApiErrorResponse response = new ApiErrorResponse(
-                Instant.now(),
-                status.value(),
-                status.getReasonPhrase(),
-                exception.getMessage(),
-                request.getRequestURI(),
-                null
-        );
-
-        return ResponseEntity
-                .status(status)
-                .body(response);
-    }
-
     @ExceptionHandler(FileStorageException.class)
     public ResponseEntity<ApiErrorResponse> handleFileStorageException(
             FileStorageException exception,
@@ -323,4 +307,67 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(response);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiErrorResponse> handleConstraintViolation(
+            ConstraintViolationException exception,
+            HttpServletRequest request
+    ) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Map<String, String> validationErrors =
+                exception
+                        .getConstraintViolations()
+                        .stream()
+                        .collect(
+                                Collectors.toMap(
+                                        violation ->
+                                                violation
+                                                        .getPropertyPath()
+                                                        .toString(),
+                                        ConstraintViolation::getMessage,
+                                        (first, second) -> first
+                                )
+                        );
+
+        ApiErrorResponse response =
+                new ApiErrorResponse(
+                        Instant.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        "Validation failed",
+                        request.getRequestURI(),
+                        validationErrors
+                );
+
+        return ResponseEntity
+                .status(status)
+                .body(response);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(
+            IllegalArgumentException exception,
+            HttpServletRequest request
+    ) {
+
+        HttpStatus status =
+                HttpStatus.BAD_REQUEST;
+
+        ApiErrorResponse response =
+                new ApiErrorResponse(
+                        Instant.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        exception.getMessage(),
+                        request.getRequestURI(),
+                        null
+                );
+
+        return ResponseEntity
+                .status(status)
+                .body(response);
+    }
+
 }

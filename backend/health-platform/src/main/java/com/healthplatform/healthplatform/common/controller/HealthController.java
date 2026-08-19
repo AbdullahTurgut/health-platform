@@ -10,9 +10,4 @@ public class HealthController {
     public String health() {
         return "Health Platform API is running";
     }
-
-    @GetMapping("/api/private-test")
-    public String privateTest() {
-        return "Private endpoint";
-    }
 }

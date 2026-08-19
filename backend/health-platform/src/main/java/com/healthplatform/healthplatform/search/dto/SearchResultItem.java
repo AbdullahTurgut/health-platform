@@ -21,7 +21,9 @@ public record SearchResultItem(
 
         UUID diseaseId,
 
-        String diseaseName
+        String diseaseName,
+
+        int relevanceScore
 
 ) {
 }

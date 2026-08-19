@@ -25,6 +25,13 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  web:
+    error:
+      include-message: never
+      include-binding-errors: never
+      include-stacktrace: never
+      include-exception: false
+
 security:
   jwt:
     secret: ${JWT_SECRET}

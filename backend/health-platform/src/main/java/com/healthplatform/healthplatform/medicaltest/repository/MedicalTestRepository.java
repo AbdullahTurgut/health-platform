@@ -2,6 +2,7 @@ package com.healthplatform.healthplatform.medicaltest.repository;
 
 import com.healthplatform.healthplatform.medicaltest.entity.MedicalTest;
 import com.healthplatform.healthplatform.medicaltest.model.TestCategory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.UUID;
 
 public interface MedicalTestRepository
         extends JpaRepository<MedicalTest, UUID> {
+
+    long countByUser_Id(
+            UUID userId
+    );
 
     List<MedicalTest> findAllByUser_IdOrderByTestDateDesc(
             UUID userId
@@ -43,5 +48,10 @@ public interface MedicalTestRepository
     List<MedicalTest> findAllByUser_IdAndLaboratoryContainingIgnoreCaseOrderByTestDateDesc(
             UUID userId,
             String laboratory
+    );
+
+    List<MedicalTest> findAllByUser_IdOrderByTestDateDesc(
+            UUID userId,
+            Pageable pageable
     );
 }

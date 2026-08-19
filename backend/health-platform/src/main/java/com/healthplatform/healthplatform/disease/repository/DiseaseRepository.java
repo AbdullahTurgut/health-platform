@@ -11,6 +11,15 @@ import java.util.UUID;
 
 public interface DiseaseRepository extends JpaRepository<Disease, UUID> {
 
+    long countByUser_Id(
+            UUID userId
+    );
+
+    long countByUser_IdAndStatus(
+            UUID userId,
+            DiseaseStatus status
+    );
+
     List<Disease> findAllByUser_IdOrderByCreatedAtDesc(UUID userId);
 
     Optional<Disease> findByIdAndUser_Id(
@@ -27,4 +36,5 @@ public interface DiseaseRepository extends JpaRepository<Disease, UUID> {
             UUID userId,
             String name
     );
+
 }

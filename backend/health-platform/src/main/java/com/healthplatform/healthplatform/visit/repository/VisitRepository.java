@@ -2,12 +2,17 @@ package com.healthplatform.healthplatform.visit.repository;
 
 import com.healthplatform.healthplatform.visit.entity.Visit;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface VisitRepository extends JpaRepository<Visit, UUID> {
+
+    long countByUser_Id(
+            UUID userId
+    );
 
     List<Visit> findAllByUser_IdOrderByVisitDateDesc(
             UUID userId
@@ -51,5 +56,10 @@ public interface VisitRepository extends JpaRepository<Visit, UUID> {
     List<Visit> findAllByUser_IdAndNotesContainingIgnoreCaseOrderByVisitDateDesc(
             UUID userId,
             String notes
+    );
+
+    List<Visit> findAllByUser_IdOrderByVisitDateDesc(
+            UUID userId,
+            Pageable pageable
     );
 }

@@ -2,6 +2,7 @@ package com.healthplatform.healthplatform.imaging.repository;
 
 import com.healthplatform.healthplatform.imaging.entity.Imaging;
 import com.healthplatform.healthplatform.imaging.model.ImagingType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ImagingRepository extends JpaRepository<Imaging, UUID> {
+
+    long countByUser_Id(
+            UUID userId
+    );
 
 
     List<Imaging> findAllByUser_IdOrderByImagingDateDesc(
@@ -58,5 +63,10 @@ public interface ImagingRepository extends JpaRepository<Imaging, UUID> {
     List<Imaging> findAllByUser_IdAndNotesContainingIgnoreCaseOrderByImagingDateDesc(
             UUID userId,
             String notes
+    );
+
+    List<Imaging> findAllByUser_IdOrderByImagingDateDesc(
+            UUID userId,
+            Pageable pageable
     );
 }

@@ -17,6 +17,7 @@ import com.healthplatform.healthplatform.medicaltest.repository.TestResultReposi
 import com.healthplatform.healthplatform.medication.entity.Medication;
 import com.healthplatform.healthplatform.medication.repository.MedicationRepository;
 import com.healthplatform.healthplatform.search.dto.GlobalSearchResponse;
+import com.healthplatform.healthplatform.search.dto.SearchPageResponse;
 import com.healthplatform.healthplatform.search.dto.SearchResultItem;
 import com.healthplatform.healthplatform.search.model.SearchResultType;
 import com.healthplatform.healthplatform.security.CurrentUserProvider;
@@ -25,7 +26,9 @@ import com.healthplatform.healthplatform.visit.repository.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.healthplatform.healthplatform.common.exception.ResourceNotFoundException;
 
+import java.util.Locale;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -40,6 +43,7 @@ public class GlobalSearchService {
 
     private static final int MIN_QUERY_LENGTH = 2;
     private static final int MAX_RESULTS = 50;
+    private static final int MAX_PAGE_SIZE = 100;
 
     private final DiseaseRepository diseaseRepository;
     private final DoctorRepository doctorRepository;
@@ -52,16 +56,31 @@ public class GlobalSearchService {
     private final MedicationRepository medicationRepository;
     private final CurrentUserProvider currentUserProvider;
 
+
     @Transactional(readOnly = true)
-    public GlobalSearchResponse search(
-            String query
+    public SearchPageResponse search(
+            String query,
+            SearchResultType type,
+            UUID diseaseId,
+            int page,
+            int size
     ) {
 
         String normalizedQuery =
                 normalizeQuery(query);
 
+        validatePagination(
+                page,
+                size
+        );
+
         UUID userId =
                 currentUserProvider.getCurrentUserId();
+
+        validateDiseaseOwnership(
+                diseaseId,
+                userId
+        );
 
         List<SearchResultItem> results =
                 new ArrayList<>();
@@ -120,30 +139,108 @@ public class GlobalSearchService {
                 results
         );
 
-        List<SearchResultItem> deduplicated =
-                deduplicate(results);
-
-        int totalResults =
-                deduplicated.size();
-
-        List<SearchResultItem> limitedResults =
-                deduplicated
+        List<SearchResultItem> filtered =
+                deduplicate(results)
                         .stream()
-                        .sorted(
-                                Comparator.comparing(
-                                        SearchResultItem::eventDate,
-                                        Comparator.nullsLast(
-                                                Comparator.reverseOrder()
-                                        )
+
+                        .filter(result ->
+                                type == null
+                                        || result.type() == type
+                        )
+
+                        .filter(result ->
+                                diseaseId == null
+                                        || diseaseId.equals(
+                                        result.diseaseId()
                                 )
                         )
-                        .limit(MAX_RESULTS)
+
+                        .map(result ->
+                                withRelevanceScore(
+                                        result,
+                                        normalizedQuery
+                                )
+                        )
+
+                        .sorted(
+                                Comparator
+                                        .comparingInt(
+                                                SearchResultItem::relevanceScore
+                                        )
+                                        .reversed()
+                                        .thenComparing(
+                                                SearchResultItem::eventDate,
+                                                Comparator.nullsLast(
+                                                        Comparator.reverseOrder()
+                                                )
+                                        )
+                        )
+
                         .toList();
 
-        return new GlobalSearchResponse(
+        return paginate(
                 normalizedQuery,
-                totalResults,
-                limitedResults
+                filtered,
+                page,
+                size
+        );
+    }
+
+    private SearchPageResponse paginate(
+            String query,
+            List<SearchResultItem> results,
+            int page,
+            int size
+    ) {
+
+        long totalElements =
+                results.size();
+
+        int totalPages =
+                totalElements == 0
+                        ? 0
+                        : (int) Math.ceil(
+                        (double) totalElements / size
+                );
+
+        long offset =
+                (long) page * size;
+
+        if (offset >= totalElements) {
+
+            return new SearchPageResponse(
+                    query,
+                    List.of(),
+                    page,
+                    size,
+                    totalElements,
+                    totalPages,
+                    page == 0,
+                    true
+            );
+        }
+
+        int fromIndex =
+                (int) offset;
+
+        int toIndex =
+                Math.min(
+                        fromIndex + size,
+                        results.size()
+                );
+
+        return new SearchPageResponse(
+                query,
+                results.subList(
+                        fromIndex,
+                        toIndex
+                ),
+                page,
+                size,
+                totalElements,
+                totalPages,
+                page == 0,
+                page >= totalPages - 1
         );
     }
 
@@ -191,6 +288,20 @@ public class GlobalSearchService {
                 .forEach(results::add);
     }
 
+
+    private String normalizeForSearch(
+            String value
+    ) {
+
+        if (value == null) {
+            return null;
+        }
+
+        return value
+                .trim()
+                .toLowerCase(Locale.ROOT);
+    }
+
     private SearchResultItem fromDisease(
             Disease disease
     ) {
@@ -203,8 +314,93 @@ public class GlobalSearchService {
                 disease.getDescription(),
                 disease.getCreatedAt(),
                 disease.getId(),
-                disease.getName()
+                disease.getName(),
+                0
         );
+    }
+
+    private SearchResultItem withRelevanceScore(
+            SearchResultItem result,
+            String query
+    ) {
+
+        int score =
+                calculateRelevanceScore(
+                        result,
+                        query
+                );
+
+        return new SearchResultItem(
+                result.id(),
+                result.type(),
+                result.title(),
+                result.subtitle(),
+                result.description(),
+                result.eventDate(),
+                result.diseaseId(),
+                result.diseaseName(),
+                score
+        );
+    }
+    private int calculateRelevanceScore(
+            SearchResultItem result,
+            String query
+    ) {
+
+        String normalizedQuery =
+                query.toLowerCase(Locale.ROOT);
+
+        String title =
+                normalizeForSearch(
+                        result.title()
+                );
+
+        String subtitle =
+                normalizeForSearch(
+                        result.subtitle()
+                );
+
+        String description =
+                normalizeForSearch(
+                        result.description()
+                );
+
+        if (
+                title != null
+                        && title.equals(normalizedQuery)
+        ) {
+            return 100;
+        }
+
+        if (
+                title != null
+                        && title.startsWith(normalizedQuery)
+        ) {
+            return 80;
+        }
+
+        if (
+                title != null
+                        && title.contains(normalizedQuery)
+        ) {
+            return 60;
+        }
+
+        if (
+                subtitle != null
+                        && subtitle.contains(normalizedQuery)
+        ) {
+            return 40;
+        }
+
+        if (
+                description != null
+                        && description.contains(normalizedQuery)
+        ) {
+            return 20;
+        }
+
+        return 10;
     }
 
     private void searchDoctors(
@@ -255,7 +451,8 @@ public class GlobalSearchService {
                 doctor.getNotes(),
                 doctor.getCreatedAt(),
                 null,
-                null
+                null,
+                0
         );
     }
 
@@ -296,7 +493,8 @@ public class GlobalSearchService {
                 hospital.getAddress(),
                 hospital.getCreatedAt(),
                 null,
-                null
+                null,
+                0
         );
     }
 
@@ -383,7 +581,8 @@ public class GlobalSearchService {
                         : null,
                 visit.getDisease() != null
                         ? visit.getDisease().getName()
-                        : null
+                        : null,
+                0
         );
     }
 
@@ -437,7 +636,8 @@ public class GlobalSearchService {
                         : null,
                 test.getDisease() != null
                         ? test.getDisease().getName()
-                        : null
+                        : null,
+                0
         );
     }
 
@@ -500,7 +700,8 @@ public class GlobalSearchService {
                         : null,
                 test.getDisease() != null
                         ? test.getDisease().getName()
-                        : null
+                        : null,
+                0
         );
     }
 
@@ -566,7 +767,8 @@ public class GlobalSearchService {
                         : null,
                 imaging.getDisease() != null
                         ? imaging.getDisease().getName()
-                        : null
+                        : null,
+                0
         );
     }
 
@@ -611,7 +813,8 @@ public class GlobalSearchService {
                         : null,
                 document.getDisease() != null
                         ? document.getDisease().getName()
-                        : null
+                        : null,
+                0
         );
     }
 
@@ -673,7 +876,8 @@ public class GlobalSearchService {
                         : null,
                 medication.getDisease() != null
                         ? medication.getDisease().getName()
-                        : null
+                        : null,
+                0
         );
     }
 
@@ -702,4 +906,42 @@ public class GlobalSearchService {
         );
     }
 
+    private void validatePagination(
+            int page,
+            int size
+    ) {
+
+        if (page < 0) {
+            throw new IllegalArgumentException(
+                    "Page cannot be negative"
+            );
+        }
+
+        if (size < 1 || size > MAX_PAGE_SIZE) {
+            throw new IllegalArgumentException(
+                    "Size must be between 1 and 100"
+            );
+        }
+    }
+
+    private void validateDiseaseOwnership(
+            UUID diseaseId,
+            UUID userId
+    ) {
+
+        if (diseaseId == null) {
+            return;
+        }
+
+        diseaseRepository
+                .findByIdAndUser_Id(
+                        diseaseId,
+                        userId
+                )
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Disease not found"
+                        )
+                );
+    }
 }

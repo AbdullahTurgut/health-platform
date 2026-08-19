@@ -11,6 +11,15 @@ import java.util.UUID;
 public interface MedicationRepository
         extends JpaRepository<Medication, UUID> {
 
+    long countByUser_Id(
+            UUID userId
+    );
+
+    long countByUser_IdAndStatus(
+            UUID userId,
+            MedicationStatus status
+    );
+
     List<Medication> findAllByUser_IdOrderByStartDateDesc(
             UUID userId
     );
@@ -39,4 +48,6 @@ public interface MedicationRepository
             UUID userId,
             String prescribedBy
     );
+
+
 }

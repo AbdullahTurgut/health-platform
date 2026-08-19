@@ -11,6 +11,10 @@ import java.util.UUID;
 public interface MedicalDocumentRepository
         extends JpaRepository<MedicalDocument, UUID> {
 
+    long countByUser_Id(
+            UUID userId
+    );
+
     List<MedicalDocument> findAllByUser_IdOrderByUploadedAtDesc(
             UUID userId
     );
