@@ -9,15 +9,17 @@ import java.time.LocalDate;
 
 public record CreateDiseaseRequest(
 
-        @NotBlank(message = "Disease name is required")
+        @NotBlank(
+                message = "Hastalık adı zorunludur"
+        )
         @Size(
                 max = 255,
-                message = "Disease name cannot exceed 255 characters"
+                message = "Hastalık adı en fazla 255 karakter olabilir"
         )
         String name,
 
         @PastOrPresent(
-                message = "Diagnosis date cannot be in the future"
+                message = "Tanı tarihi gelecekte olamaz"
         )
         LocalDate diagnosisDate,
 
@@ -25,7 +27,7 @@ public record CreateDiseaseRequest(
 
         @Size(
                 max = 5000,
-                message = "Description cannot exceed 5000 characters"
+                message = "Açıklama en fazla 5000 karakter olabilir"
         )
         String description
 

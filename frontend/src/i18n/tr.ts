@@ -78,8 +78,75 @@ export const tr = {
   },
 
   diseases: {
+    eyebrow: "Sağlık Kayıtları",
     title: "Hastalıklar",
-    description: "Takip ettiğiniz hastalıkları yönetin.",
+    description: "Takip ettiğiniz hastalıkları görüntüleyin ve yönetin.",
+
+    add: "Hastalık Ekle",
+    createTitle: "Yeni Hastalık Kaydı",
+    createDescription: "Takip etmek istediğiniz hastalık bilgilerini girin.",
+
+    name: "Hastalık Adı",
+    namePlaceholder: "Örn. Migren",
+
+    diagnosisDate: "Tanı Tarihi",
+
+    status: "Durum",
+    statusPlaceholder: "Durum seçin",
+
+    descriptionLabel: "Açıklama",
+    descriptionPlaceholder: "Hastalıkla ilgili ek bilgileri yazabilirsiniz.",
+
+    cancel: "Vazgeç",
+    save: "Kaydet",
+    saving: "Kaydediliyor...",
+
+    createSuccess: "Hastalık kaydı başarıyla oluşturuldu.",
+
+    emptyTitle: "Henüz hastalık kaydı yok",
+
+    emptyDescription:
+      "Takip etmek istediğiniz hastalıkları buradan ekleyebilirsiniz.",
+
+    filteredEmptyTitle: "Bu durumda hastalık kaydı bulunmuyor",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz duruma ait kayıt bulunamadı. Farklı bir filtre deneyebilirsiniz.",
+
+    unknownDiagnosisDate: "Tanı tarihi belirtilmemiş",
+
+    loadError: "Hastalık kayıtları yüklenemedi",
+
+    filterAll: "Tümü",
+    filterLabel: "Duruma göre filtrele",
+
+    edit: "Düzenle",
+    editTitle: "Hastalık Kaydını Düzenle",
+    editDescription: "Hastalık bilgilerini ve durumunu güncelleyin.",
+    updateSuccess: "Hastalık kaydı başarıyla güncellendi.",
+    saveChanges: "Değişiklikleri Kaydet",
+    delete: "Sil",
+
+    deleteTitle: "Hastalık Kaydını Sil",
+
+    deleteDescription:
+      "Bu hastalık kaydını silmek istediğinizden emin misiniz?",
+
+    deleteWarning: "Bu işlem geri alınamaz.",
+
+    deleting: "Siliniyor...",
+
+    deleteConfirm: "Kaydı Sil",
+
+    deleteSuccess: "Hastalık kaydı başarıyla silindi.",
+
+    deleteError: "Hastalık kaydı silinemedi.",
+  },
+
+  diseaseStatus: {
+    ACTIVE: "Aktif",
+    RESOLVED: "Çözümlenmiş",
+    CHRONIC: "Kronik",
   },
 
   doctors: {
