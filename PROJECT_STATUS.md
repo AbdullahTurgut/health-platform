@@ -1,13 +1,13 @@
-# HEALTH PLATFORM — PROJECT STATUS**
+# HEALTH PLATFORM — PROJECT STATUS
 
-****Project:**** Health Platform
-****Repository:**** AbdullahTurgut/health-platform
-****Status:**** 🟢 Database Foundation Complete / JPA Entity Layer Next
-****Last Updated:**** 15 August 2026
+**Project:** Health Platform  
+**Repository:** AbdullahTurgut/health-platform  
+**Status:** 🟡 Backend MVP Complete / Frontend Domain Integration In Progress  
+**Last Updated:** 20 August 2026
 
 ---
 
-# 1. Project Overview**
+# 1. Project Overview
 
 Health Platform, kullanıcıların kişisel sağlık geçmişlerini tek bir platform üzerinden düzenli, aranabilir ve takip edilebilir şekilde yönetmesini amaçlayan web-first ve ileride mobil platforma genişletilecek bir kişisel sağlık takip sistemidir.
 
@@ -27,11 +27,11 @@ Platform tıbbi teşhis veya tedavi önerisi sunmayı amaçlamaz.
 
 ---
 
-# 2. Core Product Goal**
+# 2. Core Product Goal
 
 Ana problem:
 
-\> Kullanıcıların zaman içerisinde artan hastane ziyaretleri, test sonuçları, görüntüleme raporları, ilaç kayıtları ve sağlık belgelerini takip etmekte zorlanması.
+> Kullanıcıların zaman içerisinde artan hastane ziyaretleri, test sonuçları, görüntüleme raporları, ilaç kayıtları ve sağlık belgelerini takip etmekte zorlanması.
 
 Platform bu problemi:
 
@@ -50,9 +50,9 @@ ile çözmeyi hedeflemektedir.
 
 ---
 
-# 3. Product Scope**
+# 3. Product Scope
 
-## MVP**
+## MVP
 
 - User registration
 - User authentication
@@ -71,7 +71,7 @@ ile çözmeyi hedeflemektedir.
 - Filtering
 - User profile
 
-## Future**
+## Future
 
 - Mobile application
 - Push notifications
@@ -91,9 +91,9 @@ ile çözmeyi hedeflemektedir.
 
 ---
 
-# 4. Technology Stack**
+# 4. Technology Stack
 
-## Backend**
+## Backend
 
 - Java
 - Spring Boot
@@ -105,9 +105,6 @@ ile çözmeyi hedeflemektedir.
 - Maven
 - Bean Validation
 - Lombok
-
-Implemented:
-
 - Spring Security
 - JWT Authentication
 - JJWT
@@ -116,25 +113,32 @@ Implemented:
 - Global exception handling
 - User-scoped ownership enforcement
 
-## Frontend**
+## Frontend
 
-Planned:
+Implemented:
 
 - React
 - TypeScript
 - Vite
-- Tailwind CSS
+- Tailwind CSS v4
 - shadcn/ui
 - React Router
 - Axios
+- Lucide React
+- Centralized API client
+- Auth Context / Provider
+- Protected and public-only route guards
+- Responsive application shell
+- Mobile navigation via Sheet
+- Turkish-first UI text foundation
 
-## Infrastructure**
+## Infrastructure
 
 - Docker
 - Docker Compose
 - PostgreSQL
 
-## File Storage**
+## File Storage
 
 Development:
 
@@ -144,7 +148,7 @@ Production target:
 
 - S3-compatible object storage
 
-## Future Mobile**
+## Future Mobile
 
 - React Native
 - Expo
@@ -152,60 +156,77 @@ Production target:
 
 ---
 
-# 5. Repository Structure**
+# 5. Repository Structure
 
-\`\`\`text
+```text
 health-platform/
 │
 ├── backend/
-│   └── health-platform/
-│       ├── src/
-│       │   ├── main/
-│       │   │   ├── java/
-│       │   │   │   └── com/healthplatform/
-│       │   │   │
-│       │   │   └── resources/
-│       │   │       ├── application.yml
-│       │   │       │
-│       │   │       └── db/
-│       │   │           └── migration/
-│       │   │               ├── V1__init_schema.sql
-│       │   │               ├── V2__remove_schema_test.sql
-│       │   │               ├── V3__create_users.sql
-│       │   │               ├── V4__create_diseases.sql
-│       │   │               ├── V5__create_doctors.sql
-│       │   │               ├── V6__create_hospitals.sql
-│       │   │               ├── V7__create_visits.sql
-│       │   │               ├── V8__create_medical_tests.sql
-│       │   │               ├── V9__create_test_results.sql
-│       │   │               ├── V10__create_imaging.sql
-│       │   │               ├── V11__create_medical_documents.sql
-│       │   │               └── V12__create_medications.sql
-│       │   │
-│       │   └── test/
-│       │
-│       └── pom.xml
+│   └── health-platform/
+│       ├── src/
+│       │   ├── main/
+│       │   │   ├── java/
+│       │   │   │   └── com/healthplatform/healthplatform/
+│       │   │   └── resources/
+│       │   │       ├── application.yml
+│       │   │       └── db/
+│       │   │           └── migration/
+│       │   │               ├── V1__init_schema.sql
+│       │   │               ├── V2__remove_schema_test.sql
+│       │   │               ├── V3__create_users.sql
+│       │   │               ├── V4__create_diseases.sql
+│       │   │               ├── V5__create_doctors.sql
+│       │   │               ├── V6__create_hospitals.sql
+│       │   │               ├── V7__create_visits.sql
+│       │   │               ├── V8__create_medical_tests.sql
+│       │   │               ├── V9__create_test_results.sql
+│       │   │               ├── V10__create_imaging.sql
+│       │   │               ├── V11__create_medical_documents.sql
+│       │   │               └── V12__create_medications.sql
+│       │   └── test/
+│       └── pom.xml
 │
 ├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── auth/
+│   │   ├── components/
+│   │   │   ├── common/
+│   │   │   ├── dashboard/
+│   │   │   ├── forms/
+│   │   │   └── ui/
+│   │   ├── config/
+│   │   ├── hooks/
+│   │   ├── i18n/
+│   │   ├── layouts/
+│   │   ├── lib/
+│   │   ├── pages/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── utils/
+│   ├── index.html
+│   └── package.json
+│
 ├── docker-compose.yml
 ├── .env
 ├── .gitignore
 └── PROJECT_STATUS.md
-\`\`\`
+```
 
 ---
 
-# 6. Database Foundation**
+# 6. Database Foundation
 
-## Status**
+## Status
 
-🟢 ****COMPLETE****
+🟢 **COMPLETE**
 
 PostgreSQL database:
 
-\`\`\`text
+```text
 health_platform
-\`\`\`
+```
 
 Database runs through Docker with persistent volume storage.
 
@@ -213,67 +234,54 @@ Database schema is managed exclusively through Flyway.
 
 Current migration state:
 
-\`\`\`text
+```text
 V1 → V12
-\`\`\`
+```
 
 All migrations have been successfully applied and verified through PostgreSQL / DBeaver.
 
 ---
 
-# 7. Implemented Database Domain**
+# 7. Implemented Database Domain
 
 The following domain tables are implemented:
 
-- \`users\`
-- \`diseases\`
-- \`doctors\`
-- \`hospitals\`
-- \`visits\`
-- \`medical_tests\`
-- \`test_results\`
-- \`imaging\`
-- \`medical_documents\`
-- \`medications\`
+- `users`
+- `diseases`
+- `doctors`
+- `hospitals`
+- `visits`
+- `medical_tests`
+- `test_results`
+- `imaging`
+- `medical_documents`
+- `medications`
 
 Infrastructure table:
 
-- \`flyway_schema_history\`
+- `flyway_schema_history`
 
 ---
 
-# 8. Migration History**
+# 8. Migration History
 
-## V1 — Flyway Foundation ✅**
+## V1 — Flyway Foundation ✅
 
-\`\`\`text
-V1__init_schema.sql
-\`\`\`
+`V1__init_schema.sql`
 
-Purpose:
+- Verified Spring Boot → Flyway → PostgreSQL migration flow.
+- Temporary `schema_test` table created.
 
-- Verify Spring Boot → Flyway → PostgreSQL migration flow.
-- Temporary \`schema_test\` table created.
+## V2 — Remove Schema Test ✅
 
----
+`V2__remove_schema_test.sql`
 
-## V2 — Remove Schema Test ✅**
+- Temporary Flyway validation table removed.
+- Migration immutability strategy established.
 
-\`\`\`text
-V2__remove_schema_test.sql
-\`\`\`
+## V3 — Users ✅
 
-Temporary Flyway validation table removed.
-
-Migration immutability strategy established.
-
----
-
-## V3 — Users ✅**
-
-\`\`\`text
-V3__create_users.sql
-\`\`\`
+`V3__create_users.sql`
 
 Implemented:
 
@@ -294,13 +302,7 @@ Verified:
 - Duplicate email rejection
 - Timestamp behavior
 
----
-
-## V4 — Diseases ✅**
-
-\`\`\`text
-V4__create_diseases.sql
-\`\`\`
+## V4 — Diseases ✅
 
 Implemented:
 
@@ -315,9 +317,9 @@ Implemented:
 
 Relationship:
 
-\`\`\`text
+```text
 User 1 ─── N Disease
-\`\`\`
+```
 
 Verified:
 
@@ -326,13 +328,7 @@ Verified:
 - User → Disease query
 - User cascade cleanup
 
----
-
-## V5 — Doctors ✅**
-
-\`\`\`text
-V5__create_doctors.sql
-\`\`\`
+## V5 — Doctors ✅
 
 Implemented:
 
@@ -345,17 +341,11 @@ Implemented:
 
 Relationship:
 
-\`\`\`text
+```text
 User 1 ─── N Doctor
-\`\`\`
+```
 
----
-
-## V6 — Hospitals ✅**
-
-\`\`\`text
-V6__create_hospitals.sql
-\`\`\`
+## V6 — Hospitals ✅
 
 Implemented:
 
@@ -369,17 +359,11 @@ Implemented:
 
 Relationship:
 
-\`\`\`text
+```text
 User 1 ─── N Hospital
-\`\`\`
+```
 
----
-
-## V7 — Visits ✅**
-
-\`\`\`text
-V7__create_visits.sql
-\`\`\`
+## V7 — Visits ✅
 
 Implemented:
 
@@ -395,34 +379,15 @@ Implemented:
 
 Relationships:
 
-\`\`\`text
+```text
 Disease 1 ─── N Visit
 Doctor 1 ─── N Visit
 Hospital 1 ─ N Visit
-\`\`\`
+```
 
-Historical relationships use:
+Historical relationships use `ON DELETE SET NULL`.
 
-\`\`\`text
-ON DELETE SET NULL
-\`\`\`
-
-Verified:
-
-- Disease → Doctor through Visit
-- Disease → Hospital through Visit
-- Doctor → Disease through Visit
-- Nullable relationships
-- SET NULL behavior
-- User cascade cleanup
-
----
-
-## V8 — Medical Tests ✅**
-
-\`\`\`text
-V8__create_medical_tests.sql
-\`\`\`
+## V8 — Medical Tests ✅
 
 Implemented:
 
@@ -435,16 +400,6 @@ Implemented:
 - Laboratory
 - Notes
 
-Relationships:
-
-\`\`\`text
-User 1 ─── N MedicalTest
-
-Disease 1 ─── N MedicalTest
-
-Visit 1 ─── N MedicalTest
-\`\`\`
-
 Supported categories:
 
 - BLOOD
@@ -456,20 +411,7 @@ Supported categories:
 - MICROBIOLOGY
 - OTHER
 
-Verified:
-
-- Category constraint
-- Visit SET NULL
-- Disease SET NULL
-- User cascade behavior
-
----
-
-## V9 — Test Results ✅**
-
-\`\`\`text
-V9__create_test_results.sql
-\`\`\`
+## V9 — Test Results ✅
 
 Implemented:
 
@@ -484,25 +426,9 @@ Implemented:
 
 Relationship:
 
-\`\`\`text
+```text
 MedicalTest 1 ─── N TestResult
-\`\`\`
-
-Result modeling supports:
-
-\`\`\`text
-Hemoglobin → 13.5
-
-PCR → Negative
-
-Marker → <5
-\`\`\`
-
-\`numeric_value\` exists separately from \`value_text\` to support future:
-
-- Trend charts
-- Analytics
-- Historical comparison
+```
 
 Supported flags:
 
@@ -515,22 +441,9 @@ Supported flags:
 - NEGATIVE
 - UNKNOWN
 
-Verified:
+`numeric_value` exists separately from `value_text` to support future trend charts, analytics and historical comparison.
 
-- Numeric result
-- Text result
-- Invalid flag rejection
-- Parent MedicalTest cascade
-- Parameter querying
-- Complete health record JOIN
-
----
-
-## V10 — Imaging ✅**
-
-\`\`\`text
-V10__create_imaging.sql
-\`\`\`
+## V10 — Imaging ✅
 
 Implemented:
 
@@ -555,38 +468,7 @@ Supported types:
 - MAMMOGRAPHY
 - OTHER
 
-Relationships:
-
-\`\`\`text
-User 1 ─── N Imaging
-
-Disease 1 ─── N Imaging
-
-Visit 1 ─── N Imaging
-
-Doctor 1 ─── N Imaging
-
-Hospital 1 ─── N Imaging
-\`\`\`
-
-Verified:
-
-- Standalone imaging records
-- Invalid type rejection
-- Disease SET NULL
-- Visit SET NULL
-- Doctor SET NULL
-- Hospital SET NULL
-- User cascade cleanup
-- Full Imaging JOIN
-
----
-
-## V11 — Medical Documents ✅**
-
-\`\`\`text
-V11__create_medical_documents.sql
-\`\`\`
+## V11 — Medical Documents ✅
 
 Implemented:
 
@@ -614,40 +496,7 @@ Supported document types:
 - PATHOLOGY_REPORT
 - OTHER
 
-Relationships:
-
-\`\`\`text
-User 1 ─── N MedicalDocument
-
-Disease 1 ─── N MedicalDocument
-
-Visit 1 ─── N MedicalDocument
-
-MedicalTest 1 ─── N MedicalDocument
-
-Imaging 1 ─── N MedicalDocument
-\`\`\`
-
-Verified:
-
-- Standalone document
-- MedicalTest report
-- Imaging report
-- File size constraint
-- Document type constraint
-- Disease SET NULL
-- Visit SET NULL
-- MedicalTest SET NULL
-- Imaging SET NULL
-- User cascade cleanup
-
----
-
-## V12 — Medications ✅**
-
-\`\`\`text
-V12__create_medications.sql
-\`\`\`
+## V12 — Medications ✅
 
 Implemented:
 
@@ -662,14 +511,6 @@ Implemented:
 - Medication status
 - Prescriber text
 - Notes
-
-Relationships:
-
-\`\`\`text
-User 1 ─── N Medication
-
-Disease 1 ─── N Medication
-\`\`\`
 
 Supported statuses:
 
@@ -687,65 +528,52 @@ Supported routes:
 - SUBLINGUAL
 - OTHER
 
-Verified:
-
-- Disease-bound medication
-- Standalone medication
-- Completed medication
-- Invalid status rejection
-- Invalid route rejection
-- Invalid date rejection
-- Disease SET NULL
-- User cascade cleanup
-
 ---
 
-# 9. Current Relational Model**
+# 9. Current Relational Model
 
-\`\`\`text
-                              USER
-                               │
-          ┌────────────────────┼────────────────────┐
-          │                    │                    │
-          ▼                    ▼                    ▼
-      DISEASE               DOCTOR              HOSPITAL
-          │                    │                    │
-          └────────────────────┼────────────────────┘
-                               │
-                               ▼
-                             VISIT
-                          ┌─────┴─────┐
-                          │           │
-                          ▼           ▼
-                    MEDICAL TEST    IMAGING
-                          │           │
-                          ▼           │
-                     TEST RESULT      │
-                                      │
-                          ┌───────────┘
-                          ▼
-                  MEDICAL DOCUMENT
-
+```text
+                              USER
+                               │
+           ┌────────────────────┼────────────────────┐
+           │                    │                    │
+           ▼                    ▼                    ▼
+       DISEASE               DOCTOR              HOSPITAL
+           │                    │                    │
+           └────────────────────┼────────────────────┘
+                                │
+                                ▼
+                              VISIT
+                            ┌─────┴─────┐
+                            │           │
+                            ▼           ▼
+                      MEDICAL TEST    IMAGING
+                            │           │
+                            ▼           │
+                       TEST RESULT      │
+                                        │
+                            ┌───────────┘
+                            ▼
+                     MEDICAL DOCUMENT
 
 USER
- │
- └── MEDICATION
-       │
-       └── Disease?
-
+ │
+ └── MEDICATION
+      │
+      └── Disease?
 
 MEDICAL DOCUMENT
- ├── Disease?
- ├── Visit?
- ├── MedicalTest?
- └── Imaging?
-\`\`\`
+ ├── Disease?
+ ├── Visit?
+ ├── MedicalTest?
+ └── Imaging?
+```
 
 ---
 
-# 10. Core Database Architecture Decisions**
+# 10. Core Architecture Decisions
 
-## UUID Identifiers**
+## UUID Identifiers
 
 All primary domain identifiers use UUID.
 
@@ -756,204 +584,129 @@ Goals:
 - Support future distributed architecture
 - Work cleanly across web and mobile clients
 
----
-
-## Flyway Migration Discipline**
+## Flyway Migration Discipline
 
 Database schema changes are performed exclusively through Flyway.
 
 Applied migrations are treated as immutable.
 
-Example:
-
-\`\`\`text
+```text
 V12 applied
-     ↓
+     ↓
 new schema requirement
-     ↓
+     ↓
 V13 migration
-\`\`\`
+```
 
 Existing migration files must not be modified after successful application.
 
----
-
-## User Ownership**
+## User Ownership
 
 Every major health record is associated with its owning User.
 
 Expected application-level repository strategy:
 
-\`\`\`text
+```text
 findByIdAndUserId(...)
-\`\`\`
+```
 
-instead of unrestricted:
+instead of unrestricted `findById(...)` for user-owned resources.
 
-\`\`\`text
-findById(...)
-\`\`\`
-
-for user-owned resources.
-
----
-
-## Historical Record Preservation**
+## Historical Record Preservation
 
 Health records should not disappear simply because a related organizational record is deleted.
 
 Example:
 
-\`\`\`text
+```text
 Doctor DELETE
-      ↓
+      ↓
 Visit.doctor_id = NULL
-\`\`\`
+```
 
-rather than:
+`ON DELETE SET NULL` is used for optional historical relationships.
 
-\`\`\`text
-Doctor DELETE
-      ↓
-Visit DELETE
-\`\`\`
-
-\`ON DELETE SET NULL\` is therefore used for optional historical relationships.
-
----
-
-## Parent-Child Cascades**
+## Parent-Child Cascades
 
 Child entities with no independent domain meaning may cascade.
 
 Example:
 
-\`\`\`text
+```text
 MedicalTest
-     ↓ DELETE
+     ↓ DELETE
 TestResult
-\`\`\`
+```
 
-TestResult has no independent meaning without its MedicalTest.
-
----
-
-## Medical Result Modeling**
+## Medical Result Modeling
 
 Test results may be numeric or textual.
 
-Therefore:
-
-\`\`\`text
+```text
 value_text
 numeric_value
-\`\`\`
+```
 
-are stored separately.
+This preserves flexibility for both textual and numeric results and future analytics.
 
-This supports both:
-
-\`\`\`text
-PCR → Negative
-\`\`\`
-
-and:
-
-\`\`\`text
-TSH → 2.31
-\`\`\`
-
-while preserving future analytics capability.
-
----
-
-## Document Storage**
+## Document Storage
 
 Binary medical files are not stored directly inside PostgreSQL.
 
-Database stores:
+Database stores metadata + `storage_key`; actual file storage is handled through `FileStorageService`.
 
-\`\`\`text
-metadata
-+
-storage_key
-\`\`\`
-
-while actual file storage will be handled by a dedicated storage service.
-
-Planned architecture:
-
-\`\`\`text
+```text
 MedicalDocument
-      ↓
-StorageService
-      ↓
+      ↓
+FileStorageService
+      ↓
 Local Storage / S3-compatible Storage
-\`\`\`
+```
 
-Document access must later pass through authenticated ownership checks.
+## Timeline
 
----
+No generic polymorphic `timeline_events` table is used.
 
-## Timeline**
+Timeline is produced through aggregation:
 
-No generic polymorphic \`timeline_events\` database table is currently used.
-
-Timeline will initially be produced through aggregation:
-
-\`\`\`text
+```text
 Visits
 MedicalTests
 Imaging
 MedicalDocuments
 Medications
-       ↓
+       ↓
 TimelineService
-       ↓
+       ↓
 Unified Timeline DTO
-       ↓
+       ↓
 sort by event date
-\`\`\`
-
-This avoids weak \`reference_id + type\` database relationships.
+```
 
 ---
 
-# 11. Search Foundation**
+# 11. Search Foundation
 
-Current database design already supports future search across:
+Search currently covers:
 
-\`\`\`text
-Diseases
-Doctors
-Hospitals
-Visits
-MedicalTests
-TestResults
-Imaging
-MedicalDocuments
-Medications
-\`\`\`
+- Diseases
+- Doctors
+- Hospitals
+- Visits
+- MedicalTests
+- TestResults
+- Imaging
+- MedicalDocuments
+- Medications
 
-Examples:
+Current MVP uses PostgreSQL queries.
 
-\`\`\`text
-"MR"
+Known future optimization options:
 
-"TSH"
-
-"Dr. Ahmet"
-
-"Migren"
-
-"Epikriz"
-
-"Levothyroxine"
-\`\`\`
-
-Initial search can use PostgreSQL queries.
-
-Advanced search infrastructure will be evaluated only when necessary.
+- `pg_trgm`
+- PostgreSQL full-text search
+- combined projections / `UNION ALL`
+- dedicated search index when scale requires
 
 ---
 
@@ -968,8 +721,6 @@ Advanced search infrastructure will be evaluated only when necessary.
 - AI boundary
 - Mobile roadmap
 
----
-
 ## ER Modeling ✅
 
 - Core entities
@@ -979,8 +730,6 @@ Advanced search infrastructure will be evaluated only when necessary.
 - Timeline strategy
 - Document storage strategy
 
----
-
 ## STEP 1 — PostgreSQL Foundation ✅
 
 - Docker PostgreSQL
@@ -988,8 +737,6 @@ Advanced search infrastructure will be evaluated only when necessary.
 - `health_platform` database
 - DBeaver verification
 - Flyway infrastructure
-
----
 
 ## STEP 2 — Spring Boot + Database Schema ✅
 
@@ -1004,15 +751,19 @@ Advanced search infrastructure will be evaluated only when necessary.
 - Migrations V1–V12
 - Hibernate schema validation
 
----
-
 ## STEP 3 — JPA Entity Layer ✅
 
-Implemented: `BaseEntity`, User, Disease, Doctor, Hospital, Visit, MedicalTest, TestResult, Imaging, MedicalDocument, Medication, domain enums, and repositories.
+Implemented `BaseEntity`, User, Disease, Doctor, Hospital, Visit, MedicalTest, TestResult, Imaging, MedicalDocument, Medication, domain enums and repositories.
 
-Architecture: UUID identifiers, `Instant` timestamps, `LocalDate` date-only fields, `BigDecimal` numeric laboratory values, lazy relationships, no unnecessary bidirectional collections, and DTO-only controller responses.
+Architecture:
 
----
+- UUID identifiers
+- `Instant` timestamps
+- `LocalDate` date-only fields
+- `BigDecimal` numeric laboratory values
+- Lazy relationships
+- No unnecessary bidirectional collections
+- DTO-only controller responses
 
 ## STEP 4 — Authentication & Security ✅
 
@@ -1026,9 +777,12 @@ Architecture: UUID identifiers, `Instant` timestamps, `LocalDate` date-only fiel
 - Global API error contract
 - User-scoped ownership enforcement
 
-Public endpoints: `/api/health` and `/api/auth/**`. All health-domain APIs require authentication.
+Public endpoints:
 
----
+- `/api/health`
+- `/api/auth/**`
+
+All health-domain APIs require authentication.
 
 ## STEP 5 — Disease API ✅
 
@@ -1081,8 +835,6 @@ Known future optimization: database-side aggregation/pagination via projection, 
 
 Searches Disease, Doctor, Hospital, Visit, MedicalTest, TestResult, Imaging, MedicalDocument and Medication. Supports partial case-insensitive search, type/disease filters, relevance scoring, pagination, deduplication and user isolation.
 
-Known future optimization: PostgreSQL `pg_trgm`, full-text search, combined projection/UNION query or dedicated search index if scale requires.
-
 ## STEP 14 — Dashboard Summary API ✅
 
 Provides active Disease/Medication counts, total Visits/Tests/Imaging/Documents, recent 5 Visits/Tests/Imaging and recent 5 global Timeline events. Counts use database `COUNT` queries.
@@ -1099,7 +851,7 @@ Provides active Disease/Medication counts, total Visits/Tests/Imaging/Documents,
 - Missing request parameter and constraint handlers
 - File-size handling
 - Stack traces hidden from clients
-- Dev CORS restricted to frontend origin
+- Dev CORS restricted to `http://localhost:5173`
 - Temporary auth test endpoint removed
 - No JPA entity serialization
 - No `passwordHash` or `storageKey` exposure
@@ -1107,11 +859,190 @@ Provides active Disease/Medication counts, total Visits/Tests/Imaging/Documents,
 
 ### STEP 15-B — Full Security & Ownership Regression ✅
 
-Verified cross-user CRUD blocking, relationship injection protection, foreign-resource filter protection, TestResult parent ownership, document download/delete ownership, Timeline/Search/Dashboard isolation, tampered JWT rejection, safe malformed auth handling and transactional rollback of failed cross-user updates.
+Verified:
+
+- Cross-user CRUD blocking
+- Relationship injection protection
+- Foreign-resource filter protection
+- TestResult parent ownership
+- Document download/delete ownership
+- Timeline/Search/Dashboard isolation
+- Tampered JWT rejection
+- Safe malformed auth handling
+- Transactional rollback of failed cross-user updates
 
 ### STEP 15-C — DB / Storage / Performance / Final Integration Audit ✅
 
-Verified Flyway history, immutable migrations, Hibernate validation, FK delete rules, query/index needs, storage/DB consistency, safe missing-file behavior, secret/gitignore rules, BCrypt hashes, logging hygiene, scoped repository access, smoke tests, `mvnw clean test`, `mvnw clean package`, PostgreSQL restart/Flyway validation and `/api/health`.
+Verified:
+
+- Flyway history and immutable migrations
+- Hibernate validation
+- FK delete rules
+- Query/index needs
+- Storage/DB consistency
+- Safe missing-file behavior
+- Secret/gitignore rules
+- BCrypt hashes
+- Logging hygiene
+- Scoped repository access
+- Smoke tests
+- `mvnw clean test`
+- `mvnw clean package`
+- PostgreSQL restart/Flyway validation
+- `/api/health`
+
+## STEP 16 — Frontend Foundation + Auth Integration ✅
+
+### STEP 16-A — Frontend Project Foundation ✅
+
+- React + TypeScript + Vite project verified
+- ESLint configured
+- Development/build pipeline verified
+
+### STEP 16-B — Folder Architecture ✅
+
+Established reusable frontend structure for API, auth, components, layouts, pages, routes, services, types and utilities.
+
+### STEP 16-C — Tailwind + UI Foundation ✅
+
+- Tailwind CSS v4
+- shadcn/ui Base UI / Nova preset
+- Path alias `@/*`
+- Shared UI utilities
+- Button Fast Refresh separation
+
+### STEP 16-D — React Router Foundation ✅
+
+- `/login`
+- `/register`
+- `/dashboard`
+- root redirect
+- 404 route
+- Auth/App layouts
+
+### STEP 16-E — Axios API Client ✅
+
+- `VITE_API_URL`
+- Shared Axios client
+- Automatic Bearer token attachment
+- Centralized API error helper
+- Backend health smoke test
+
+### STEP 16-F — Auth Types + Service ✅
+
+- Login types
+- Register types
+- Auth response contract
+- Real backend login/register service integration
+
+### STEP 16-G — AuthProvider + useAuth ✅
+
+- Auth context/provider
+- LocalStorage token persistence
+- Stored authenticated user
+- Login/logout state synchronization
+
+### STEP 16-H — Real Login Page ✅
+
+- Real backend authentication
+- Loading state
+- Safe error presentation
+- Native form validation
+- Auth persistence
+- Dashboard redirect
+
+### STEP 16-I — Real Register Page ✅
+
+- Real registration form
+- Password confirmation
+- Duplicate email / backend validation handling
+- Register → Login flow
+- JWT/session persistence after successful registration
+
+### STEP 16-J — ProtectedRoute + Auth-Aware Routing ✅
+
+- `ProtectedRoute`
+- `PublicOnlyRoute`
+- Auth-aware root redirect
+- Authenticated/anonymous route behavior
+- Refresh persistence
+- Logout redirect behavior
+
+### STEP 16-K — JWT Persistence + Centralized 401 Handling ✅
+
+- Axios 401 interceptor
+- Central unauthorized event
+- AuthProvider listener
+- Automatic token/user cleanup
+- Fake/expired token handling
+- ProtectedRoute redirect after server-side rejection
+
+### STEP 16-L — Dashboard Summary First Real Integration ✅
+
+- `/api/dashboard/summary` connected to React
+- Real database-backed KPI values
+- Loading/error states
+- Recent Visits
+- Recent Medical Tests
+- Recent Imaging
+- Recent Timeline
+- Empty account handling
+- Authenticated dashboard request flow
+
+## STEP 17 — Real App Shell / Navigation + Dashboard UI ✅
+
+### STEP 17-A — App Shell + Sidebar Foundation ✅
+
+- Desktop application sidebar
+- Health module navigation
+- Sticky header
+- Authenticated user account area
+- Protected placeholder module routes
+
+### STEP 17-B — Responsive Sidebar / Mobile Navigation ✅
+
+- Mobile hamburger navigation
+- shadcn Sheet
+- Responsive sidebar behavior
+- Route-select close behavior
+- Mobile logout behavior
+- 375 / 768 / 1024 / 1440 px checks
+
+### STEP 17-C — Dashboard UI Polish ✅
+
+- Icon-based KPI cards
+- Improved hierarchy and spacing
+- Polished Recent sections
+- Polished health activity timeline
+- Turkish date presentation support
+- Loading skeleton
+- Controlled error UI
+- Responsive dashboard layout
+
+### STEP 17-D — Turkish UI Foundation + Text Centralization ✅
+
+- `src/i18n/tr.ts`
+- Turkish-first visible UI
+- Centralized navigation/dashboard/auth text
+- `tr-TR` date formatting
+- Turkish timeline labels
+- Turkish placeholder screens
+- Login/Register Turkish UI
+- `index.html` language set to `tr`
+- Technical code/API/database names remain English
+
+### STEP 17-E — App Shell Polish + Navigation UX ✅
+
+- Navigation configuration extracted to `src/config/navigation.ts`
+- Sidebar section hierarchy (`Genel` / `Sağlık Kayıtları`)
+- Improved active route states
+- Cleaner top bar
+- Sidebar account panel polish
+- Safer mobile Sheet width
+- Logout + mobile Sheet synchronization
+- Placeholder UX polish
+- React effect/state lint issue removed
+- Lint/build clean
 
 ---
 
@@ -1138,13 +1069,22 @@ Verified Flyway history, immutable migrations, Hibernate validation, FK delete r
 - [x] Global Search API
 - [x] Dashboard Summary API
 - [x] Backend Integration Hardening
-- [ ] Frontend foundation
-- [ ] Frontend authentication integration
-- [ ] Dashboard UI
+- [x] Frontend foundation
+- [x] Frontend authentication integration
+- [x] Dashboard real backend integration
+- [x] Responsive app shell / navigation
+- [x] Turkish UI foundation
+- [x] Dashboard UI polish
+- [ ] Disease management frontend
+- [ ] Doctor management frontend
+- [ ] Hospital management frontend
+- [ ] Visit management frontend
+- [ ] Medical Test / Test Result frontend
+- [ ] Imaging management frontend
+- [ ] Medical Document upload/download frontend
+- [ ] Medication management frontend
 - [ ] Timeline UI
 - [ ] Global Search UI
-- [ ] Domain management screens
-- [ ] Document upload/download UI
 - [ ] User profile
 - [ ] Mobile application
 - [ ] AI layer
@@ -1153,152 +1093,278 @@ Verified Flyway history, immutable migrations, Hibernate validation, FK delete r
 
 # 14. Current Development Phase
 
-**Previous Phase:** Backend Integration Hardening ✅
-
-**Current Phase:** Frontend Foundation & Authentication Integration
-
+**Previous Phase:** STEP 17 — Real App Shell / Navigation + Dashboard UI ✅  
+**Current Phase:** Frontend Domain Management Integration  
 **Current Step:**
 
 ```text
-STEP 16
-Frontend Foundation + Auth Integration
+STEP 18
+Diseases Frontend CRUD
 ```
 
 Backend MVP status:
 
 ```text
-Database Foundation       ✅
-JPA Entity Layer          ✅
-Authentication / JWT      ✅
-Domain APIs               ✅
-Timeline API              ✅
-Global Search API         ✅
-Dashboard Summary API     ✅
-Backend Hardening         ✅
+Database Foundation        ✅
+JPA Entity Layer           ✅
+Authentication / JWT       ✅
+Domain APIs                ✅
+Timeline API               ✅
+Global Search API          ✅
+Dashboard Summary API      ✅
+Backend Hardening          ✅
+```
+
+Frontend foundation status:
+
+```text
+React / TypeScript / Vite      ✅
+Tailwind / shadcn UI           ✅
+React Router                   ✅
+Axios API Client               ✅
+Auth Context / JWT Persistence ✅
+Login / Register               ✅
+Protected Routes               ✅
+Centralized 401 Handling       ✅
+Dashboard Integration          ✅
+Responsive App Shell           ✅
+Mobile Navigation              ✅
+Turkish UI Foundation          ✅
+Dashboard Polish               ✅
 ```
 
 Frontend next:
 
 ```text
-React / TypeScript / Vite
-        ↓
-Tailwind / UI foundation
-        ↓
-Router
-        ↓
-Axios API client
-        ↓
-Auth context
-        ↓
-Login / Register
-        ↓
-Protected routes
-        ↓
-Dashboard integration
+Diseases CRUD
+      ↓
+Doctors CRUD
+      ↓
+Hospitals + Visits
+      ↓
+Medical Tests + Test Results
+      ↓
+Imaging + Documents
+      ↓
+Medications
+      ↓
+Timeline UI + Global Search UI
+      ↓
+Profile / Remaining MVP Polish
 ```
 
 ---
 
 # 15. Next Immediate Task
 
-## STEP 16 — Frontend Foundation + Auth Integration
+## STEP 18 — Diseases Frontend CRUD
 
 Planned order:
 
 ```text
-Frontend project verification / setup
-        ↓
-Folder architecture
-        ↓
-Tailwind / UI foundation
-        ↓
-React Router
-        ↓
-Axios API client
-        ↓
-Auth types / services
-        ↓
-AuthProvider
-        ↓
-Login
-        ↓
-Register
-        ↓
-ProtectedRoute
-        ↓
-JWT persistence / logout
-        ↓
-Dashboard summary integration
+Disease types
+      ↓
+Disease service layer
+      ↓
+Disease list page
+      ↓
+Loading / empty / error states
+      ↓
+Create disease
+      ↓
+Edit disease
+      ↓
+Disease status management
+      ↓
+Delete disease
+      ↓
+Backend validation / ownership behavior verification
+      ↓
+Responsive UI polish
 ```
 
 Primary goals:
 
-- Connect React frontend to Spring Boot API
-- Establish a reusable API client
-- Implement real login and registration
-- Persist JWT for the current MVP architecture
-- Attach `Authorization: Bearer <token>` automatically
-- Handle `401` consistently
-- Protect authenticated routes
+- Replace `/diseases` placeholder with the first real domain management screen
+- Connect frontend to the existing secure Disease API
+- Establish reusable CRUD patterns for later domain modules
+- Keep all requests user-scoped through backend security
+- Use centralized API error handling
+- Preserve Turkish-first UI presentation
 - Keep frontend types aligned with backend contracts
+- Establish consistent loading, empty, form and delete confirmation patterns
 
 ---
 
-# 16. Development Strategy**
+# 16. Frontend Architecture Decisions
 
-Each major backend step follows:
+## Turkish-First Product UI
 
-1\. Design or review the relationship.
-2\. Implement the smallest logical unit.
-3\. Compile the project.
-4\. Start the application.
-5\. Verify Hibernate/Flyway compatibility.
-6\. Test persistence behavior.
-7\. Test API behavior when applicable.
-8\. Verify the database through DBeaver when necessary.
-9\. Update documentation at meaningful milestones.
-10\. Commit.
-11\. Push.
-12\. Continue to the next step.
+The initial target audience is Turkish users.
 
----
+Therefore:
 
-# 17. Current Project Checkpoint
+- User-facing UI text is Turkish
+- TypeScript identifiers remain English
+- Backend DTO/property names remain English
+- Database columns/enums remain English
+- API paths remain English
+
+Current text foundation:
 
 ```text
-Product Specification          ✅
+src/i18n/tr.ts
+```
+
+A full runtime i18n library is intentionally deferred until a second UI language is actually required.
+
+## Authentication Persistence
+
+Current MVP uses LocalStorage for JWT persistence.
+
+```text
+healthPlatformAccessToken
+healthPlatformAuthUser
+```
+
+Axios attaches the Bearer token automatically.
+
+A backend `401` dispatches a centralized unauthorized event, causing AuthProvider state and persisted auth data to be cleared and ProtectedRoute to redirect to login.
+
+Future production hardening may replace this with an HttpOnly/Secure cookie + refresh-token architecture if required.
+
+## Frontend Routing
+
+Route access is separated through:
+
+- `ProtectedRoute`
+- `PublicOnlyRoute`
+- `RootRedirect`
+
+Authenticated application content is rendered inside `AppLayout`.
+
+## Application Shell
+
+Desktop:
+
+- Fixed sidebar
+- Sticky top bar
+- Main content outlet
+
+Mobile/tablet:
+
+- Hamburger trigger
+- shadcn Sheet navigation
+- Route selection closes navigation
+
+Navigation configuration lives in:
+
+```text
+src/config/navigation.ts
+```
+
+## Dashboard Composition
+
+Dashboard data comes from:
+
+```text
+GET /api/dashboard/summary
+```
+
+Frontend composition is split into reusable components such as:
+
+- `SummaryCard`
+- `RecentSection`
+- `RecentTimeline`
+
+`DashboardPage` owns fetching/state/page composition instead of embedding all presentation details in a single component.
+
+---
+
+# 17. Development Strategy
+
+Each major development step follows:
+
+1. Design or review the backend contract / relationship.
+2. Implement the smallest logical frontend/backend unit.
+3. Run lint / compile / build checks.
+4. Start the relevant services.
+5. Verify API behavior.
+6. Verify persistence behavior through PostgreSQL / DBeaver when necessary.
+7. Verify authentication and ownership behavior.
+8. Verify responsive frontend behavior.
+9. Test loading, empty, validation and failure states.
+10. Update documentation at meaningful milestones.
+11. Commit.
+12. Push.
+13. Continue to the next step.
+
+Frontend checkpoint commands:
+
+```bash
+cd frontend
+npm run lint
+npm run build
+```
+
+Backend checkpoint commands when backend changes are made:
+
+```bash
+cd backend/health-platform
+./mvnw clean test
+./mvnw clean package
+```
+
+---
+
+# 18. Current Project Checkpoint
+
+```text
+Product Specification             ✅
         ↓
-ER Model                       ✅
+ER Model                          ✅
         ↓
-PostgreSQL                     ✅
+PostgreSQL                        ✅
         ↓
-Spring Boot Foundation         ✅
+Spring Boot Foundation            ✅
         ↓
-Flyway V1–V12                  ✅
+Flyway V1–V12                    ✅
         ↓
-JPA Entity Layer               ✅
+JPA Entity Layer                  ✅
         ↓
-Authentication / JWT           ✅
+Authentication / JWT              ✅
         ↓
-Secure Domain APIs             ✅
+Secure Domain APIs                ✅
         ↓
-Timeline                       ✅
+Timeline API                      ✅
         ↓
-Global Search                  ✅
+Global Search API                 ✅
         ↓
-Dashboard Summary              ✅
+Dashboard Summary API             ✅
         ↓
-Backend Integration Hardening  ✅
+Backend Integration Hardening     ✅
         ↓
-React Web Foundation           ← NEXT
+React Web Foundation              ✅
         ↓
-Frontend Auth Integration
+Frontend Auth Integration         ✅
         ↓
-Dashboard / Timeline / Search UI
+Dashboard Integration             ✅
         ↓
-Domain Management UI
+Responsive App Shell              ✅
         ↓
-Document UI
+Turkish UI Foundation             ✅
+        ↓
+Dashboard / Navigation Polish     ✅
+        ↓
+Diseases Frontend CRUD            ← NEXT
+        ↓
+Remaining Domain Management UI
+        ↓
+Timeline / Search UI
+        ↓
+Document UX
+        ↓
+Profile / MVP Polish
         ↓
 Mobile
         ↓
@@ -1307,7 +1373,9 @@ Future AI Layer
 
 ---
 
-# 18. Technical Debt / Future Backend Work
+# 19. Technical Debt / Future Work
+
+## Backend
 
 - Automated integration/security test suite expansion
 - PostgreSQL search optimization (`pg_trgm`, FTS, projections)
@@ -1322,13 +1390,39 @@ Future AI Layer
 - Production observability
 - Deployment pipeline
 
-These are not blockers for beginning the web frontend MVP.
+## Frontend
+
+- Runtime multi-language support if English or additional languages are introduced
+- Multi-tab auth synchronization if required
+- Refresh-token / cookie-based auth migration if production architecture requires it
+- Shared form abstractions after repeated CRUD patterns become clear
+- Shared server-state/cache layer only if complexity warrants it
+- Accessibility audit after core MVP domain screens are implemented
+- Route-level lazy loading / code splitting when application size warrants it
+
+These are not blockers for continuing the web frontend MVP.
 
 ---
 
-# 18. Status Legend**
+# 20. Planned Frontend Sequence
 
-🟢 Completed
-🟡 In Progress
-⚪ Planned
+```text
+STEP 18 — Diseases Frontend CRUD
+STEP 19 — Doctors Frontend CRUD
+STEP 20 — Hospitals + Visits Frontend
+STEP 21 — Medical Tests + Test Results Frontend
+STEP 22 — Imaging + Documents Frontend
+STEP 23 — Medications Frontend
+STEP 24 — Timeline + Global Search Frontend
+```
+
+This order intentionally starts with simpler CRUD domains and reuses the resulting frontend patterns in more relational modules.
+
+---
+
+# 21. Status Legend
+
+🟢 Completed  
+🟡 In Progress  
+⚪ Planned  
 🔴 Blocked
