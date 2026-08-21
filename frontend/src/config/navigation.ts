@@ -1,5 +1,6 @@
 import {
   Activity,
+  Building2,
   CalendarDays,
   FileText,
   HeartPulse,
@@ -41,6 +42,11 @@ export const healthNavigation = [
     label: tr.navigation.doctors,
     to: "/doctors",
     icon: Stethoscope,
+  },
+  {
+    label: tr.navigation.hospitals,
+    to: "/hospitals",
+    icon: Building2,
   },
   {
     label: tr.navigation.visits,

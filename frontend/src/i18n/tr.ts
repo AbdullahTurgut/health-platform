@@ -11,13 +11,14 @@ export const tr = {
   },
 
   navigation: {
-    dashboard: "Genel Bakış",
-    timeline: "Sağlık Geçmişi",
-    search: "Ara",
+    dashboard: "Dashboard",
+    timeline: "Zaman Akışı",
+    search: "Arama",
     diseases: "Hastalıklar",
     doctors: "Doktorlar",
+    hospitals: "Hastaneler",
     visits: "Ziyaretler",
-    tests: "Tahliller",
+    tests: "Testler",
     imaging: "Görüntüleme",
     documents: "Belgeler",
     medications: "İlaçlar",
@@ -75,6 +76,94 @@ export const tr = {
   search: {
     title: "Ara",
     description: "Kişisel sağlık kayıtlarınız arasında arama yapın.",
+  },
+
+  hospitals: {
+    eyebrow: "Sağlık Kayıtları",
+
+    title: "Hastaneler",
+
+    description:
+      "Sağlık geçmişinizle ilişkili hastane ve sağlık kuruluşlarını görüntüleyin ve yönetin.",
+
+    add: "Hastane Ekle",
+
+    emptyTitle: "Henüz hastane kaydı yok",
+
+    emptyDescription:
+      "Tedavi veya kontrollerinizde yer alan sağlık kuruluşlarını buradan ekleyebilirsiniz.",
+
+    filteredEmptyTitle: "Bu şehirde hastane bulunmuyor",
+
+    filteredEmptyDescription:
+      "Aradığınız şehirle ilişkili hastane kaydı bulunamadı.",
+
+    loadError: "Hastane kayıtları yüklenemedi",
+
+    city: "Şehir",
+
+    cityUnknown: "Şehir belirtilmemiş",
+
+    cityFilter: "Şehre göre filtrele",
+
+    cityPlaceholder: "Örn. İstanbul",
+
+    applyFilter: "Filtrele",
+
+    clearFilter: "Temizle",
+
+    address: "Adres",
+
+    phone: "Telefon",
+
+    notes: "Notlar",
+
+    createTitle: "Yeni Hastane Kaydı",
+
+    createDescription:
+      "Sağlık geçmişinizde yer alan hastane veya sağlık kuruluşunun bilgilerini girin.",
+
+    name: "Hastane Adı",
+
+    namePlaceholder: "Örn. Acıbadem Hastanesi",
+
+    addressPlaceholder: "Hastanenin açık adresini girin.",
+
+    phonePlaceholder: "Örn. +90 216 000 00 00",
+
+    notesPlaceholder: "Hastaneyle ilgili ek bilgileri yazabilirsiniz.",
+
+    cancel: "Vazgeç",
+
+    save: "Kaydet",
+
+    saving: "Kaydediliyor...",
+
+    edit: "Düzenle",
+
+    editTitle: "Hastane Kaydını Düzenle",
+
+    editDescription: "Hastane veya sağlık kuruluşu bilgilerini güncelleyin.",
+
+    saveChanges: "Değişiklikleri Kaydet",
+
+    updating: "Güncelleniyor...",
+
+    updateSuccess: "Hastane kaydı başarıyla güncellendi.",
+
+    delete: "Sil",
+
+    deleteTitle: "Hastane Kaydını Sil",
+
+    deleteDescription: "Bu hastane kaydını silmek istediğinizden emin misiniz?",
+
+    deleteWarning: "Bu işlem geri alınamaz.",
+
+    deleteConfirm: "Kaydı Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteError: "Hastane kaydı silinemedi.",
   },
 
   diseases: {
