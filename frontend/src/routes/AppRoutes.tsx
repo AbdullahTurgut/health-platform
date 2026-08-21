@@ -13,6 +13,7 @@ import PlaceholderPage from "@/pages/PlaceholderPage";
 import DiseasesPage from "@/pages/diseases/DiseasesPage";
 import DoctorsPage from "@/pages/doctors/DoctorsPage";
 import HospitalsPage from "@/pages/hospitals/HospitalsPage";
+import VisitsPage from "@/pages/visits/VisitsPage";
 
 export default function AppRoutes() {
   return (
@@ -55,15 +56,7 @@ export default function AppRoutes() {
 
           <Route path="/hospitals" element={<HospitalsPage />} />
 
-          <Route
-            path="/visits"
-            element={
-              <PlaceholderPage
-                title={tr.visits.title}
-                description={tr.visits.description}
-              />
-            }
-          />
+          <Route path="/visits" element={<VisitsPage />} />
 
           <Route
             path="/visits"

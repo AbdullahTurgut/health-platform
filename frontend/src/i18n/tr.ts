@@ -313,9 +313,129 @@ export const tr = {
 
     deleteError: "Doktor kaydı silinemedi.",
   },
+
   visits: {
+    eyebrow: "Sağlık Kayıtları",
+
     title: "Ziyaretler",
-    description: "Doktor ve hastane ziyaretlerinizi görüntüleyin.",
+
+    description:
+      "Doktor muayenelerinizi, hastane ziyaretlerinizi ve sağlık kontrollerinizi görüntüleyin ve yönetin.",
+
+    add: "Ziyaret Ekle",
+
+    emptyTitle: "Henüz ziyaret kaydı yok",
+
+    emptyDescription:
+      "Doktor muayenelerinizi ve hastane ziyaretlerinizi buradan kaydedebilirsiniz.",
+
+    loadError: "Ziyaret kayıtları yüklenemedi",
+
+    visitDate: "Ziyaret Tarihi",
+
+    disease: "Hastalık",
+
+    doctor: "Doktor",
+
+    hospital: "Hastane",
+
+    department: "Bölüm",
+
+    reason: "Ziyaret Nedeni",
+
+    diagnosisNote: "Tanı Notu",
+
+    notes: "Notlar",
+
+    diseaseUnknown: "Hastalık belirtilmemiş",
+
+    doctorUnknown: "Doktor belirtilmemiş",
+
+    hospitalUnknown: "Hastane belirtilmemiş",
+
+    departmentUnknown: "Bölüm belirtilmemiş",
+    createTitle: "Yeni Ziyaret Kaydı",
+
+    createDescription:
+      "Doktor muayenesi, hastane ziyareti veya sağlık kontrolü bilgilerini kaydedin.",
+
+    visitDateLabel: "Ziyaret Tarihi ve Saati",
+
+    visitDatePlaceholder: "Ziyaret tarihini seçin",
+
+    selectDisease: "Hastalık Seçin",
+
+    selectDoctor: "Doktor Seçin",
+
+    selectHospital: "Hastane Seçin",
+
+    noDisease: "Hastalık seçilmedi",
+
+    noDoctor: "Doktor seçilmedi",
+
+    noHospital: "Hastane seçilmedi",
+
+    departmentPlaceholder: "Örn. Endokrinoloji",
+
+    reasonPlaceholder: "Ziyaret veya muayene nedenini yazın.",
+
+    diagnosisNotePlaceholder:
+      "Doktorun belirttiği tanı veya değerlendirme notunu yazın.",
+
+    notesPlaceholder: "Ziyaretle ilgili ek notları yazabilirsiniz.",
+
+    cancel: "Vazgeç",
+
+    save: "Kaydet",
+
+    saving: "Kaydediliyor...",
+
+    relationsLoadError: "Ziyaret formu için gerekli kayıtlar yüklenemedi.",
+
+    preparing: "Hazırlanıyor...",
+
+    edit: "Düzenle",
+
+    editTitle: "Ziyaret Kaydını Düzenle",
+
+    editDescription:
+      "Ziyaret bilgilerini ve ilişkili sağlık kayıtlarını güncelleyin.",
+
+    saveChanges: "Değişiklikleri Kaydet",
+
+    updating: "Güncelleniyor...",
+
+    updateSuccess: "Ziyaret kaydı başarıyla güncellendi.",
+    delete: "Sil",
+
+    deleteTitle: "Ziyaret Kaydını Sil",
+
+    deleteDescription: "Bu ziyaret kaydını silmek istediğinizden emin misiniz?",
+
+    deleteWarning: "Bu işlem geri alınamaz.",
+
+    deleteConfirm: "Kaydı Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteError: "Ziyaret kaydı silinemedi.",
+
+    filtersTitle: "Ziyaretleri Filtrele",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    allDoctors: "Tüm Doktorlar",
+
+    allHospitals: "Tüm Hastaneler",
+
+    applyFilters: "Filtrele",
+
+    clearFilters: "Temizle",
+
+    filteredEmptyTitle: "Filtrelere uygun ziyaret bulunamadı",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz hastalık, doktor veya hastane kriterleriyle eşleşen ziyaret kaydı bulunmuyor.",
   },
 
   tests: {
