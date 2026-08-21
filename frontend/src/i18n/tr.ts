@@ -150,10 +150,80 @@ export const tr = {
   },
 
   doctors: {
+    eyebrow: "Sağlık Kayıtları",
     title: "Doktorlar",
-    description: "Sağlık geçmişinizle ilişkili doktorları yönetin.",
-  },
+    description:
+      "Sağlık geçmişinizle ilişkili doktorları görüntüleyin ve yönetin.",
 
+    add: "Doktor Ekle",
+
+    createTitle: "Yeni Doktor Kaydı",
+    createDescription:
+      "Sağlık geçmişinizde yer alan doktorun bilgilerini girin.",
+
+    firstName: "Ad",
+    firstNamePlaceholder: "Örn. Ayşe",
+
+    lastName: "Soyad",
+    lastNamePlaceholder: "Örn. Demir",
+
+    specialization: "Uzmanlık Alanı",
+    specializationPlaceholder: "Örn. Endokrinoloji",
+    specializationUnknown: "Uzmanlık alanı belirtilmemiş",
+
+    phone: "Telefon",
+    phonePlaceholder: "Örn. +90 555 111 22 33",
+
+    email: "E-posta",
+    emailPlaceholder: "Örn. doktor@example.com",
+
+    notes: "Notlar",
+    notesPlaceholder: "Doktorla ilgili ek bilgileri yazabilirsiniz.",
+
+    cancel: "Vazgeç",
+    save: "Kaydet",
+    saving: "Kaydediliyor...",
+
+    emptyTitle: "Henüz doktor kaydı yok",
+    emptyDescription:
+      "Sağlık geçmişinizde yer alan doktorları buradan ekleyebilirsiniz.",
+
+    filteredEmptyTitle: "Bu uzmanlık alanında doktor bulunmuyor",
+
+    filteredEmptyDescription:
+      "Aradığınız uzmanlık alanına ait doktor kaydı bulunamadı.",
+
+    loadError: "Doktor kayıtları yüklenemedi",
+
+    specializationFilter: "Uzmanlık alanına göre filtrele",
+
+    applyFilter: "Filtrele",
+    clearFilter: "Temizle",
+    edit: "Düzenle",
+
+    editTitle: "Doktor Kaydını Düzenle",
+
+    editDescription: "Doktor bilgilerini güncelleyin.",
+
+    saveChanges: "Değişiklikleri Kaydet",
+
+    updating: "Güncelleniyor...",
+
+    updateSuccess: "Doktor kaydı başarıyla güncellendi.",
+    delete: "Sil",
+
+    deleteTitle: "Doktor Kaydını Sil",
+
+    deleteDescription: "Bu doktor kaydını silmek istediğinizden emin misiniz?",
+
+    deleteWarning: "Bu işlem geri alınamaz.",
+
+    deleteConfirm: "Kaydı Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteError: "Doktor kaydı silinemedi.",
+  },
   visits: {
     title: "Ziyaretler",
     description: "Doktor ve hastane ziyaretlerinizi görüntüleyin.",

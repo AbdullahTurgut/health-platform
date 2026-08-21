@@ -6,25 +6,45 @@ import jakarta.validation.constraints.Size;
 
 public record CreateDoctorRequest(
 
-        @NotBlank(message = "First name is required")
-        @Size(max = 100, message = "First name cannot exceed 100 characters")
+        @NotBlank(message = "Doktor adı zorunludur")
+        @Size(
+                max = 100,
+                message = "Doktor adı en fazla 100 karakter olabilir"
+        )
         String firstName,
 
-        @NotBlank(message = "Last name is required")
-        @Size(max = 100, message = "Last name cannot exceed 100 characters")
+        @NotBlank(message = "Doktor soyadı zorunludur")
+        @Size(
+                max = 100,
+                message = "Doktor soyadı en fazla 100 karakter olabilir"
+        )
         String lastName,
 
-        @Size(max = 150, message = "Specialization cannot exceed 150 characters")
+        @Size(
+                max = 150,
+                message = "Uzmanlık alanı en fazla 150 karakter olabilir"
+        )
         String specialization,
 
-        @Size(max = 50, message = "Phone cannot exceed 50 characters")
+        @Size(
+                max = 50,
+                message = "Telefon numarası en fazla 50 karakter olabilir"
+        )
         String phone,
 
-        @Email(message = "Email format is invalid")
-        @Size(max = 255, message = "Email cannot exceed 255 characters")
+        @Email(
+                message = "Geçerli bir e-posta adresi giriniz"
+        )
+        @Size(
+                max = 255,
+                message = "E-posta adresi en fazla 255 karakter olabilir"
+        )
         String email,
 
-        @Size(max = 5000, message = "Notes cannot exceed 5000 characters")
+        @Size(
+                max = 5000,
+                message = "Notlar en fazla 5000 karakter olabilir"
+        )
         String notes
 
 ) {

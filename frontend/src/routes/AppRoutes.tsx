@@ -11,6 +11,7 @@ import NotFoundPage from "@/pages/NotFoundPage";
 import RootRedirect from "@/routes/RootRedirect";
 import PlaceholderPage from "@/pages/PlaceholderPage";
 import DiseasesPage from "@/pages/diseases/DiseasesPage";
+import DoctorsPage from "@/pages/doctors/DoctorsPage";
 
 export default function AppRoutes() {
   return (
@@ -49,15 +50,7 @@ export default function AppRoutes() {
 
           <Route path="/diseases" element={<DiseasesPage />} />
 
-          <Route
-            path="/doctors"
-            element={
-              <PlaceholderPage
-                title={tr.doctors.title}
-                description={tr.doctors.description}
-              />
-            }
-          />
+          <Route path="/doctors" element={<DoctorsPage />} />
 
           <Route
             path="/visits"
