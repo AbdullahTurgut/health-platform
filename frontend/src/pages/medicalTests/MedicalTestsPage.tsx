@@ -17,7 +17,18 @@ import { getVisits } from "@/services/visitService";
 import CreateMedicalTestDialog from "@/components/medicalTests/CreateMedicalTestDialog";
 import EditMedicalTestDialog from "@/components/medicalTests/EditMedicalTestDialog";
 import DeleteMedicalTestDialog from "@/components/medicalTests/DeleteMedicalTestDialog";
-
+import CreateTestResultDialog from "@/components/testResults/CreateTestResultDialog";
+import TestResultsDialog from "@/components/testResults/TestResultsDialog";
+import TestResultHistoryDialog from "@/components/testResults/TestResultHistoryDialog";
+import {
+  deleteTestResult,
+  getTestResultHistory,
+  getTestResults,
+  updateTestResult,
+} from "@/services/testResultService";
+import type { TestResult, UpdateTestResultRequest } from "@/types/testResult";
+import EditTestResultDialog from "@/components/testResults/EditTestResultDialog";
+import DeleteTestResultDialog from "@/components/testResults/DeleteTestResultDialog";
 import type {
   MedicalTest,
   MedicalTestFilterOptions,
@@ -46,25 +57,41 @@ export default function MedicalTestsPage() {
     diseases: [],
     visits: [],
   });
-
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-
   const [isPreparingCreate, setIsPreparingCreate] = useState(false);
-
   const [formOptions, setFormOptions] = useState<MedicalTestFormOptions>({
     diseases: [],
     visits: [],
   });
-
   const [selectedMedicalTest, setSelectedMedicalTest] =
     useState<MedicalTest | null>(null);
-
   const [isEditOpen, setIsEditOpen] = useState(false);
-
   const [selectedDeleteTest, setSelectedDeleteTest] =
     useState<MedicalTest | null>(null);
-
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedResultsTest, setSelectedResultsTest] =
+    useState<MedicalTest | null>(null);
+  const [testResults, setTestResults] = useState<TestResult[]>([]);
+  const [isResultsOpen, setIsResultsOpen] = useState(false);
+  const [isResultsLoading, setIsResultsLoading] = useState(false);
+  const [resultsError, setResultsError] = useState<string | null>(null);
+  const [isCreateResultOpen, setIsCreateResultOpen] = useState(false);
+  const [selectedEditResult, setSelectedEditResult] =
+    useState<TestResult | null>(null);
+  const [isEditResultOpen, setIsEditResultOpen] = useState(false);
+  const [selectedDeleteResult, setSelectedDeleteResult] =
+    useState<TestResult | null>(null);
+  const [isDeleteResultOpen, setIsDeleteResultOpen] = useState(false);
+
+  const [historyParameter, setHistoryParameter] = useState<string | null>(null);
+
+  const [historyResults, setHistoryResults] = useState<TestResult[]>([]);
+
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+
+  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
+
+  const [historyError, setHistoryError] = useState<string | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
@@ -282,6 +309,127 @@ export default function MedicalTestsPage() {
     await refreshMedicalTests();
   }
 
+  async function handleShowResults(test: MedicalTest) {
+    try {
+      setSelectedResultsTest(test);
+      setIsResultsOpen(true);
+      setIsResultsLoading(true);
+      setResultsError(null);
+
+      const response = await getTestResults(test.id);
+
+      setTestResults(response);
+    } catch (error) {
+      setResultsError(getApiErrorMessage(error));
+    } finally {
+      setIsResultsLoading(false);
+    }
+  }
+
+  async function handleResultCreated() {
+    if (!selectedResultsTest) {
+      return;
+    }
+
+    await loadTestResults(selectedResultsTest.id);
+  }
+
+  async function loadTestResults(medicalTestId: string) {
+    const response = await getTestResults(medicalTestId);
+
+    setTestResults(response);
+  }
+
+  function handleResultsOpenChange(open: boolean) {
+    setIsResultsOpen(open);
+
+    if (!open) {
+      setSelectedResultsTest(null);
+      setTestResults([]);
+      setResultsError(null);
+      setIsCreateResultOpen(false);
+    }
+  }
+
+  async function handleResultUpdated(
+    resultId: string,
+    payload: UpdateTestResultRequest,
+  ) {
+    await updateTestResult(resultId, payload);
+
+    if (!selectedResultsTest) {
+      return;
+    }
+
+    await loadTestResults(selectedResultsTest.id);
+  }
+
+  function handleEditResultRequest(result: TestResult) {
+    setSelectedEditResult(result);
+    setIsEditResultOpen(true);
+  }
+
+  function handleEditResultOpenChange(open: boolean) {
+    setIsEditResultOpen(open);
+
+    if (!open) {
+      setSelectedEditResult(null);
+    }
+  }
+
+  async function handleResultDelete(resultId: string) {
+    await deleteTestResult(resultId);
+
+    if (!selectedResultsTest) {
+      return;
+    }
+
+    await loadTestResults(selectedResultsTest.id);
+  }
+
+  function handleDeleteResultRequest(result: TestResult) {
+    setSelectedDeleteResult(result);
+
+    setIsDeleteResultOpen(true);
+  }
+
+  function handleDeleteResultOpenChange(open: boolean) {
+    setIsDeleteResultOpen(open);
+
+    if (!open) {
+      setSelectedDeleteResult(null);
+    }
+  }
+
+  async function handleResultHistory(result: TestResult) {
+    try {
+      setHistoryParameter(result.parameterName);
+
+      setHistoryResults([]);
+      setHistoryError(null);
+      setIsHistoryOpen(true);
+      setIsHistoryLoading(true);
+
+      const response = await getTestResultHistory(result.parameterName);
+
+      setHistoryResults(response);
+    } catch (error) {
+      setHistoryError(getApiErrorMessage(error));
+    } finally {
+      setIsHistoryLoading(false);
+    }
+  }
+
+  function handleHistoryOpenChange(open: boolean) {
+    setIsHistoryOpen(open);
+
+    if (!open) {
+      setHistoryParameter(null);
+      setHistoryResults([]);
+      setHistoryError(null);
+    }
+  }
+
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -337,6 +485,7 @@ export default function MedicalTestsPage() {
           <MedicalTestList
             tests={tests}
             isFiltered={isFiltered}
+            onShowResults={handleShowResults}
             onEdit={handleEdit}
             onDelete={handleDeleteRequest}
           />
@@ -364,6 +513,51 @@ export default function MedicalTestsPage() {
         open={isDeleteOpen}
         onOpenChange={handleDeleteOpenChange}
         onDelete={handleDelete}
+      />
+
+      <TestResultsDialog
+        test={selectedResultsTest}
+        results={testResults}
+        open={isResultsOpen}
+        onHistory={handleResultHistory}
+        isLoading={isResultsLoading}
+        error={resultsError}
+        onOpenChange={handleResultsOpenChange}
+        onCreate={() => setIsCreateResultOpen(true)}
+        onEdit={handleEditResultRequest}
+        onDelete={handleDeleteResultRequest}
+      />
+
+      <CreateTestResultDialog
+        key={selectedResultsTest?.id ?? "no-medical-test-result"}
+        medicalTestId={selectedResultsTest?.id ?? null}
+        open={isCreateResultOpen}
+        onOpenChange={setIsCreateResultOpen}
+        onCreated={handleResultCreated}
+      />
+
+      <EditTestResultDialog
+        key={selectedEditResult?.id ?? "no-edit-test-result"}
+        result={selectedEditResult}
+        open={isEditResultOpen}
+        onOpenChange={handleEditResultOpenChange}
+        onUpdated={handleResultUpdated}
+      />
+      <DeleteTestResultDialog
+        key={selectedDeleteResult?.id ?? "no-delete-test-result"}
+        result={selectedDeleteResult}
+        open={isDeleteResultOpen}
+        onOpenChange={handleDeleteResultOpenChange}
+        onDelete={handleResultDelete}
+      />
+
+      <TestResultHistoryDialog
+        parameterName={historyParameter}
+        results={historyResults}
+        open={isHistoryOpen}
+        isLoading={isHistoryLoading}
+        error={historyError}
+        onOpenChange={handleHistoryOpenChange}
       />
     </div>
   );

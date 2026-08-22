@@ -550,6 +550,96 @@ export const tr = {
     deleteSuccess: "Test kaydı başarıyla silindi.",
   },
 
+  testResults: {
+    title: "Test Sonuçları",
+
+    description:
+      "Bu teste ait ölçüm ve laboratuvar sonuçlarını görüntüleyin ve yönetin.",
+
+    showResults: "Sonuçları Gör",
+
+    add: "Sonuç Ekle",
+
+    createTitle: "Yeni Test Sonucu",
+
+    createDescription:
+      "Seçili tıbbi teste ait ölçüm veya laboratuvar sonucunu kaydedin.",
+
+    parameterName: "Parametre",
+
+    parameterPlaceholder: "Örn. TSH, Ferritin, Glukoz",
+
+    value: "Değer",
+
+    valuePlaceholder: "Örn. 4.2, Negatif, Pozitif",
+
+    numericValue: "Sayısal Değer",
+
+    numericValuePlaceholder: "Örn. 4.2",
+
+    unit: "Birim",
+
+    unitPlaceholder: "Örn. mIU/L, mg/dL",
+
+    referenceRange: "Referans Aralığı",
+
+    referenceRangePlaceholder: "Örn. 0.4 - 4.0",
+
+    flag: "Durum",
+
+    noFlag: "Durum belirtilmedi",
+
+    notes: "Notlar",
+
+    notesPlaceholder: "Sonuçla ilgili ek notlar.",
+
+    emptyTitle: "Henüz test sonucu yok",
+
+    emptyDescription: "Bu teste ait sonuçları buradan ekleyebilirsiniz.",
+
+    loadError: "Test sonuçları yüklenemedi",
+
+    cancel: "Vazgeç",
+
+    save: "Kaydet",
+
+    saving: "Kaydediliyor...",
+
+    close: "Kapat",
+    edit: "Düzenle",
+
+    editTitle: "Test Sonucunu Düzenle",
+
+    editDescription:
+      "Seçili test sonucunun değerlerini ve durum bilgilerini güncelleyin.",
+
+    saveChanges: "Değişiklikleri Kaydet",
+
+    updating: "Güncelleniyor...",
+
+    delete: "Sil",
+
+    deleteTitle: "Test Sonucunu Sil",
+
+    deleteDescription:
+      "Bu test sonucunu silmek üzeresiniz. Bu işlem geri alınamaz.",
+
+    deleteConfirm: "Sonucu Sil",
+
+    deleting: "Siliniyor...",
+
+    history: "Geçmiş",
+
+    historyTitle: "Parametre Geçmişi",
+
+    historyDescription:
+      "Aynı parametrenin önceki test kayıtlarındaki sonuçlarını görüntüleyin.",
+
+    historyEmpty: "Bu parametre için başka sonuç kaydı bulunamadı.",
+
+    historyLoadError: "Parametre geçmişi yüklenemedi.",
+  },
+
   imaging: {
     title: "Görüntüleme",
     description: "MR, BT, röntgen ve diğer görüntüleme kayıtlarınızı yönetin.",

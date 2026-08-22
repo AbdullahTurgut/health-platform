@@ -10,34 +10,48 @@ import java.math.BigDecimal;
 
 public record CreateTestResultRequest(
 
-        @NotBlank(message = "Parameter name is required")
-        @Size(max = 150, message = "Parameter name cannot exceed 150 characters")
+        @NotBlank(message = "Parametre adı zorunludur")
+        @Size(
+                max = 150,
+                message = "Parametre adı en fazla 150 karakter olabilir"
+        )
         String parameterName,
 
-        @NotBlank(message = "Value is required")
-        @Size(max = 100, message = "Value cannot exceed 100 characters")
+        @NotBlank(message = "Değer zorunludur")
+        @Size(
+                max = 100,
+                message = "Değer en fazla 100 karakter olabilir"
+        )
         String valueText,
 
         @DecimalMin(
                 value = "-999999999999.999999",
-                message = "Numeric value is too small"
+                message = "Sayısal değer izin verilen minimum değerin altında"
         )
         @DecimalMax(
                 value = "999999999999.999999",
-                message = "Numeric value is too large"
+                message = "Sayısal değer izin verilen maksimum değerin üzerinde"
         )
         BigDecimal numericValue,
 
-        @Size(max = 50, message = "Unit cannot exceed 50 characters")
+        @Size(
+                max = 50,
+                message = "Birim en fazla 50 karakter olabilir"
+        )
         String unit,
 
-        @Size(max = 100, message = "Reference range cannot exceed 100 characters")
+        @Size(
+                max = 100,
+                message = "Referans aralığı en fazla 100 karakter olabilir"
+        )
         String referenceRange,
-
 
         ResultFlag flag,
 
-        @Size(max = 5000, message = "Notes cannot exceed 5000 characters")
+        @Size(
+                max = 5000,
+                message = "Notlar en fazla 5000 karakter olabilir"
+        )
         String notes
 
 ) {

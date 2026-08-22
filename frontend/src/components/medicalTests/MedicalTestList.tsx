@@ -1,4 +1,5 @@
 import {
+  BarChart3,
   CalendarDays,
   FlaskConical,
   HeartPulse,
@@ -15,9 +16,9 @@ import type { MedicalTest } from "@/types/medicalTest";
 type MedicalTestListProps = {
   tests: MedicalTest[];
   isFiltered?: boolean;
-
   onEdit: (test: MedicalTest) => void;
   onDelete: (test: MedicalTest) => void;
+  onShowResults: (test: MedicalTest) => void;
 };
 
 function formatDateTime(value: string) {
@@ -32,6 +33,7 @@ export default function MedicalTestList({
   isFiltered = false,
   onEdit,
   onDelete,
+  onShowResults,
 }: MedicalTestListProps) {
   if (tests.length === 0) {
     return (
@@ -133,8 +135,17 @@ export default function MedicalTestList({
               type="button"
               variant="outline"
               size="sm"
+              onClick={() => onShowResults(test)}
+            >
+              <BarChart3 className="size-4" />
+              {tr.testResults.showResults}
+            </Button>
+
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
               onClick={() => onEdit(test)}
-              aria-label={`${test.name} kaydını düzenle`}
             >
               <Pencil className="size-4" />
               {tr.tests.edit}
@@ -145,7 +156,6 @@ export default function MedicalTestList({
               variant="destructive"
               size="sm"
               onClick={() => onDelete(test)}
-              aria-label={`${test.name} kaydını sil`}
             >
               <Trash2 className="size-4" />
               {tr.tests.delete}
