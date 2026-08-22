@@ -15,21 +15,38 @@ public record CreateMedicalTestRequest(
 
         UUID visitId,
 
-        @NotBlank(message = "Test name is required")
-        @Size(max = 200, message = "Test name cannot exceed 200 characters")
+        @NotBlank(
+                message = "Test adı zorunludur"
+        )
+        @Size(
+                max = 200,
+                message = "Test adı en fazla 200 karakter olabilir"
+        )
         String name,
 
-        @NotNull(message = "Test category is required")
+        @NotNull(
+                message = "Test kategorisi zorunludur"
+        )
         TestCategory category,
 
-        @NotNull(message = "Test date is required")
-        @PastOrPresent(message = "Test date cannot be in the future")
+        @NotNull(
+                message = "Test tarihi zorunludur"
+        )
+        @PastOrPresent(
+                message = "Test tarihi gelecekte olamaz"
+        )
         Instant testDate,
 
-        @Size(max = 200, message = "Laboratory cannot exceed 200 characters")
+        @Size(
+                max = 200,
+                message = "Laboratuvar adı en fazla 200 karakter olabilir"
+        )
         String laboratory,
 
-        @Size(max = 5000, message = "Notes cannot exceed 5000 characters")
+        @Size(
+                max = 5000,
+                message = "Notlar en fazla 5000 karakter olabilir"
+        )
         String notes
 
 ) {

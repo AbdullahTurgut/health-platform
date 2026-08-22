@@ -439,8 +439,115 @@ export const tr = {
   },
 
   tests: {
-    title: "Tahliller",
-    description: "Tahlil ve laboratuvar sonuçlarınızı yönetin.",
+    eyebrow: "Sağlık Kayıtları",
+
+    title: "Tıbbi Testler",
+
+    description:
+      "Laboratuvar testlerinizi, test sonuçlarınızı ve sağlık ölçümlerinizi görüntüleyin ve yönetin.",
+
+    add: "Test Ekle",
+
+    emptyTitle: "Henüz test kaydı yok",
+
+    emptyDescription:
+      "Laboratuvar ve sağlık testlerinizi buradan kaydedebilirsiniz.",
+
+    loadError: "Test kayıtları yüklenemedi",
+
+    testDate: "Test Tarihi",
+
+    disease: "Hastalık",
+
+    visit: "Ziyaret",
+
+    category: "Kategori",
+
+    laboratory: "Laboratuvar",
+
+    notes: "Notlar",
+
+    diseaseUnknown: "Hastalık belirtilmemiş",
+
+    visitUnknown: "Ziyaret belirtilmemiş",
+
+    laboratoryUnknown: "Laboratuvar belirtilmemiş",
+    filtersTitle: "Testleri Filtrele",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    allVisits: "Tüm Ziyaretler",
+
+    allCategories: "Tüm Kategoriler",
+
+    applyFilters: "Filtrele",
+
+    clearFilters: "Temizle",
+
+    filteredEmptyTitle: "Filtrelere uygun test bulunamadı",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz hastalık, ziyaret veya kategori kriterleriyle eşleşen test kaydı bulunmuyor.",
+    createTitle: "Yeni Tıbbi Test",
+
+    createDescription:
+      "Laboratuvar veya sağlık testinizin bilgilerini kaydedin.",
+
+    name: "Test Adı",
+
+    namePlaceholder: "Örn. TSH, Hemogram, Ferritin",
+
+    selectDisease: "Hastalık Seçin",
+
+    selectVisit: "Ziyaret Seçin",
+
+    noDisease: "Hastalık seçilmedi",
+
+    noVisit: "Ziyaret seçilmedi",
+
+    selectCategory: "Kategori Seçin",
+
+    testDateLabel: "Test Tarihi ve Saati",
+
+    laboratoryPlaceholder: "Örn. Acıbadem Laboratuvarı",
+
+    notesPlaceholder: "Testle ilgili ek notları yazabilirsiniz.",
+
+    cancel: "Vazgeç",
+
+    save: "Kaydet",
+
+    saving: "Kaydediliyor...",
+
+    preparing: "Hazırlanıyor...",
+
+    edit: "Düzenle",
+
+    editTitle: "Tıbbi Test Kaydını Düzenle",
+
+    editDescription:
+      "Test bilgilerini, ilişkili kayıtları ve test tarihini güncelleyin.",
+
+    saveChanges: "Değişiklikleri Kaydet",
+
+    updating: "Güncelleniyor...",
+
+    updateSuccess: "Test kaydı başarıyla güncellendi.",
+
+    delete: "Sil",
+
+    deleteTitle: "Tıbbi Test Kaydını Sil",
+
+    deleteDescription:
+      "Bu test kaydını silmek üzeresiniz. Bu işlem geri alınamaz.",
+
+    deleteWarning: "Bu teste bağlı test sonuçları varsa onlar da silinebilir.",
+
+    deleteConfirm: "Kaydı Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteSuccess: "Test kaydı başarıyla silindi.",
   },
 
   imaging: {

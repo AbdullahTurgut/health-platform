@@ -52,7 +52,7 @@ public class MedicalTestService {
 
         if (filterCount > 1) {
             throw new IllegalArgumentException(
-                    "Only one medical test filter can be used at a time"
+                    "Aynı anda yalnızca bir test filtresi kullanılabilir!"
             );
         }
 
