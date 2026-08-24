@@ -55,7 +55,7 @@ public class VisitService {
 
         if (filterCount > 1) {
             throw new IllegalArgumentException(
-                    "Only one visit filter can be used at a time"
+                    "Aynı anda yalnızca bir ziyaret filtresi kullanılabilir!"
             );
         }
 

@@ -1,9 +1,11 @@
-import { X } from "lucide-react";
 import { useState } from "react";
+
+import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { tr } from "@/i18n/tr";
+
 import type {
   VisitFilters as VisitFilterValues,
   VisitFormOptions,
@@ -13,7 +15,9 @@ type VisitFiltersProps = {
   value: VisitFilterValues;
   options: VisitFormOptions;
   disabled?: boolean;
+
   onApply: (filters: VisitFilterValues) => void;
+
   onClear: () => void;
 };
 
@@ -32,20 +36,36 @@ export default function VisitFilters({
 
   const currentFilters: VisitFilterValues = {
     ...(diseaseId ? { diseaseId } : {}),
+
     ...(doctorId ? { doctorId } : {}),
+
     ...(hospitalId ? { hospitalId } : {}),
   };
-
-  const isSameFilter =
-    (value.diseaseId ?? "") === diseaseId &&
-    (value.doctorId ?? "") === doctorId &&
-    (value.hospitalId ?? "") === hospitalId;
 
   const hasDraftFilter = Boolean(diseaseId || doctorId || hospitalId);
 
   const hasAppliedFilter = Boolean(
     value.diseaseId || value.doctorId || value.hospitalId,
   );
+
+  const isSameFilter =
+    (value.diseaseId ?? "") === diseaseId &&
+    (value.doctorId ?? "") === doctorId &&
+    (value.hospitalId ?? "") === hospitalId;
+
+  function clearOtherFilters(keep: "disease" | "doctor" | "hospital") {
+    if (keep !== "disease") {
+      setDiseaseId("");
+    }
+
+    if (keep !== "doctor") {
+      setDoctorId("");
+    }
+
+    if (keep !== "hospital") {
+      setHospitalId("");
+    }
+  }
 
   function handleClear() {
     setDiseaseId("");
@@ -57,9 +77,15 @@ export default function VisitFilters({
 
   return (
     <div className="rounded-2xl border bg-card p-4">
-      <p className="font-medium">{tr.visits.filtersTitle}</p>
+      <div>
+        <h2 className="font-semibold">{tr.visits.filtersTitle}</h2>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-3">
+        <p className="mt-1 text-sm text-muted-foreground">
+          {tr.imaging.filterHint}
+        </p>
+      </div>
+
+      <div className="mt-5 grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="visit-filter-disease">{tr.visits.disease}</Label>
 
@@ -67,8 +93,12 @@ export default function VisitFilters({
             id="visit-filter-disease"
             value={diseaseId}
             disabled={disabled}
-            onChange={(event) => setDiseaseId(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            onChange={(event) => {
+              clearOtherFilters("disease");
+
+              setDiseaseId(event.target.value);
+            }}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="">{tr.visits.allDiseases}</option>
 
@@ -87,8 +117,12 @@ export default function VisitFilters({
             id="visit-filter-doctor"
             value={doctorId}
             disabled={disabled}
-            onChange={(event) => setDoctorId(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            onChange={(event) => {
+              clearOtherFilters("doctor");
+
+              setDoctorId(event.target.value);
+            }}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="">{tr.visits.allDoctors}</option>
 
@@ -107,8 +141,12 @@ export default function VisitFilters({
             id="visit-filter-hospital"
             value={hospitalId}
             disabled={disabled}
-            onChange={(event) => setHospitalId(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            onChange={(event) => {
+              clearOtherFilters("hospital");
+
+              setHospitalId(event.target.value);
+            }}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="">{tr.visits.allHospitals}</option>
 
@@ -121,7 +159,7 @@ export default function VisitFilters({
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
         <Button
           type="button"
           disabled={disabled || !hasDraftFilter || isSameFilter}
@@ -138,6 +176,7 @@ export default function VisitFilters({
             onClick={handleClear}
           >
             <X className="size-4" />
+
             {tr.visits.clearFilters}
           </Button>
         )}

@@ -82,7 +82,7 @@ public class MedicalDocumentService {
 
         if (filterCount > 1) {
             throw new IllegalArgumentException(
-                    "Only one document filter can be used at a time"
+                    "Aynı anda yalnızca bir belge filtresi kullanılabilir!"
             );
         }
 
@@ -286,7 +286,7 @@ public class MedicalDocumentService {
             rollbackStoredFile(storedFile);
 
             throw new IllegalArgumentException(
-                    "Could not read uploaded file",
+                    "Yüklenen dosya okunamadı",
                     exception
             );
 
@@ -443,7 +443,7 @@ public class MedicalDocumentService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Imaging not found"
+                                "Görüntü bulunamadı"
                         )
                 );
     }
@@ -454,13 +454,13 @@ public class MedicalDocumentService {
 
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException(
-                    "File is required"
+                    "Dosya zorunludur"
             );
         }
 
         if (file.getSize() > MAX_FILE_SIZE) {
             throw new IllegalArgumentException(
-                    "File size cannot exceed 10 MB"
+                    "Dosya boyutu 10 MB'ı geçemez"
             );
         }
 
@@ -472,7 +472,7 @@ public class MedicalDocumentService {
                         || !ALLOWED_MIME_TYPES.contains(contentType)
         ) {
             throw new IllegalArgumentException(
-                    "Unsupported file type"
+                    "Desteklenmeyen dosya türü"
             );
         }
     }
@@ -483,13 +483,13 @@ public class MedicalDocumentService {
 
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException(
-                    "Document name is required"
+                    "Belge adı zorunludur"
             );
         }
 
         if (name.trim().length() > 255) {
             throw new IllegalArgumentException(
-                    "Document name cannot exceed 255 characters"
+                    "Belge adı en fazla 255 karakter olabilir"
             );
         }
     }

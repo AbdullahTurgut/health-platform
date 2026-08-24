@@ -18,20 +18,31 @@ public record UpdateImagingRequest(
 
         UUID hospitalId,
 
-        @NotNull(message = "Imaging type is required")
+        @NotNull(message = "Görüntüleme türü zorunludur")
         ImagingType type,
 
-        @Size(max = 150, message = "Body part cannot exceed 150 characters")
+        @Size(
+                max = 150,
+                message = "Vücut bölgesi en fazla 150 karakter olabilir"
+        )
         String bodyPart,
 
-        @NotNull(message = "Imaging date is required")
-        @PastOrPresent(message = "Imaging date cannot be in the future")
+        @NotNull(message = "Görüntüleme tarihi zorunludur")
+        @PastOrPresent(
+                message = "Görüntüleme tarihi gelecekte olamaz"
+        )
         Instant imagingDate,
 
-        @Size(max = 10000, message = "Report cannot exceed 10000 characters")
+        @Size(
+                max = 10000,
+                message = "Rapor en fazla 10000 karakter olabilir"
+        )
         String report,
 
-        @Size(max = 5000, message = "Notes cannot exceed 5000 characters")
+        @Size(
+                max = 5000,
+                message = "Notlar en fazla 5000 karakter olabilir"
+        )
         String notes
 
 ) {

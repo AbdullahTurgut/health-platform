@@ -65,7 +65,7 @@ public class ImagingService {
 
         if (filterCount > 1) {
             throw new IllegalArgumentException(
-                    "Only one imaging filter can be used at a time"
+                    "Aynı anda yalnızca bir görüntüleme filtresi kullanılabilir!"
             );
         }
 

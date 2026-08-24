@@ -641,13 +641,265 @@ export const tr = {
   },
 
   imaging: {
-    title: "Görüntüleme",
-    description: "MR, BT, röntgen ve diğer görüntüleme kayıtlarınızı yönetin.",
+    eyebrow: "Sağlık Kayıtları",
+
+    title: "Görüntüleme Kayıtları",
+
+    description:
+      "MR, BT, ultrason, röntgen ve diğer tıbbi görüntüleme kayıtlarınızı görüntüleyin ve yönetin.",
+
+    add: "Görüntüleme Ekle",
+
+    type: "Görüntüleme Türü",
+
+    bodyPart: "Vücut Bölgesi",
+
+    imagingDate: "Görüntüleme Tarihi",
+
+    disease: "Hastalık",
+
+    visit: "Ziyaret",
+
+    doctor: "Doktor",
+
+    hospital: "Hastane",
+
+    report: "Rapor",
+
+    notes: "Notlar",
+
+    diseaseUnknown: "Hastalık belirtilmemiş",
+
+    visitUnknown: "Ziyaret belirtilmemiş",
+
+    doctorUnknown: "Doktor belirtilmemiş",
+
+    hospitalUnknown: "Hastane belirtilmemiş",
+
+    bodyPartUnknown: "Vücut bölgesi belirtilmemiş",
+
+    emptyTitle: "Henüz görüntüleme kaydı yok",
+
+    emptyDescription:
+      "MR, BT, ultrason ve diğer görüntüleme kayıtlarınızı buradan ekleyebilirsiniz.",
+
+    loadError: "Görüntüleme kayıtları yüklenemedi",
+
+    filtersTitle: "Görüntüleme Kayıtlarını Filtrele",
+
+    filterHint: "Aynı anda yalnızca bir filtre kullanabilirsiniz.",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    allVisits: "Tüm Ziyaretler",
+
+    allDoctors: "Tüm Doktorlar",
+
+    allHospitals: "Tüm Hastaneler",
+
+    allTypes: "Tüm Görüntüleme Türleri",
+
+    bodyPartPlaceholder: "Örn. Bel, Diz, Beyin",
+
+    applyFilters: "Filtrele",
+
+    clearFilters: "Temizle",
+
+    filteredEmptyTitle: "Filtreye uygun görüntüleme kaydı bulunamadı",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz filtreyle eşleşen görüntüleme kaydı bulunmuyor.",
+
+    createTitle: "Yeni Görüntüleme Kaydı",
+
+    createDescription:
+      "MR, BT, ultrason, röntgen veya diğer görüntüleme bilgilerinizi kaydedin.",
+
+    selectDisease: "Hastalık Seçin",
+
+    selectVisit: "Ziyaret Seçin",
+
+    selectDoctor: "Doktor Seçin",
+
+    selectHospital: "Hastane Seçin",
+
+    noDisease: "Hastalık seçilmedi",
+
+    noVisit: "Ziyaret seçilmedi",
+
+    noDoctor: "Doktor seçilmedi",
+
+    noHospital: "Hastane seçilmedi",
+
+    selectType: "Görüntüleme Türü Seçin",
+
+    imagingDateLabel: "Görüntüleme Tarihi ve Saati",
+
+    reportPlaceholder: "Görüntüleme raporunun metnini buraya yazabilirsiniz.",
+
+    notesPlaceholder: "Görüntüleme kaydıyla ilgili ek notlar.",
+
+    cancel: "Vazgeç",
+
+    save: "Kaydet",
+
+    saving: "Kaydediliyor...",
+
+    preparing: "Hazırlanıyor...",
+
+    edit: "Düzenle",
+
+    editTitle: "Görüntüleme Kaydını Düzenle",
+
+    editDescription:
+      "Görüntüleme kaydının ilişkilerini ve detaylarını güncelleyin.",
+
+    update: "Güncelle",
+
+    updating: "Güncelleniyor...",
+
+    delete: "Sil",
+
+    deleteTitle: "Görüntüleme Kaydını Sil",
+
+    deleteDescription:
+      "Bu görüntüleme kaydını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+
+    deleteConfirm: "Kaydı Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteError: "Görüntüleme kaydı silinemedi",
   },
 
   documents: {
-    title: "Belgeler",
-    description: "Özel sağlık belgelerinizi yönetin.",
+    eyebrow: "Sağlık Kayıtları",
+
+    title: "Tıbbi Belgeler",
+
+    description:
+      "Laboratuvar raporları, görüntüleme raporları, reçeteler ve diğer sağlık belgelerinizi yönetin.",
+
+    upload: "Belge Yükle",
+
+    name: "Belge Adı",
+
+    documentType: "Belge Türü",
+
+    file: "Dosya",
+
+    disease: "Hastalık",
+
+    visit: "Ziyaret",
+
+    medicalTest: "Tıbbi Test",
+
+    imaging: "Görüntüleme",
+
+    fileName: "Dosya Adı",
+
+    fileSize: "Dosya Boyutu",
+
+    uploadedAt: "Yüklenme Tarihi",
+
+    download: "İndir",
+
+    delete: "Sil",
+
+    supportedFiles: "PDF, JPG, JPEG veya PNG",
+
+    maxFileSize: "Maksimum dosya boyutu 10 MB",
+
+    emptyTitle: "Henüz tıbbi belge yok",
+
+    emptyDescription: "Sağlık belgelerinizi buradan yükleyebilirsiniz.",
+
+    loadError: "Tıbbi belgeler yüklenemedi",
+
+    uploadTitle: "Yeni Tıbbi Belge Yükle",
+
+    uploadDescription:
+      "Belgenizi yükleyin ve isteğe bağlı olarak ilgili sağlık kayıtlarıyla ilişkilendirin.",
+
+    selectType: "Belge Türü Seçin",
+
+    selectDisease: "Hastalık Seçin",
+
+    selectVisit: "Ziyaret Seçin",
+
+    selectMedicalTest: "Tıbbi Test Seçin",
+
+    selectImaging: "Görüntüleme Seçin",
+
+    noDisease: "Hastalık seçilmedi",
+
+    noVisit: "Ziyaret seçilmedi",
+
+    noMedicalTest: "Tıbbi test seçilmedi",
+
+    noImaging: "Görüntüleme seçilmedi",
+
+    namePlaceholder: "Örn. 2026 Ağustos Kan Tahlili",
+
+    chooseFile: "Dosya Seçin",
+
+    fileRequired: "Bir dosya seçin.",
+
+    invalidFileType: "Yalnızca PDF, JPG, JPEG veya PNG dosyaları yüklenebilir.",
+
+    fileTooLarge: "Dosya boyutu 10 MB'ı geçemez.",
+
+    uploading: "Yükleniyor...",
+
+    save: "Yükle",
+
+    cancel: "Vazgeç",
+
+    preparing: "Hazırlanıyor...",
+
+    filtersTitle: "Tıbbi Belgeleri Filtrele",
+
+    filterHint: "Aynı anda yalnızca bir filtre kullanabilirsiniz.",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    allVisits: "Tüm Ziyaretler",
+
+    allMedicalTests: "Tüm Tıbbi Testler",
+
+    allImaging: "Tüm Görüntülemeler",
+
+    allDocumentTypes: "Tüm Belge Türleri",
+
+    nameFilter: "Belge Adı",
+
+    nameFilterPlaceholder: "Belge adına göre ara",
+
+    applyFilters: "Filtrele",
+
+    clearFilters: "Temizle",
+
+    filteredEmptyTitle: "Filtreye uygun belge bulunamadı",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz filtreyle eşleşen tıbbi belge bulunmuyor.",
+
+    downloadError: "Belge indirilemedi",
+
+    mimeType: "Dosya Türü",
+
+    downloading: "İndiriliyor...",
+
+    deleteTitle: "Tıbbi Belgeyi Sil",
+
+    deleteDescription:
+      "Bu belgeyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+
+    deleteConfirm: "Belgeyi Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteError: "Belge silinemedi",
   },
 
   medications: {

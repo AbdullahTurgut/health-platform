@@ -3,7 +3,7 @@
 **\*\*\\\*\\\*Project:\\\*\\\*\*\*** Health Platform  
 **\*\*\\\*\\\*Repository:\\\*\\\*\*\*** AbdullahTurgut/health-platform  
 **\*\*\\\*\\\*Status:\\\*\\\*\*\*** 🟡 Backend MVP Complete / Frontend Domain Integration In Progress  
-**\*\*\\\*\\\*Last Updated:\\\*\\\*\*\*** 22 August 2026
+**\*\*\\\*\\\*Last Updated:\\\*\\\*\*\*** 24 August 2026
 
 **\*\*---\*\***
 
@@ -1109,6 +1109,33 @@ Test Results:
 \- Parent isolation, stale result handling, ownership checks and child-only refresh
 \- Responsive dialogs, lint, build and console checks verified
 
+**\*\*## STEP 22 — Imaging + Medical Documents Frontend ✅\*\***
+
+Imaging:
+
+\- Real Imaging route, types, service layer and user-scoped list integration
+\- MRI / CT / ULTRASOUND / XRAY / PET / MAMMOGRAPHY / OTHER presentation with Turkish labels
+\- Single-filter UX aligned with backend Disease / Visit / Doctor / Hospital / Type / BodyPart contract
+\- Create / Edit / Delete flows with optional Disease / Visit / Doctor / Hospital relationships
+\- `datetime-local` ↔ UTC `Instant` handling with no timezone drift
+\- Filter-aware refresh, same-filter guard and filtered empty-state behavior
+\- Stale relation, nullable relation, cross-user injection and ownership checks
+\- Responsive UI, lint, build and console checks verified
+
+Medical Documents:
+
+\- Exact DocumentType frontend contract and Turkish labels
+\- Real `/api/documents` metadata list and single-filter UX for Disease / Visit / MedicalTest / Imaging / DocumentType / Name
+\- Partial case-insensitive document-name filtering with trim handling
+\- Authenticated multipart upload for PDF / JPEG / PNG with 10 MB frontend/backend validation
+\- Optional Disease / Visit / MedicalTest / Imaging relationships with ownership protection
+\- Authenticated Blob download using original file names and backend MIME types
+\- Delete confirmation flow with filter-aware refresh
+\- DB metadata + physical file lifecycle verified, including missing-file-safe delete behavior
+\- Upload rollback / orphan-file protection and private `storageKey` boundary preserved
+\- Stale document, cross-user download/delete and storage consistency regression verified
+\- Responsive list/filter/dialog UX, loading/error/empty states, lint, build and console checks verified
+
 **\*\*---\*\***
 
 **\*\*# 13. Current Milestones\*\***
@@ -1145,8 +1172,8 @@ Test Results:
 \\- [x] Hospital management frontend
 \\- [x] Visit management frontend
 \\- [x] Medical Test / Test Result frontend
-\\- [ ] Imaging management frontend
-\\- [ ] Medical Document upload/download frontend
+\\- [x] Imaging management frontend
+\\- [x] Medical Document upload/download frontend
 \\- [ ] Medication management frontend
 \\- [ ] Timeline UI
 \\- [ ] Global Search UI
@@ -1158,13 +1185,13 @@ Test Results:
 
 **\*\*# 14. Current Development Phase\*\***
 
-**\*\*\\*\\*Previous Phase:\\*\\*\*\*** STEP 21 — Medical Tests + Test Results Frontend ✅  
+**\*\*\\*\\*Previous Phase:\\*\\*\*\*** STEP 22 — Imaging + Medical Documents Frontend ✅  
 **\*\*\\*\\*Current Phase:\\*\\*\*\*** Frontend Domain Management Integration  
 **\*\*\\*\\*Current Step:\\*\\*\*\***
 
 \\`\\`\\`text
-STEP 22
-Imaging + Medical Documents Frontend
+STEP 23
+Medications Frontend
 \\`\\`\\`
 
 Backend MVP status:
@@ -1209,9 +1236,9 @@ Hospitals + Visits                ✅
       ↓
 Medical Tests + Test Results      ✅
       ↓
-Imaging + Medical Documents       ← NEXT
+Imaging + Medical Documents       ✅
       ↓
-Medications
+Medications                        ← NEXT
       ↓
 Timeline UI + Global Search UI
       ↓
@@ -1220,46 +1247,41 @@ Profile / Remaining MVP Polish
 
 **\*\*---\*\***
 
-**# 15. Next Immediate Task
+**# 15. Next Immediate Task**
 
-**## STEP 22 — Imaging + Medical Documents Frontend**
+**## STEP 23 — Medications Frontend**
 
 Planned order:
 
 ```text
-Imaging types + service layer
+Medication types + service layer
      ↓
-Imaging real list page
+Medication real list page
      ↓
-Imaging type / relation filters
+Status / name / Disease filtering aligned with backend contract
      ↓
-Create / Edit / Delete Imaging
+Create Medication
      ↓
-Medical Document types + service layer
+Edit Medication
      ↓
-Document metadata list
+Delete Medication
      ↓
-Authenticated file upload / download
+Date / nullable Disease / enum hardening
      ↓
-Document delete + storage consistency
-     ↓
-Relation-aware document UX
-     ↓
-CRUD / ownership / storage hardening
+Ownership / stale-resource / filter-aware CRUD regression
 ```
 
 Primary goals:
 
-\- Replace the Imaging placeholder with a real secure management screen
-\- Support optional Disease, Visit, Doctor and Hospital relationships for Imaging
-\- Keep ImagingType values aligned with MRI, CT, ULTRASOUND, XRAY, PET, MAMMOGRAPHY and OTHER
-\- Implement create, edit, delete, filtering and Turkish-first presentation for Imaging
-\- Connect Medical Documents to authenticated metadata and file-storage APIs
-\- Support PDF / JPEG / PNG upload, authenticated download and delete flows
-\- Preserve the existing 10 MB file-size and MIME-type restrictions
-\- Support optional Disease, Visit, MedicalTest and Imaging relationships for documents
-\- Verify DB + physical-file consistency, rollback behavior, ownership isolation and stale-resource handling
-\- Reuse established loading, validation, dialog, error and responsive patterns
+\- Replace the Medication placeholder with a real secure management screen
+\- Keep MedicationStatus and AdministrationRoute values aligned with the backend enums
+\- Support optional Disease relationships without allowing cross-user relation injection
+\- Implement create, edit, delete and backend-aligned filtering
+\- Preserve medication start/end-date validation and nullable-field behavior
+\- Reuse the established single-filter, same-filter guard and filter-aware refresh patterns where the backend contract requires them
+\- Keep all visible product text Turkish while API contracts and TypeScript identifiers remain English
+\- Verify loading, empty, validation, stale-resource, ownership and responsive states
+\- Finish with lint/build and API/DB regression before moving to Timeline + Global Search frontend
 
 **---**
 
@@ -1431,9 +1453,9 @@ Hospitals + Visits Frontend       ✅
         ↓
 Medical Tests + Test Results      ✅
         ↓
-Imaging + Medical Documents       ← NEXT
+Imaging + Medical Documents       ✅
         ↓
-Medications
+Medications                        ← NEXT
         ↓
 Timeline / Global Search UI
         ↓

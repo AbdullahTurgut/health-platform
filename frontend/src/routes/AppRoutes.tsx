@@ -15,6 +15,8 @@ import DoctorsPage from "@/pages/doctors/DoctorsPage";
 import HospitalsPage from "@/pages/hospitals/HospitalsPage";
 import VisitsPage from "@/pages/visits/VisitsPage";
 import MedicalTestsPage from "@/pages/medicalTests/MedicalTestsPage";
+import ImagingPage from "@/pages/imaging/ImagingPage";
+import MedicalDocumentsPage from "@/pages/documents/MedicalDocumentsPage";
 
 export default function AppRoutes() {
   return (
@@ -71,25 +73,9 @@ export default function AppRoutes() {
 
           <Route path="/tests" element={<MedicalTestsPage />} />
 
-          <Route
-            path="/imaging"
-            element={
-              <PlaceholderPage
-                title={tr.imaging.title}
-                description={tr.imaging.description}
-              />
-            }
-          />
+          <Route path="/imaging" element={<ImagingPage />} />
 
-          <Route
-            path="/documents"
-            element={
-              <PlaceholderPage
-                title={tr.documents.title}
-                description={tr.documents.description}
-              />
-            }
-          />
+          <Route path="/documents" element={<MedicalDocumentsPage />} />
 
           <Route
             path="/medications"
