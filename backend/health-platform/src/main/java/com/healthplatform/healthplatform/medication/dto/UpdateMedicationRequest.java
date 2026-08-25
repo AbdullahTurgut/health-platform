@@ -13,14 +13,14 @@ public record UpdateMedicationRequest(
 
         UUID diseaseId,
 
-        @NotBlank(message = "Medication name is required")
-        @Size(max = 200, message = "Medication name cannot exceed 200 characters")
+        @NotBlank(message = "İlaç adı zorunludur")
+        @Size(max = 200, message = "İlaç adı en fazla 200 karakter olabilir")
         String name,
 
-        @Size(max = 100, message = "Dosage cannot exceed 100 characters")
+        @Size(max = 100, message = "Doz bilgisi en fazla 100 karakter olabilir")
         String dosage,
 
-        @Size(max = 100, message = "Frequency cannot exceed 100 characters")
+        @Size(max = 100, message = "Kullanım sıklığı en fazla 100 karakter olabilir")
         String frequency,
 
         MedicationRoute route,
@@ -29,13 +29,13 @@ public record UpdateMedicationRequest(
 
         LocalDate endDate,
 
-        @NotNull(message = "Medication status is required")
+        @NotNull(message = "İlaç durumu zorunludur")
         MedicationStatus status,
 
-        @Size(max = 200, message = "Prescribed by cannot exceed 200 characters")
+        @Size(max = 200, message = "Reçete eden bilgisi en fazla 200 karakter olabilir")
         String prescribedBy,
 
-        @Size(max = 5000, message = "Notes cannot exceed 5000 characters")
+        @Size(max = 5000, message = "Notlar en fazla 5000 karakter olabilir")
         String notes
 
 ) {

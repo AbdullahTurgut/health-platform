@@ -56,7 +56,7 @@ public class MedicationService {
 
         if (filterCount > 1) {
             throw new IllegalArgumentException(
-                    "Only one medication filter can be used at a time"
+                    "Aynı anda yalnızca bir ilaç filtresi kullanılabilir"
             );
         }
 
@@ -334,7 +334,7 @@ public class MedicationService {
                         && endDate.isBefore(startDate)
         ) {
             throw new IllegalArgumentException(
-                    "End date cannot be before start date"
+                    "Bitiş tarihi başlangıç tarihinden önce olamaz"
             );
         }
     }

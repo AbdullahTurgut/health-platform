@@ -903,8 +903,107 @@ export const tr = {
   },
 
   medications: {
+    eyebrow: "Sağlık Kayıtları",
+
     title: "İlaçlar",
-    description: "Aktif ve geçmiş ilaç kayıtlarınızı takip edin.",
+
+    description:
+      "Kullandığınız ilaçları, doz bilgilerini ve kullanım geçmişinizi yönetin.",
+
+    create: "İlaç Ekle",
+
+    edit: "Düzenle",
+
+    delete: "Sil",
+
+    name: "İlaç Adı",
+
+    dosage: "Doz",
+
+    frequency: "Kullanım Sıklığı",
+
+    route: "Kullanım Yolu",
+
+    disease: "Hastalık",
+
+    status: "Durum",
+
+    startDate: "Başlangıç Tarihi",
+
+    endDate: "Bitiş Tarihi",
+
+    prescribedBy: "Reçete Eden",
+
+    notes: "Notlar",
+
+    selectDisease: "Hastalık Seçin",
+
+    noDisease: "Hastalık seçilmedi",
+
+    selectRoute: "Kullanım Yolu Seçin",
+
+    selectStatus: "Durum Seçin",
+
+    emptyTitle: "Henüz ilaç kaydı yok",
+
+    emptyDescription:
+      "Kullandığınız veya daha önce kullandığınız ilaçları buradan ekleyebilirsiniz.",
+
+    filteredEmptyTitle: "Filtreye uygun ilaç bulunamadı",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz filtreyle eşleşen ilaç kaydı bulunmuyor.",
+
+    loadError: "İlaç kayıtları yüklenemedi",
+
+    filtersTitle: "İlaçları Filtrele",
+
+    filterHint: "Aynı anda yalnızca bir filtre kullanabilirsiniz.",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    allStatuses: "Tüm Durumlar",
+
+    nameFilter: "İlaç Adı",
+
+    nameFilterPlaceholder: "İlaç adına göre ara",
+
+    applyFilters: "Filtrele",
+
+    clearFilters: "Temizle",
+
+    preparing: "Hazırlanıyor...",
+
+    saving: "Kaydediliyor...",
+
+    cancel: "Vazgeç",
+
+    createTitle: "Yeni İlaç Ekle",
+
+    createDescription:
+      "İlaç bilgilerini girin ve isteğe bağlı olarak ilgili hastalık kaydıyla ilişkilendirin.",
+
+    namePlaceholder: "Örn. Parol",
+
+    dosagePlaceholder: "Örn. 500 mg",
+
+    frequencyPlaceholder: "Örn. Günde 2 kez",
+
+    prescribedByPlaceholder: "Örn. Dr. Ayşe Demir",
+
+    notesPlaceholder: "İlaç kullanımıyla ilgili notlar...",
+
+    save: "Kaydet",
+
+    dateRangeError: "Bitiş tarihi başlangıç tarihinden önce olamaz",
+
+    editTitle: "İlaç Kaydını Düzenle",
+
+    editDescription: "İlaç bilgilerini ve kullanım durumunu güncelleyin.",
+
+    update: "Güncelle",
+
+    updating: "Güncelleniyor...",
   },
 
   placeholder: {
