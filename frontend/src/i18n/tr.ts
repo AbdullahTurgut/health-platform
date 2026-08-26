@@ -1004,6 +1004,17 @@ export const tr = {
     update: "Güncelle",
 
     updating: "Güncelleniyor...",
+
+    deleteTitle: "İlaç Kaydını Sil",
+
+    deleteDescription:
+      "Bu ilaç kaydını silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+
+    deleteConfirm: "İlaç Kaydını Sil",
+
+    deleting: "Siliniyor...",
+
+    deleteError: "İlaç kaydı silinemedi",
   },
 
   placeholder: {

@@ -5,6 +5,7 @@ import {
   Pencil,
   Pill,
   Stethoscope,
+  Trash2,
 } from "lucide-react";
 import { tr } from "@/i18n/tr";
 import {
@@ -20,13 +21,16 @@ type MedicationListProps = {
   isPreparingEdit?: boolean;
 
   onEdit: (medication: Medication) => void;
+
+  onDelete: (medication: Medication) => void;
 };
 
 export default function MedicationList({
   medications,
   isFiltered = false,
-  isPreparingEdit,
+  isPreparingEdit = false,
   onEdit,
+  onDelete,
 }: MedicationListProps) {
   if (medications.length === 0) {
     return (
@@ -139,7 +143,7 @@ export default function MedicationList({
               </p>
             </div>
           )}
-          <div className="mt-5 flex justify-end border-t pt-4">
+          <div className="mt-5 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:justify-end">
             <Button
               type="button"
               variant="outline"
@@ -150,6 +154,18 @@ export default function MedicationList({
               <Pencil className="size-4" />
 
               {tr.medications.edit}
+            </Button>
+
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              disabled={isPreparingEdit}
+              onClick={() => onDelete(medication)}
+            >
+              <Trash2 className="size-4" />
+
+              {tr.medications.delete}
             </Button>
           </div>
         </article>

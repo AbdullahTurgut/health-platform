@@ -7,7 +7,7 @@ import MedicationList from "@/components/medications/MedicationList";
 import { Button } from "@/components/ui/button";
 import CreateMedicationDialog from "@/components/medications/CreateMedicationDialog";
 import { tr } from "@/i18n/tr";
-
+import DeleteMedicationDialog from "@/components/medications/DeleteMedicationDialog";
 import { getDiseases } from "@/services/diseaseService";
 import { getMedications } from "@/services/medicationService";
 
@@ -37,6 +37,9 @@ export default function MedicationPage() {
     useState<Medication | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isPreparingEdit, setIsPreparingEdit] = useState(false);
+  const [medicationToDelete, setMedicationToDelete] =
+    useState<Medication | null>(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   useEffect(() => {
     let isCancelled = false;
@@ -261,6 +264,33 @@ export default function MedicationPage() {
       setIsLoading(false);
     }
   }
+
+  function handleDelete(medication: Medication) {
+    setMedicationToDelete(medication);
+
+    setIsDeleteOpen(true);
+  }
+
+  function handleDeleteOpenChange(open: boolean) {
+    setIsDeleteOpen(open);
+
+    if (!open) {
+      setMedicationToDelete(null);
+    }
+  }
+
+  async function handleDeleted() {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      await refreshMedications();
+    } catch (error) {
+      setError(getApiErrorMessage(error));
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -315,6 +345,7 @@ export default function MedicationPage() {
             isFiltered={isFiltered}
             isPreparingEdit={isPreparingEdit}
             onEdit={handleEdit}
+            onDelete={handleDelete}
           />
         )}
       </div>
@@ -333,6 +364,14 @@ export default function MedicationPage() {
         options={formOptions}
         onOpenChange={handleEditOpenChange}
         onUpdated={handleUpdated}
+      />
+
+      <DeleteMedicationDialog
+        key={medicationToDelete?.id ?? "no-medication-delete"}
+        medication={medicationToDelete}
+        open={isDeleteOpen}
+        onOpenChange={handleDeleteOpenChange}
+        onDeleted={handleDeleted}
       />
     </div>
   );
