@@ -2,7 +2,7 @@
 
 **\*\*\\\*\\\*Project:\\\*\\\*\*\*** Health Platform  
 **\*\*\\\*\\\*Repository:\\\*\\\*\*\*** AbdullahTurgut/health-platform  
-**\*\*\\\*\\\*Status:\\\*\\\*\*\*** 🟡 Backend MVP Complete / Frontend Domain Integration In Progress  
+**\*\*\\\*\\\*Status:\\\*\\\*\*\*** 🟡 Backend MVP Complete / Frontend MVP Polish In Progress  
 **\*\*\\\*\\\*Last Updated:\\\*\\\*\*\*** 26 August 2026
 
 **\*\*---\*\***
@@ -1109,7 +1109,7 @@ Test Results:
 \- Parent isolation, stale result handling, ownership checks and child-only refresh
 \- Responsive dialogs, lint, build and console checks verified
 
-**\*\*## STEP 23 — Medications Frontend ✅\*\***
+**\*\*## STEP 22 — Imaging + Medical Documents Frontend ✅\*\***
 
 Imaging:
 
@@ -1161,6 +1161,50 @@ Medical Documents:
 \- Full CRUD regression, API checks, console checks, lint and build verified
 
 
+**## STEP 24 — Timeline + Global Search Frontend ✅**
+
+Timeline:
+
+\- Exact `/api/timeline` contract reviewed and aligned with the frontend
+\- Unified Visit / MedicalTest / Imaging / MedicalDocument / Medication timeline integration
+\- Combined Type / Disease / From / To filtering
+\- Backend pagination contract integrated with page reset and boundary guards
+\- Local calendar-day filters converted safely to backend `Instant` ranges
+\- Medication `LocalDate` timeline entries rendered as date-only without artificial timezone time
+\- Event-specific Turkish presentation for Visit, TestCategory, ImagingType and DocumentType values
+\- Nullable Disease / subtitle / description handling
+\- Loading, empty, filtered-empty and controlled error states
+\- Ownership, foreign-Disease filter, pagination, date-range and responsive regression verified
+
+Global Search:
+
+\- Exact `/api/search` contract reviewed and aligned with the frontend
+\- Search across Disease / Doctor / Hospital / Visit / MedicalTest / TestResult / Imaging / MedicalDocument / Medication
+\- Required query validation with trim and 2–200 character limits
+\- Combined Type / Disease filters and backend pagination
+\- Backend relevance ordering and deduplication preserved without frontend re-sorting
+\- Centralized Turkish result-type presentation
+\- DiseaseStatus / TestCategory / ResultFlag / ImagingType / DocumentType mappings reused across search results
+\- TestResult subtitle hardening for malformed `null ...` presentation
+\- Nullable `eventDate` support and Medication date-only rendering
+\- Initial search state avoids unnecessary empty search requests
+\- Same-search guard, page reset, clear-state behavior and request-loop regression verified
+\- Ownership isolation, foreign-Disease filtering, responsive UI, console, lint and build checks verified
+
+STEP 24 final regression:
+
+\- Timeline and Search API regression green
+\- Combined filters green
+\- Pagination and out-of-range page handling green
+\- Ownership / cross-user isolation green
+\- Date / timezone behavior green
+\- Empty / loading / error / 401 behavior green
+\- No infinite GET loop
+\- 375 / 768 / 1024 / 1440 responsive checks green
+\- Accessibility mini-audit green
+\- `npm run lint` green
+\- `npm run build` green
+
 **\*\*---\*\***
 
 **\*\*# 13. Current Milestones\*\***
@@ -1200,8 +1244,8 @@ Medical Documents:
 \\- [x] Imaging management frontend
 \\- [x] Medical Document upload/download frontend
 \\- [x] Medication management frontend
-\\- [ ] Timeline UI
-\\- [ ] Global Search UI
+\\- [x] Timeline UI
+\\- [x] Global Search UI
 \\- [ ] User profile
 \\- [ ] Mobile application
 \\- [ ] AI layer
@@ -1215,8 +1259,8 @@ Medical Documents:
 **\*\*\\*\\*Current Step:\\*\\*\*\***
 
 \\`\\`\\`text
-STEP 24
-Timeline + Global Search Frontend
+STEP 25
+User Profile + Remaining MVP Polish
 \\`\\`\\`
 
 Backend MVP status:
@@ -1265,55 +1309,46 @@ Imaging + Medical Documents       ✅
       ↓
 Medications                        ✅
       ↓
-Timeline UI + Global Search UI     ← NEXT
+Timeline UI + Global Search UI     ✅
       ↓
-Profile / Remaining MVP Polish
+Profile / Remaining MVP Polish       ← NEXT
 ```
 
 **\*\*---\*\***
 
 **# 15. Next Immediate Task**
 
-**## STEP 24 — Timeline + Global Search Frontend**
+**## STEP 25 — User Profile + Remaining MVP Polish**
 
 Planned order:
 
 ```text
-Timeline backend contract review
+User Profile backend contract review
      ↓
-Timeline types + service layer
+Profile types + service layer
      ↓
-Real Timeline page
+Real Profile page
      ↓
-Timeline type / Disease / date filtering + pagination
+Profile edit / validation flow
      ↓
-Timeline presentation / event-type mapping / date handling
+Remaining MVP route / UI consistency polish
      ↓
-Global Search backend contract review
+Global loading / empty / error-state consistency audit
      ↓
-Search types + service layer
+Accessibility / responsive / console regression
      ↓
-Real Global Search page
-     ↓
-Type / Disease filtering + relevance + pagination
-     ↓
-Loading / empty / error / ownership / responsive hardening
-     ↓
-Final Timeline + Global Search regression
+Final frontend MVP regression
 ```
 
 Primary goals:
 
-\- Replace Timeline and Global Search placeholders with real secure backend integrations
-\- Preserve the backend Timeline aggregate read-model contract without introducing a generic frontend event model that loses domain meaning
-\- Support Timeline type / Disease / date filters and pagination exactly as defined by the backend
-\- Present Visit / MedicalTest / Imaging / MedicalDocument / Medication timeline events with Turkish user-facing labels
-\- Keep date and timestamp handling aligned with each backend field type and avoid timezone drift
-\- Connect Global Search to the existing user-scoped search API across supported health domains
-\- Preserve backend relevance ordering, type / Disease filters, deduplication and pagination behavior
-\- Keep search/timeline ownership isolation and foreign-resource filter protection intact
-\- Reuse established loading, empty, filtered-empty, error and responsive UX patterns where applicable
-\- Finish with lint/build, API regression, ownership checks and responsive verification before moving to Profile / Remaining MVP Polish
+\- Replace the User Profile placeholder with a real authenticated profile experience
+\- Review the existing backend User/Profile contract before implementing frontend writes
+\- Keep user-visible validation and status messaging Turkish-first
+\- Preserve centralized JWT / 401 behavior and avoid profile-specific auth duplication
+\- Reuse established form, loading, error and responsive patterns
+\- Audit remaining MVP screens for route, text, spacing and interaction consistency
+\- Finish with lint/build, API regression, responsive checks and documentation before declaring the web MVP feature-complete
 
 **---**
 
@@ -1489,9 +1524,9 @@ Imaging + Medical Documents       ✅
         ↓
 Medications                        ✅
         ↓
-Timeline / Global Search UI        ← NEXT
+Timeline / Global Search UI        ✅
         ↓
-Profile / MVP Polish
+Profile / MVP Polish                 ← NEXT
         ↓
 Mobile
         ↓
