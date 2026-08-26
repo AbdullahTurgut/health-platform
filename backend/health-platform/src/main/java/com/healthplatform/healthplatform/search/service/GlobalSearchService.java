@@ -16,7 +16,6 @@ import com.healthplatform.healthplatform.medicaltest.repository.MedicalTestRepos
 import com.healthplatform.healthplatform.medicaltest.repository.TestResultRepository;
 import com.healthplatform.healthplatform.medication.entity.Medication;
 import com.healthplatform.healthplatform.medication.repository.MedicationRepository;
-import com.healthplatform.healthplatform.search.dto.GlobalSearchResponse;
 import com.healthplatform.healthplatform.search.dto.SearchPageResponse;
 import com.healthplatform.healthplatform.search.dto.SearchResultItem;
 import com.healthplatform.healthplatform.search.model.SearchResultType;

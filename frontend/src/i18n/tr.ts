@@ -69,13 +69,99 @@ export const tr = {
   },
 
   timeline: {
-    title: "Sağlık Geçmişi",
-    description: "Sağlık kayıtlarınızı kronolojik sırayla görüntüleyin.",
+    eyebrow: "Sağlık Geçmişi",
+
+    title: "Zaman Çizelgesi",
+
+    description:
+      "Ziyaretlerinizi, testlerinizi, görüntüleme kayıtlarınızı, belgelerinizi ve ilaç geçmişinizi kronolojik olarak görüntüleyin.",
+
+    filtersTitle: "Zaman Çizelgesini Filtrele",
+
+    type: "Kayıt Türü",
+
+    disease: "Hastalık",
+
+    from: "Başlangıç Tarihi",
+
+    to: "Bitiş Tarihi",
+
+    allTypes: "Tüm Kayıt Türleri",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    applyFilters: "Filtrele",
+
+    clearFilters: "Temizle",
+
+    loadError: "Zaman çizelgesi yüklenemedi",
+
+    emptyTitle: "Henüz zaman çizelgesi kaydı yok",
+
+    emptyDescription:
+      "Sağlık kayıtları eklendikçe burada kronolojik olarak görüntülenecek.",
+
+    filteredEmptyTitle: "Filtreye uygun kayıt bulunamadı",
+
+    filteredEmptyDescription:
+      "Seçtiğiniz filtrelerle eşleşen zaman çizelgesi kaydı bulunmuyor.",
+
+    dateRangeError: "Başlangıç tarihi bitiş tarihinden sonra olamaz",
+
+    previousPage: "Önceki",
+
+    nextPage: "Sonraki",
   },
 
   search: {
-    title: "Ara",
-    description: "Kişisel sağlık kayıtlarınız arasında arama yapın.",
+    eyebrow: "Sağlık Kayıtları",
+
+    title: "Global Arama",
+
+    description:
+      "Hastalıklarınız, doktorlarınız, ziyaretleriniz, testleriniz, görüntüleme kayıtlarınız, belgeleriniz ve ilaçlarınız arasında arama yapın.",
+
+    searchLabel: "Arama",
+
+    searchPlaceholder: "Örn. kan, migren, Parol, kardiyoloji...",
+
+    searchButton: "Ara",
+
+    type: "Kayıt Türü",
+
+    allTypes: "Tüm Kayıt Türleri",
+
+    disease: "Hastalık",
+
+    allDiseases: "Tüm Hastalıklar",
+
+    clearFilters: "Filtreleri Temizle",
+
+    minimumQueryError: "Arama için en az 2 karakter girin.",
+
+    maximumQueryError: "Arama metni en fazla 200 karakter olabilir.",
+
+    loadError: "Arama sonuçları yüklenemedi.",
+
+    emptyTitle: "Sonuç bulunamadı",
+
+    emptyDescription:
+      "Arama kriterlerinizle eşleşen bir sağlık kaydı bulunamadı.",
+
+    initialTitle: "Sağlık kayıtlarınızda arama yapın",
+
+    initialDescription:
+      "Arama yapmak için yukarıdaki alana en az 2 karakter girin.",
+
+    results: "sonuç",
+
+    relevance: "İlgililik",
+
+    previousPage: "Önceki",
+
+    nextPage: "Sonraki",
+
+    page: "Sayfa",
   },
 
   hospitals: {

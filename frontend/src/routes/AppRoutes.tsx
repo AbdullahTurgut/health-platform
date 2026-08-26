@@ -18,7 +18,8 @@ import MedicalTestsPage from "@/pages/medicalTests/MedicalTestsPage";
 import ImagingPage from "@/pages/imaging/ImagingPage";
 import MedicalDocumentsPage from "@/pages/documents/MedicalDocumentsPage";
 import MedicationPage from "@/pages/medications/MedicationPage";
-
+import TimelinePage from "@/pages/timeline/TimelinePage";
+import SearchPage from "@/pages/search/SearchPage";
 export default function AppRoutes() {
   return (
     <Routes>
@@ -34,25 +35,9 @@ export default function AppRoutes() {
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
 
-          <Route
-            path="/timeline"
-            element={
-              <PlaceholderPage
-                title={tr.timeline.title}
-                description={tr.timeline.description}
-              />
-            }
-          />
+          <Route path="/timeline" element={<TimelinePage />} />
 
-          <Route
-            path="/search"
-            element={
-              <PlaceholderPage
-                title={tr.search.title}
-                description={tr.search.description}
-              />
-            }
-          />
+          <Route path="/search" element={<SearchPage />} />
 
           <Route path="/diseases" element={<DiseasesPage />} />
 

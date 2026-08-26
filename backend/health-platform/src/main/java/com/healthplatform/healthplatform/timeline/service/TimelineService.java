@@ -408,7 +408,7 @@ public class TimelineService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Disease not found"
+                                "Hastalık bulunamadı"
                         )
                 );
     }
@@ -424,7 +424,7 @@ public class TimelineService {
                         && from.isAfter(to)
         ) {
             throw new IllegalArgumentException(
-                    "From date cannot be after to date"
+                    "Başlangıç tarihi bitiş tarihinden sonra olamaz"
             );
         }
     }
