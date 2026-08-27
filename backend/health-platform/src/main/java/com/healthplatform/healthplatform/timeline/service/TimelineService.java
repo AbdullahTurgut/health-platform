@@ -381,13 +381,13 @@ public class TimelineService {
 
         if (page < 0) {
             throw new IllegalArgumentException(
-                    "Page cannot be negative"
+                    "Sayfa negatif olamaz"
             );
         }
 
         if (size < 1 || size > MAX_PAGE_SIZE) {
             throw new IllegalArgumentException(
-                    "Size must be between 1 and 100"
+                    "Boyut 1 ile 100 arasında olmalıdır"
             );
         }
     }

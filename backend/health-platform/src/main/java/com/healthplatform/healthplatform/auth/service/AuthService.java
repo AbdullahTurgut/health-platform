@@ -38,7 +38,7 @@ public class AuthService {
 
         if (userRepository.existsByEmail(normalizedEmail)) {
             throw new ResourceAlreadyExistsException(
-                    "An account with this email already exists"
+                    "Bu e-posta adresiyle zaten bir hesap mevcut"
             );
         }
 

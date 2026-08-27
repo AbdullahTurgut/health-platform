@@ -14,6 +14,8 @@ export const tr = {
     dashboard: "Dashboard",
     timeline: "Zaman Akışı",
     search: "Arama",
+    profile: "Profilim",
+
     diseases: "Hastalıklar",
     doctors: "Doktorlar",
     hospitals: "Hastaneler",
@@ -162,6 +164,58 @@ export const tr = {
     nextPage: "Sonraki",
 
     page: "Sayfa",
+  },
+
+  profile: {
+    eyebrow: "Hesap",
+
+    title: "Profilim",
+
+    description: "Kişisel bilgilerinizi görüntüleyin ve güncelleyin.",
+
+    personalInfo: "Kişisel Bilgiler",
+
+    accountInfo: "Hesap Bilgileri",
+
+    firstName: "Ad",
+
+    lastName: "Soyad",
+
+    email: "E-posta",
+
+    dateOfBirth: "Doğum Tarihi",
+
+    accountStatus: "Hesap Durumu",
+
+    active: "Aktif",
+
+    inactive: "Pasif",
+
+    createdAt: "Hesap Oluşturulma Tarihi",
+
+    updatedAt: "Son Güncelleme",
+
+    edit: "Profili Düzenle",
+
+    save: "Kaydet",
+
+    cancel: "İptal",
+
+    loadError: "Profil bilgileri yüklenemedi.",
+
+    updateSuccess: "Profil bilgileri güncellendi.",
+
+    updateError: "Profil bilgileri güncellenemedi.",
+
+    firstNameRequired: "Ad zorunludur.",
+
+    lastNameRequired: "Soyad zorunludur.",
+
+    nameMaxLength: "Ad ve soyad en fazla 100 karakter olabilir.",
+
+    futureDateError: "Doğum tarihi gelecekte olamaz.",
+
+    emailReadOnly: "E-posta adresi bu ekrandan değiştirilemez.",
   },
 
   hospitals: {

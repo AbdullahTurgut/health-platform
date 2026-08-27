@@ -71,7 +71,7 @@ public class DoctorService {
                 .findById(userId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "User not found"
+                                "Kullanıcı bulunamadı"
                         )
                 );
 
@@ -164,7 +164,7 @@ public class DoctorService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Doctor not found"
+                                "Doktor bulunamadı"
                         )
                 );
     }

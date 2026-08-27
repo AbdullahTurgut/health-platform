@@ -289,7 +289,7 @@ public class VisitService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Disease not found"
+                                "Hastalık tespit edilmedi"
                         )
                 );
     }
@@ -310,7 +310,7 @@ public class VisitService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Doctor not found"
+                                "Doktor bulunamadı"
                         )
                 );
     }

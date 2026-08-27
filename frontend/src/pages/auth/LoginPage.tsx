@@ -65,7 +65,7 @@ export default function LoginPage() {
             id="email"
             type="email"
             autoComplete="email"
-            placeholder="you@example.com"
+            placeholder="siz@örnek.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             disabled={isSubmitting}
@@ -80,7 +80,7 @@ export default function LoginPage() {
             id="password"
             type="password"
             autoComplete="current-password"
-            placeholder="Enter your password"
+            placeholder="Şifrenizi giriniz"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             disabled={isSubmitting}

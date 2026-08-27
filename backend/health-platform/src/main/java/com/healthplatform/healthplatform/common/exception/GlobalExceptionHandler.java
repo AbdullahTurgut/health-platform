@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 status.getReasonPhrase(),
-                "Validation failed",
+                "Doğrulama başarısız old",
                 request.getRequestURI(),
                 validationErrors
         );
@@ -111,7 +111,7 @@ public class GlobalExceptionHandler {
     ) {
 
         log.error(
-                "Unhandled error while processing request: {}",
+                "İstek işlenirken ele alınmamış bir hata oluştu: {}",
                 request.getRequestURI(),
                 exception
         );
@@ -124,7 +124,7 @@ public class GlobalExceptionHandler {
                         Instant.now(),
                         status.value(),
                         status.getReasonPhrase(),
-                        "An unexpected error occurred",
+                        "Beklenmeyen bir hata oluştu",
                         request.getRequestURI(),
                         null
                 );
@@ -141,7 +141,7 @@ public class GlobalExceptionHandler {
     ) {
 
         log.warn(
-                "Data integrity violation while processing request: {}",
+                "İstek işlenirken veri bütünlüğü ihlali meydana geldi: {}",
                 request.getRequestURI()
         );
 
@@ -151,7 +151,7 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 status.getReasonPhrase(),
-                "The request conflicts with existing data",
+                "Talep, mevcut verilerle çelişiyor",
                 request.getRequestURI(),
                 null
         );
@@ -174,7 +174,7 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 status.getReasonPhrase(),
-                "Invalid email or password",
+                "Geçersiz e-posta veya şifre",
                 request.getRequestURI(),
                 null
         );
@@ -196,7 +196,7 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 status.getReasonPhrase(),
-                "Request body is invalid or contains unsupported values",
+                "İstek gövdesi geçersiz veya desteklenmeyen değerler içeriyor",
                 request.getRequestURI(),
                 null
         );
@@ -218,7 +218,7 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 status.value(),
                 status.getReasonPhrase(),
-                "Request parameter has an invalid value",
+                "İstek parametresinin geçersiz bir değeri var",
                 request.getRequestURI(),
                 null
         );
@@ -235,7 +235,7 @@ public class GlobalExceptionHandler {
     ) {
 
         log.error(
-                "File storage error while processing request: {}",
+                "İstek işlenirken dosya depolama hatası oluştu: {}",
                 request.getRequestURI(),
                 exception
         );
@@ -248,7 +248,7 @@ public class GlobalExceptionHandler {
                         Instant.now(),
                         status.value(),
                         status.getReasonPhrase(),
-                        "A file storage error occurred",
+                        "Dosya depolama hatası oluştu",
                         request.getRequestURI(),
                         null
                 );
@@ -272,7 +272,7 @@ public class GlobalExceptionHandler {
                         Instant.now(),
                         status.value(),
                         status.getReasonPhrase(),
-                        "File size cannot exceed 10 MB",
+                        "Dosya boyutu 10 MB'ı geçemez",
                         request.getRequestURI(),
                         null
                 );
@@ -298,7 +298,7 @@ public class GlobalExceptionHandler {
                         Instant.now(),
                         status.value(),
                         status.getReasonPhrase(),
-                        "Required request parameter is missing",
+                        "Gerekli istek parametresi eksik",
                         request.getRequestURI(),
                         null
                 );
@@ -336,7 +336,7 @@ public class GlobalExceptionHandler {
                         Instant.now(),
                         status.value(),
                         status.getReasonPhrase(),
-                        "Validation failed",
+                        "Doğrulama başarısız oldu",
                         request.getRequestURI(),
                         validationErrors
                 );

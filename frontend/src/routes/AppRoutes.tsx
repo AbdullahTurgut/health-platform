@@ -1,15 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import { tr } from "@/i18n/tr";
+
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import PublicOnlyRoute from "@/auth/PublicOnlyRoute";
+
 import AppLayout from "@/layouts/AppLayout";
 import AuthLayout from "@/layouts/AuthLayout";
+
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
+
 import DashboardPage from "@/pages/dashboard/DashboardPage";
-import NotFoundPage from "@/pages/NotFoundPage";
-import RootRedirect from "@/routes/RootRedirect";
-import PlaceholderPage from "@/pages/PlaceholderPage";
 import DiseasesPage from "@/pages/diseases/DiseasesPage";
 import DoctorsPage from "@/pages/doctors/DoctorsPage";
 import HospitalsPage from "@/pages/hospitals/HospitalsPage";
@@ -20,6 +20,12 @@ import MedicalDocumentsPage from "@/pages/documents/MedicalDocumentsPage";
 import MedicationPage from "@/pages/medications/MedicationPage";
 import TimelinePage from "@/pages/timeline/TimelinePage";
 import SearchPage from "@/pages/search/SearchPage";
+import ProfilePage from "@/pages/profile/ProfilePage";
+
+import NotFoundPage from "@/pages/NotFoundPage";
+
+import RootRedirect from "@/routes/RootRedirect";
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -47,16 +53,6 @@ export default function AppRoutes() {
 
           <Route path="/visits" element={<VisitsPage />} />
 
-          <Route
-            path="/visits"
-            element={
-              <PlaceholderPage
-                title={tr.visits.title}
-                description={tr.visits.description}
-              />
-            }
-          />
-
           <Route path="/tests" element={<MedicalTestsPage />} />
 
           <Route path="/imaging" element={<ImagingPage />} />
@@ -64,6 +60,8 @@ export default function AppRoutes() {
           <Route path="/documents" element={<MedicalDocumentsPage />} />
 
           <Route path="/medications" element={<MedicationPage />} />
+
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Route>
 

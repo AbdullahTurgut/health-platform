@@ -241,7 +241,7 @@ public class MedicalTestService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Medical test not found"
+                                "Medikal test bulunamadı"
                         )
                 );
     }
@@ -262,7 +262,7 @@ public class MedicalTestService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Disease not found"
+                                "Hastalık bulunamadı"
                         )
                 );
     }
@@ -283,7 +283,7 @@ public class MedicalTestService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Visit not found"
+                                "Ziyaret bulunamadı"
                         )
                 );
     }

@@ -7,11 +7,11 @@ import java.util.Locale;
 
 public record LoginRequest(
 
-        @NotBlank(message = "Email is required")
-        @Email(message = "Email format is invalid")
+        @NotBlank(message = "E-posta adresi gereklidir")
+        @Email(message = "E-posta formatı geçersiz")
         String email,
 
-        @NotBlank(message = "Password is required")
+        @NotBlank(message = "Şifre gereklidir")
         String password
 
 ) {

@@ -10,6 +10,7 @@ import {
   Search,
   Stethoscope,
   TestTube2,
+  UserRound,
 } from "lucide-react";
 
 import { tr } from "@/i18n/tr";
@@ -29,6 +30,11 @@ export const mainNavigation = [
     label: tr.navigation.search,
     to: "/search",
     icon: Search,
+  },
+  {
+    label: tr.navigation.profile,
+    to: "/profile",
+    icon: UserRound,
   },
 ];
 

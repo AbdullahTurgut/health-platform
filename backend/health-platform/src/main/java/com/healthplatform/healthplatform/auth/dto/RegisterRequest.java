@@ -9,28 +9,28 @@ import java.time.LocalDate;
 
 public record RegisterRequest(
 
-        @NotBlank(message = "First name is required")
-        @Size(max = 100, message = "First name cannot exceed 100 characters")
+        @NotBlank(message = "Adının belirtilmesi zorunludur")
+        @Size(max = 100, message = "İsim 100 karakteri geçemez")
         String firstName,
 
-        @NotBlank(message = "Last name is required")
-        @Size(max = 100, message = "Last name cannot exceed 100 characters")
+        @NotBlank(message = "Soyad belirtilmesi zorunludur")
+        @Size(max = 100, message = "Soyadı 100 karakteri geçemez")
         String lastName,
 
-        @NotBlank(message = "Email is required")
-        @Email(message = "Email format is invalid")
-        @Size(max = 255, message = "Email cannot exceed 255 characters")
+        @NotBlank(message = "E-posta adresi gereklidir")
+        @Email(message = "E-posta formatı geçersiz")
+        @Size(max = 255, message = "E-posta 255 karakteri geçemez")
         String email,
 
-        @NotBlank(message = "Password is required")
+        @NotBlank(message = "Şifre gereklidir")
         @Size(
                 min = 8,
                 max = 72,
-                message = "Password must be between 8 and 72 characters"
+                message = "Parola 8 ile 72 karakter arasında olmalıdır"
         )
         String password,
 
-        @Past(message = "Date of birth must be in the past")
+        @Past(message = "Doğum tarihi geçmiş bir tarih olmalıdır")
         LocalDate dateOfBirth
 
 ) {

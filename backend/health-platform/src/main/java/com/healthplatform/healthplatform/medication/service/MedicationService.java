@@ -297,7 +297,7 @@ public class MedicationService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Medication not found"
+                                "İlaç bulunamadı"
                         )
                 );
     }
@@ -318,7 +318,7 @@ public class MedicationService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Disease not found"
+                                "Hastalık tespit edilmedi"
                         )
                 );
     }

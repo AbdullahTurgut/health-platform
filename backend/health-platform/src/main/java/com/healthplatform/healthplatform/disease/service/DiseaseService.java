@@ -77,7 +77,7 @@ public class DiseaseService {
                 .findById(userId)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "User not found"
+                                "Kullanıcı bulunamadı"
                         )
                 );
 
@@ -157,7 +157,7 @@ public class DiseaseService {
                 )
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Disease not found"
+                                "Hastalık tespit edilmedi"
                         )
                 );
     }
