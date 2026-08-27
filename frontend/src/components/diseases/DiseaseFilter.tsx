@@ -38,24 +38,45 @@ export default function DiseaseFilter({
   disabled = false,
 }: DiseaseFilterProps) {
   return (
-    <div>
-      <p className="mb-2 text-xs font-medium text-muted-foreground">
-        {tr.diseases.filterLabel}
-      </p>
+    <div className="space-y-3">
+      <div>
+        <p className="text-sm font-medium text-foreground">
+          {tr.diseases.filterLabel}
+        </p>
 
-      <div className="flex flex-wrap gap-2">
-        {filters.map((filter) => (
-          <Button
-            key={filter.value}
-            type="button"
-            size="sm"
-            variant={value === filter.value ? "default" : "outline"}
-            disabled={disabled}
-            onClick={() => onChange(filter.value)}
-          >
-            {filter.label}
-          </Button>
-        ))}
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          Kayıtları durumlarına göre görüntüleyin.
+        </p>
+      </div>
+
+      <div
+        className="
+          flex
+          flex-wrap
+          gap-2
+        "
+      >
+        {filters.map((filter) => {
+          const isActive = value === filter.value;
+
+          return (
+            <Button
+              key={filter.value}
+              type="button"
+              size="sm"
+              variant={isActive ? "default" : "outline"}
+              disabled={disabled}
+              aria-pressed={isActive}
+              onClick={() => onChange(filter.value)}
+              className="
+                min-w-fit
+                rounded-lg
+              "
+            >
+              {filter.label}
+            </Button>
+          );
+        })}
       </div>
     </div>
   );

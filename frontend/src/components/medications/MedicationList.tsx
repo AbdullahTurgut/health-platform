@@ -7,21 +7,20 @@ import {
   Stethoscope,
   Trash2,
 } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { tr } from "@/i18n/tr";
 import {
   medicationRouteLabels,
   medicationStatusLabels,
 } from "@/lib/medication";
 import type { Medication } from "@/types/medication";
-import { Button } from "@/components/ui/button";
 
 type MedicationListProps = {
   medications: Medication[];
   isFiltered?: boolean;
   isPreparingEdit?: boolean;
-
   onEdit: (medication: Medication) => void;
-
   onDelete: (medication: Medication) => void;
 };
 
@@ -34,18 +33,40 @@ export default function MedicationList({
 }: MedicationListProps) {
   if (medications.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed bg-card p-10 text-center">
-        <div className="mx-auto flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div
+        className="
+          rounded-xl
+          border
+          border-dashed
+          border-border
+          bg-card
+          px-6
+          py-12
+          text-center
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            size-11
+            items-center
+            justify-center
+            rounded-xl
+            bg-primary/10
+            text-primary
+          "
+        >
           <Pill className="size-5" />
         </div>
 
-        <h2 className="mt-4 font-semibold">
+        <h2 className="mt-4 text-base font-semibold tracking-tight text-foreground">
           {isFiltered
             ? tr.medications.filteredEmptyTitle
             : tr.medications.emptyTitle}
         </h2>
 
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
           {isFiltered
             ? tr.medications.filteredEmptyDescription
             : tr.medications.emptyDescription}
@@ -53,24 +74,63 @@ export default function MedicationList({
       </div>
     );
   }
+
   return (
     <div className="space-y-4">
       {medications.map((medication) => (
         <article
           key={medication.id}
-          className="rounded-2xl border bg-card p-5 shadow-sm"
+          className="
+            group
+            rounded-xl
+            border
+            border-border
+            bg-card
+            p-5
+            shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+            transition-[border-color,box-shadow]
+            duration-150
+            hover:border-primary/20
+            hover:shadow-[0_8px_24px_rgba(15,23,42,0.05)]
+            sm:p-6
+          "
         >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div
+            className="
+              flex
+              flex-col
+              gap-4
+              sm:flex-row
+              sm:items-start
+              sm:justify-between
+            "
+          >
             <div className="flex min-w-0 items-start gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <div
+                className="
+                  flex
+                  size-10
+                  shrink-0
+                  items-center
+                  justify-center
+                  rounded-xl
+                  bg-primary/10
+                  text-primary
+                  transition-colors
+                  duration-150
+                  group-hover:bg-primary/15
+                "
+              >
                 <Pill className="size-5" />
               </div>
 
               <div className="min-w-0">
-                <h2 className="break-words font-semibold">{medication.name}</h2>
+                <h2 className="break-words text-base font-semibold tracking-tight text-foreground">
+                  {medication.name}
+                </h2>
 
                 {medication.dosage && (
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-1.5 text-sm leading-5 text-muted-foreground">
                     {medication.dosage}
                   </p>
                 )}
@@ -83,7 +143,7 @@ export default function MedicationList({
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {medication.frequency && (
               <MedicationInfo
-                icon={<CircleDot className="size-4" />}
+                icon={CircleDot}
                 label={tr.medications.frequency}
                 value={medication.frequency}
               />
@@ -91,7 +151,7 @@ export default function MedicationList({
 
             {medication.route && (
               <MedicationInfo
-                icon={<Pill className="size-4" />}
+                icon={Pill}
                 label={tr.medications.route}
                 value={medicationRouteLabels[medication.route]}
               />
@@ -99,7 +159,7 @@ export default function MedicationList({
 
             {medication.diseaseName && (
               <MedicationInfo
-                icon={<Stethoscope className="size-4" />}
+                icon={Stethoscope}
                 label={tr.medications.disease}
                 value={medication.diseaseName}
               />
@@ -107,7 +167,7 @@ export default function MedicationList({
 
             {medication.startDate && (
               <MedicationInfo
-                icon={<CalendarDays className="size-4" />}
+                icon={CalendarDays}
                 label={tr.medications.startDate}
                 value={formatLocalDate(medication.startDate)}
               />
@@ -115,7 +175,7 @@ export default function MedicationList({
 
             {medication.endDate && (
               <MedicationInfo
-                icon={<CalendarDays className="size-4" />}
+                icon={CalendarDays}
                 label={tr.medications.endDate}
                 value={formatLocalDate(medication.endDate)}
               />
@@ -123,7 +183,7 @@ export default function MedicationList({
 
             {medication.prescribedBy && (
               <MedicationInfo
-                icon={<Stethoscope className="size-4" />}
+                icon={Stethoscope}
                 label={tr.medications.prescribedBy}
                 value={medication.prescribedBy}
               />
@@ -131,19 +191,32 @@ export default function MedicationList({
           </div>
 
           {medication.notes && (
-            <div className="mt-4 rounded-xl bg-muted/40 p-4">
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <FileText className="size-4" />
+            <div className="mt-5 border-t border-border pt-5">
+              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                <FileText className="size-4 text-primary/70" />
 
                 {tr.medications.notes}
               </div>
 
-              <p className="mt-2 whitespace-pre-wrap break-words text-sm">
+              <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-muted-foreground">
                 {medication.notes}
               </p>
             </div>
           )}
-          <div className="mt-5 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:justify-end">
+
+          <div
+            className="
+              mt-5
+              flex
+              flex-wrap
+              items-center
+              justify-end
+              gap-2
+              border-t
+              border-border
+              pt-4
+            "
+          >
             <Button
               type="button"
               variant="outline"
@@ -176,38 +249,58 @@ export default function MedicationList({
 
 function StatusBadge({ status }: { status: Medication["status"] }) {
   const classes: Record<Medication["status"], string> = {
-    ACTIVE: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-    COMPLETED: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
-    DISCONTINUED: "bg-red-500/10 text-red-700 dark:text-red-400",
-    PAUSED: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
+    ACTIVE: "border-primary/20 bg-primary/10 text-primary",
+    COMPLETED: "border-border bg-muted/60 text-muted-foreground",
+    DISCONTINUED: "border-destructive/20 bg-destructive/10 text-destructive",
+    PAUSED:
+      "border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-400",
   };
 
   return (
     <span
-      className={`w-fit rounded-full px-3 py-1 text-xs font-medium ${classes[status]}`}
+      className={`
+        w-fit
+        shrink-0
+        rounded-full
+        border
+        px-2.5
+        py-1
+        text-xs
+        font-medium
+        ${classes[status]}
+      `}
     >
       {medicationStatusLabels[status]}
     </span>
   );
 }
 
-function MedicationInfo({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
+type MedicationInfoProps = {
+  icon: typeof Pill;
   label: string;
   value: string;
-}) {
+};
+
+function MedicationInfo({ icon: Icon, label, value }: MedicationInfoProps) {
   return (
-    <div className="rounded-xl bg-muted/40 p-3">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        {icon}
+    <div
+      className="
+        rounded-xl
+        border
+        border-border/70
+        bg-muted/30
+        p-3.5
+      "
+    >
+      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <Icon className="size-4 shrink-0 text-primary/70" />
+
         {label}
       </div>
 
-      <p className="mt-1 break-words text-sm font-medium">{value}</p>
+      <p className="mt-2 break-words text-sm font-medium text-foreground">
+        {value}
+      </p>
     </div>
   );
 }

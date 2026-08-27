@@ -4,6 +4,13 @@ import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { tr } from "@/i18n/tr";
 
 import type {
@@ -17,7 +24,6 @@ type VisitFiltersProps = {
   disabled?: boolean;
 
   onApply: (filters: VisitFilterValues) => void;
-
   onClear: () => void;
 };
 
@@ -29,16 +35,12 @@ export default function VisitFilters({
   onClear,
 }: VisitFiltersProps) {
   const [diseaseId, setDiseaseId] = useState(value.diseaseId ?? "");
-
   const [doctorId, setDoctorId] = useState(value.doctorId ?? "");
-
   const [hospitalId, setHospitalId] = useState(value.hospitalId ?? "");
 
   const currentFilters: VisitFilterValues = {
     ...(diseaseId ? { diseaseId } : {}),
-
     ...(doctorId ? { doctorId } : {}),
-
     ...(hospitalId ? { hospitalId } : {}),
   };
 
@@ -67,6 +69,27 @@ export default function VisitFilters({
     }
   }
 
+  function handleDiseaseChange(nextValue: string | null) {
+    const normalizedValue = nextValue ?? "";
+
+    clearOtherFilters("disease");
+    setDiseaseId(normalizedValue);
+  }
+
+  function handleDoctorChange(nextValue: string | null) {
+    const normalizedValue = nextValue ?? "";
+
+    clearOtherFilters("doctor");
+    setDoctorId(normalizedValue);
+  }
+
+  function handleHospitalChange(nextValue: string | null) {
+    const normalizedValue = nextValue ?? "";
+
+    clearOtherFilters("hospital");
+    setHospitalId(normalizedValue);
+  }
+
   function handleClear() {
     setDiseaseId("");
     setDoctorId("");
@@ -76,92 +99,128 @@ export default function VisitFilters({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-4">
+    <div className="space-y-5">
       <div>
-        <h2 className="font-semibold">{tr.visits.filtersTitle}</h2>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.visits.filtersTitle}
+        </h2>
 
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
           {tr.imaging.filterHint}
         </p>
       </div>
 
-      <div className="mt-5 grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="visit-filter-disease">{tr.visits.disease}</Label>
 
-          <select
-            id="visit-filter-disease"
-            value={diseaseId}
+          <Select
+            value={diseaseId || null}
+            onValueChange={handleDiseaseChange}
             disabled={disabled}
-            onChange={(event) => {
-              clearOtherFilters("disease");
-
-              setDiseaseId(event.target.value);
-            }}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="">{tr.visits.allDiseases}</option>
+            <SelectTrigger id="visit-filter-disease" className="w-full">
+              <SelectValue>
+                {diseaseId
+                  ? options.diseases.find((disease) => disease.id === diseaseId)
+                      ?.name
+                  : tr.visits.allDiseases}
+              </SelectValue>
+            </SelectTrigger>
 
-            {options.diseases.map((disease) => (
-              <option key={disease.id} value={disease.id}>
-                {disease.name}
-              </option>
-            ))}
-          </select>
+            <SelectContent>
+              <SelectItem value="">{tr.visits.allDiseases}</SelectItem>
+
+              {options.diseases.map((disease) => (
+                <SelectItem key={disease.id} value={disease.id}>
+                  {disease.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="visit-filter-doctor">{tr.visits.doctor}</Label>
 
-          <select
-            id="visit-filter-doctor"
-            value={doctorId}
+          <Select
+            value={doctorId || null}
+            onValueChange={handleDoctorChange}
             disabled={disabled}
-            onChange={(event) => {
-              clearOtherFilters("doctor");
-
-              setDoctorId(event.target.value);
-            }}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="">{tr.visits.allDoctors}</option>
+            <SelectTrigger id="visit-filter-doctor" className="w-full">
+              <SelectValue>
+                {doctorId
+                  ? options.doctors.find((doctor) => doctor.id === doctorId)
+                      ?.name
+                  : tr.visits.allDoctors}
+              </SelectValue>
+            </SelectTrigger>
 
-            {options.doctors.map((doctor) => (
-              <option key={doctor.id} value={doctor.id}>
-                {doctor.name}
-              </option>
-            ))}
-          </select>
+            <SelectContent>
+              <SelectItem value="">{tr.visits.allDoctors}</SelectItem>
+
+              {options.doctors.map((doctor) => (
+                <SelectItem key={doctor.id} value={doctor.id}>
+                  {doctor.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="visit-filter-hospital">{tr.visits.hospital}</Label>
 
-          <select
-            id="visit-filter-hospital"
-            value={hospitalId}
+          <Select
+            value={hospitalId || null}
+            onValueChange={handleHospitalChange}
             disabled={disabled}
-            onChange={(event) => {
-              clearOtherFilters("hospital");
-
-              setHospitalId(event.target.value);
-            }}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="">{tr.visits.allHospitals}</option>
+            <SelectTrigger id="visit-filter-hospital" className="w-full">
+              <SelectValue>
+                {hospitalId
+                  ? options.hospitals.find(
+                      (hospital) => hospital.id === hospitalId,
+                    )?.name
+                  : tr.visits.allHospitals}
+              </SelectValue>
+            </SelectTrigger>
 
-            {options.hospitals.map((hospital) => (
-              <option key={hospital.id} value={hospital.id}>
-                {hospital.name}
-              </option>
-            ))}
-          </select>
+            <SelectContent>
+              <SelectItem value="">{tr.visits.allHospitals}</SelectItem>
+
+              {options.hospitals.map((hospital) => (
+                <SelectItem key={hospital.id} value={hospital.id}>
+                  {hospital.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {hasDraftFilter && (
+        <p className="text-xs text-muted-foreground">
+          {tr.visits.singleFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={disabled || !hasDraftFilter || isSameFilter}
           onClick={() => onApply(currentFilters)}
         >
@@ -172,6 +231,7 @@ export default function VisitFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >

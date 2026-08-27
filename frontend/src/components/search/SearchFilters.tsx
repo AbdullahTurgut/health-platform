@@ -29,9 +29,29 @@ type SearchFiltersProps = {
   disabled?: boolean;
 
   onSearch: (filters: SearchFilterDraft) => void;
-
   onClear: () => void;
 };
+
+const selectClassName = `
+  h-10
+  w-full
+  rounded-lg
+  border
+  border-input
+  bg-card
+  px-3
+  text-sm
+  text-foreground
+  outline-none
+  transition-[color,background-color,border-color,box-shadow]
+  duration-150
+  focus-visible:border-primary
+  focus-visible:ring-3
+  focus-visible:ring-primary/10
+  disabled:cursor-not-allowed
+  disabled:bg-muted
+  disabled:opacity-70
+`;
 
 export default function SearchFilters({
   value,
@@ -82,35 +102,77 @@ export default function SearchFilters({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border bg-card p-4">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)]">
-        <div className="space-y-2">
-          <Label htmlFor="global-search-query">{tr.search.searchLabel}</Label>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.search.filtersTitle}
+        </h2>
 
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          {tr.search.filterHint}
+        </p>
+      </div>
 
-            <input
-              id="global-search-query"
-              type="search"
-              value={query}
-              maxLength={SEARCH_MAX_QUERY_LENGTH}
-              disabled={disabled}
-              placeholder={tr.search.searchPlaceholder}
-              onChange={(event) => setQuery(event.target.value)}
-              className="flex h-10 w-full rounded-md border border-input bg-transparent py-2 pl-9 pr-3 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
-            />
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="global-search-query">{tr.search.searchLabel}</Label>
 
-          {normalizedQuery.length > 0 && !isQueryValid && (
-            <p role="alert" className="text-sm text-destructive">
-              {normalizedQuery.length < 2
-                ? tr.search.minimumQueryError
-                : tr.search.maximumQueryError}
-            </p>
-          )}
+        <div className="relative">
+          <Search
+            className="
+              pointer-events-none
+              absolute
+              top-1/2
+              left-3.5
+              size-5
+              -translate-y-1/2
+              text-muted-foreground
+            "
+            aria-hidden="true"
+          />
+
+          <input
+            id="global-search-query"
+            type="search"
+            value={query}
+            maxLength={SEARCH_MAX_QUERY_LENGTH}
+            disabled={disabled}
+            placeholder={tr.search.searchPlaceholder}
+            onChange={(event) => setQuery(event.target.value)}
+            className="
+              h-12
+              w-full
+              rounded-xl
+              border
+              border-input
+              bg-card
+              pr-4
+              pl-11
+              text-base
+              text-foreground
+              outline-none
+              transition-[border-color,box-shadow]
+              duration-150
+              placeholder:text-muted-foreground
+              focus-visible:border-primary
+              focus-visible:ring-3
+              focus-visible:ring-primary/10
+              disabled:cursor-not-allowed
+              disabled:bg-muted
+              disabled:opacity-70
+            "
+          />
         </div>
 
+        {normalizedQuery.length > 0 && !isQueryValid && (
+          <p role="alert" className="text-sm text-destructive">
+            {normalizedQuery.length < 2
+              ? tr.search.minimumQueryError
+              : tr.search.maximumQueryError}
+          </p>
+        )}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="global-search-type">{tr.search.type}</Label>
 
@@ -121,7 +183,7 @@ export default function SearchFilters({
             onChange={(event) =>
               setType(event.target.value as SearchResultType | "")
             }
-            className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.search.allTypes}</option>
 
@@ -141,7 +203,7 @@ export default function SearchFilters({
             value={diseaseId}
             disabled={disabled}
             onChange={(event) => setDiseaseId(event.target.value)}
-            className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.search.allDiseases}</option>
 
@@ -154,12 +216,31 @@ export default function SearchFilters({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {(type || diseaseId) && (
+        <p className="text-xs leading-5 text-muted-foreground">
+          {tr.search.combinedFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="submit"
+          className="w-full sm:w-auto"
           disabled={disabled || !isQueryValid || isSameSearch}
         >
           <Search className="size-4" />
+
           {tr.search.searchButton}
         </Button>
 
@@ -167,10 +248,12 @@ export default function SearchFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >
             <X className="size-4" />
+
             {tr.search.clearFilters}
           </Button>
         )}

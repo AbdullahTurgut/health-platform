@@ -355,30 +355,62 @@ export default function ImagingPage() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-sm font-medium text-primary">
+    <section className="space-y-6">
+      <header
+        className="
+        flex
+        flex-col
+        gap-5
+        sm:flex-row
+        sm:items-end
+        sm:justify-between
+      "
+      >
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold tracking-tight text-primary">
             {tr.imaging.eyebrow}
           </p>
 
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h1
+            className="
+            mt-2
+            text-3xl
+            font-semibold
+            tracking-tight
+            text-foreground
+            sm:text-[2rem]
+          "
+          >
             {tr.imaging.title}
           </h1>
 
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
             {tr.imaging.description}
           </p>
         </div>
 
-        <Button onClick={handleOpenCreate} disabled={isPreparingCreate}>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={handleOpenCreate}
+          disabled={isPreparingCreate}
+        >
           <Plus className="size-4" />
 
           {isPreparingCreate ? tr.imaging.preparing : tr.imaging.add}
         </Button>
-      </div>
+      </header>
 
-      <div className="mt-8">
+      <div
+        className="
+        rounded-xl
+        border
+        border-border
+        bg-card
+        p-4
+        shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        sm:p-5
+      "
+      >
         <ImagingFilters
           value={filters}
           options={filterOptions}
@@ -388,35 +420,36 @@ export default function ImagingPage() {
         />
       </div>
 
-      <div className="mt-6">
-        {isLoading ? (
-          <div className="space-y-4">
-            {Array.from({
-              length: 3,
-            }).map((_, index) => (
-              <div
-                key={index}
-                className="h-72 animate-pulse rounded-2xl border bg-muted/40"
-              />
-            ))}
-          </div>
-        ) : error ? (
-          <div
-            role="alert"
-            className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 text-sm text-destructive"
-          >
-            {error ?? tr.imaging.loadError}
-          </div>
-        ) : (
-          <ImagingList
-            records={records}
-            isFiltered={isFiltered}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            isPreparingEdit={isPreparingEdit}
-          />
-        )}
-      </div>
+      {error ? (
+        <div
+          role="alert"
+          className="
+          rounded-xl
+          border
+          border-destructive/20
+          bg-destructive/5
+          p-5
+        "
+        >
+          <p className="text-sm font-medium text-destructive">
+            {tr.imaging.loadError}
+          </p>
+
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {error}
+          </p>
+        </div>
+      ) : isLoading ? (
+        <ImagingLoading />
+      ) : (
+        <ImagingList
+          records={records}
+          isFiltered={isFiltered}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          isPreparingEdit={isPreparingEdit}
+        />
+      )}
 
       <CreateImagingDialog
         open={isCreateOpen}
@@ -441,6 +474,26 @@ export default function ImagingPage() {
         onOpenChange={handleDeleteOpenChange}
         onDeleted={handleDeleted}
       />
+    </section>
+  );
+}
+
+function ImagingLoading() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div
+          key={index}
+          className="
+            h-80
+            animate-pulse
+            rounded-xl
+            border
+            border-border
+            bg-card
+          "
+        />
+      ))}
     </div>
   );
 }

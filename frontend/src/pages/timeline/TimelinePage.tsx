@@ -180,22 +180,41 @@ export default function TimelinePage() {
   }
 
   return (
-    <div>
-      <div>
-        <p className="text-sm font-medium text-primary">
+    <section className="space-y-6">
+      <header className="max-w-2xl">
+        <p className="text-sm font-semibold tracking-tight text-primary">
           {tr.timeline.eyebrow}
         </p>
 
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h1
+          className="
+          mt-2
+          text-3xl
+          font-semibold
+          tracking-tight
+          text-foreground
+          sm:text-[2rem]
+        "
+        >
           {tr.timeline.title}
         </h1>
 
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+        <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
           {tr.timeline.description}
         </p>
-      </div>
+      </header>
 
-      <div className="mt-8">
+      <div
+        className="
+        rounded-xl
+        border
+        border-border
+        bg-card
+        p-4
+        shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        sm:p-5
+      "
+      >
         <TimelineFilters
           value={filters}
           options={filterOptions}
@@ -205,47 +224,93 @@ export default function TimelinePage() {
         />
       </div>
 
-      <div className="mt-6">
-        {isLoading ? (
-          <TimelineSkeleton />
-        ) : error ? (
-          <div
-            role="alert"
-            className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 text-sm text-destructive"
-          >
-            {error || tr.timeline.loadError}
-          </div>
-        ) : (
-          <>
-            <TimelineList events={timeline.content} isFiltered={isFiltered} />
+      {error ? (
+        <div
+          role="alert"
+          className="
+          rounded-xl
+          border
+          border-destructive/20
+          bg-destructive/5
+          p-5
+        "
+        >
+          <p className="text-sm font-medium text-destructive">
+            {tr.timeline.loadError}
+          </p>
 
-            <div className="mt-6">
-              <TimelinePagination
-                page={timeline.page}
-                totalPages={timeline.totalPages}
-                first={timeline.first}
-                last={timeline.last}
-                disabled={isLoading}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {error}
+          </p>
+        </div>
+      ) : isLoading ? (
+        <TimelineSkeleton />
+      ) : (
+        <div className="space-y-6">
+          <TimelineList events={timeline.content} isFiltered={isFiltered} />
+
+          <TimelinePagination
+            page={timeline.page}
+            totalPages={timeline.totalPages}
+            first={timeline.first}
+            last={timeline.last}
+            disabled={isLoading}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
+    </section>
   );
 }
 
 function TimelineSkeleton() {
   return (
-    <div className="space-y-4">
-      {Array.from({
-        length: 5,
-      }).map((_, index) => (
+    <div className="relative space-y-0 pl-7 sm:pl-9">
+      <div
+        className="
+          absolute
+          top-5
+          bottom-5
+          left-[11px]
+          w-px
+          bg-border
+          sm:left-[15px]
+        "
+      />
+
+      {Array.from({ length: 5 }).map((_, index) => (
         <div
           key={index}
-          className="h-40 animate-pulse rounded-2xl border bg-muted/40"
-        />
+          className="
+            relative
+            border-b
+            border-border
+            py-5
+            first:pt-0
+            last:border-b-0
+          "
+        >
+          <div
+            className="
+              absolute
+              top-6
+              -left-[27px]
+              size-3
+              animate-pulse
+              rounded-full
+              bg-muted
+              sm:-left-[31px]
+            "
+          />
+
+          <div className="space-y-3">
+            <div className="h-5 w-52 animate-pulse rounded-md bg-muted" />
+
+            <div className="h-4 w-72 max-w-full animate-pulse rounded-md bg-muted" />
+
+            <div className="h-16 animate-pulse rounded-xl bg-muted/60" />
+          </div>
+        </div>
       ))}
     </div>
   );

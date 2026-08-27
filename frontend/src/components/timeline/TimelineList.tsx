@@ -25,16 +25,38 @@ export default function TimelineList({
 }: TimelineListProps) {
   if (events.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed bg-card p-10 text-center">
-        <div className="mx-auto flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div
+        className="
+          rounded-xl
+          border
+          border-dashed
+          border-border
+          bg-card
+          px-6
+          py-12
+          text-center
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            size-11
+            items-center
+            justify-center
+            rounded-xl
+            bg-primary/10
+            text-primary
+          "
+        >
           <CalendarDays className="size-5" />
         </div>
 
-        <h2 className="mt-4 font-semibold">
+        <h2 className="mt-4 text-base font-semibold tracking-tight text-foreground">
           {isFiltered ? tr.timeline.filteredEmptyTitle : tr.timeline.emptyTitle}
         </h2>
 
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
           {isFiltered
             ? tr.timeline.filteredEmptyDescription
             : tr.timeline.emptyDescription}
@@ -44,88 +66,189 @@ export default function TimelineList({
   }
 
   return (
-    <div className="space-y-4">
-      {events.map((event) => {
-        const presentation = getTimelinePresentation(event);
+    <div
+      className="
+        relative
+        rounded-xl
+        border
+        border-border
+        bg-card
+        px-5
+        shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        sm:px-6
+      "
+    >
+      <div
+        className="
+          absolute
+          top-8
+          bottom-8
+          left-[31px]
+          w-px
+          bg-border
+          sm:left-[35px]
+        "
+        aria-hidden="true"
+      />
 
-        return (
-          <article
-            key={`${event.type}-${event.id}`}
-            className="rounded-2xl border bg-card p-5 shadow-sm"
-          >
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex min-w-0 items-start gap-3">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <TimelineIcon type={event.type} />
-                </div>
+      <div>
+        {events.map((event, index) => {
+          const presentation = getTimelinePresentation(event);
 
+          return (
+            <article
+              key={`${event.type}-${event.id}`}
+              className={[
+                "relative pl-9 py-6 sm:pl-11",
+                index !== events.length - 1 ? "border-b border-border" : "",
+              ].join(" ")}
+            >
+              <div
+                className="
+                  absolute
+                  top-6
+                  left-0
+                  z-10
+                  flex
+                  size-7
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-primary/20
+                  bg-card
+                  text-primary
+                  shadow-sm
+                "
+              >
+                <TimelineIcon type={event.type} />
+              </div>
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  gap-3
+                  sm:flex-row
+                  sm:items-start
+                  sm:justify-between
+                "
+              >
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="break-words font-semibold">
+                    <h2
+                      className="
+                        break-words
+                        text-base
+                        font-semibold
+                        tracking-tight
+                        text-foreground
+                      "
+                    >
                       {presentation.title}
                     </h2>
 
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-medium ${getEventTypeBadgeClass(
-                        event.type,
-                      )}`}
-                    >
-                      {timelineEventTypeLabels[event.type]}
-                    </span>
+                    <EventTypeBadge type={event.type} />
                   </div>
 
                   {presentation.subtitle && (
-                    <p className="mt-1 break-words text-sm text-muted-foreground">
+                    <p className="mt-1.5 break-words text-sm leading-5 text-muted-foreground">
                       {presentation.subtitle}
                     </p>
                   )}
                 </div>
+
+                <time
+                  dateTime={event.eventDate}
+                  className="
+                    shrink-0
+                    text-xs
+                    font-medium
+                    text-muted-foreground
+                    sm:pt-1
+                  "
+                >
+                  {formatTimelineEventDate(event)}
+                </time>
               </div>
 
-              <time
-                dateTime={event.eventDate}
-                className="shrink-0 text-sm text-muted-foreground"
-              >
-                {formatTimelineEventDate(event)}
-              </time>
-            </div>
+              {event.diseaseName && (
+                <div className="mt-3">
+                  <span
+                    className="
+                      inline-flex
+                      max-w-full
+                      items-center
+                      rounded-full
+                      border
+                      border-border
+                      bg-muted/50
+                      px-2.5
+                      py-1
+                      text-xs
+                      text-muted-foreground
+                    "
+                  >
+                    <span className="mr-1 font-medium text-foreground">
+                      {tr.timeline.disease}:
+                    </span>
 
-            {event.diseaseName && (
-              <div className="mt-4">
-                <span className="inline-flex rounded-full bg-muted px-3 py-1 text-xs font-medium">
-                  {tr.timeline.disease}: {event.diseaseName}
-                </span>
-              </div>
-            )}
+                    <span className="truncate">{event.diseaseName}</span>
+                  </span>
+                </div>
+              )}
 
-            {presentation.description && (
-              <div className="mt-4 rounded-xl bg-muted/40 p-4">
-                <p className="whitespace-pre-wrap break-words text-sm leading-6">
-                  {presentation.description}
-                </p>
-              </div>
-            )}
-          </article>
-        );
-      })}
+              {presentation.description && (
+                <div
+                  className="
+                    mt-4
+                    rounded-xl
+                    border
+                    border-border/70
+                    bg-muted/30
+                    p-4
+                  "
+                >
+                  <p
+                    className="
+                      whitespace-pre-wrap
+                      break-words
+                      text-sm
+                      leading-6
+                      text-muted-foreground
+                    "
+                  >
+                    {presentation.description}
+                  </p>
+                </div>
+              )}
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-function getEventTypeBadgeClass(type: TimelineEventType) {
-  const classes: Record<TimelineEventType, string> = {
-    VISIT: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
-
-    MEDICAL_TEST: "bg-violet-500/10 text-violet-700 dark:text-violet-400",
-
-    IMAGING: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-400",
-
-    DOCUMENT: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
-
-    MEDICATION: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  };
-
-  return classes[type];
+function EventTypeBadge({ type }: { type: TimelineEventType }) {
+  return (
+    <span
+      className="
+        inline-flex
+        rounded-full
+        border
+        border-border
+        bg-muted/60
+        px-2.5
+        py-1
+        text-xs
+        font-medium
+        text-muted-foreground
+      "
+    >
+      {timelineEventTypeLabels[type]}
+    </span>
+  );
 }
 
 function formatTimelineEventDate(event: TimelineEvent) {
@@ -145,18 +268,18 @@ function formatTimelineEventDate(event: TimelineEvent) {
 function TimelineIcon({ type }: { type: TimelineEventType }) {
   switch (type) {
     case "VISIT":
-      return <Stethoscope className="size-5" />;
+      return <Stethoscope className="size-3.5" />;
 
     case "MEDICAL_TEST":
-      return <FlaskConical className="size-5" />;
+      return <FlaskConical className="size-3.5" />;
 
     case "IMAGING":
-      return <ImageIcon className="size-5" />;
+      return <ImageIcon className="size-3.5" />;
 
     case "DOCUMENT":
-      return <FileText className="size-5" />;
+      return <FileText className="size-3.5" />;
 
     case "MEDICATION":
-      return <Pill className="size-5" />;
+      return <Pill className="size-3.5" />;
   }
 }

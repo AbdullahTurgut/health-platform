@@ -12,6 +12,7 @@ type DoctorFilterProps = {
   onClear: () => void;
   disabled?: boolean;
 };
+
 export default function DoctorFilter({
   value,
   onApply,
@@ -21,7 +22,6 @@ export default function DoctorFilter({
   const [inputValue, setInputValue] = useState(value);
 
   const normalizedInput = inputValue.trim();
-
   const isSameFilter = normalizedInput === value;
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -40,14 +40,31 @@ export default function DoctorFilter({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border bg-card p-4">
-      <Label htmlFor="specialization-filter">
-        {tr.doctors.specializationFilter}
-      </Label>
+    <form onSubmit={handleSubmit} className="space-y-3">
+      <div>
+        <Label htmlFor="specialization-filter">
+          {tr.doctors.specializationFilter}
+        </Label>
 
-      <div className="mt-2 flex flex-col gap-2 sm:flex-row">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          {tr.doctors.specializationFilterDescription}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="relative min-w-0 flex-1">
+          <Search
+            className="
+              pointer-events-none
+              absolute
+              top-1/2
+              left-3
+              size-4
+              -translate-y-1/2
+              text-muted-foreground
+            "
+            aria-hidden="true"
+          />
 
           <Input
             id="specialization-filter"
@@ -62,8 +79,11 @@ export default function DoctorFilter({
 
         <Button
           type="submit"
+          className="w-full sm:w-auto"
           disabled={disabled || !normalizedInput || isSameFilter}
         >
+          <Search className="size-4" />
+
           {tr.doctors.applyFilter}
         </Button>
 
@@ -71,6 +91,7 @@ export default function DoctorFilter({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >
@@ -80,6 +101,13 @@ export default function DoctorFilter({
           </Button>
         )}
       </div>
+
+      {value && (
+        <p className="text-xs text-muted-foreground">
+          {tr.doctors.activeSpecializationFilter}:{" "}
+          <span className="font-medium text-foreground">{value}</span>
+        </p>
+      )}
     </form>
   );
 }

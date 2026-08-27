@@ -1,34 +1,38 @@
 import { useEffect, useState } from "react";
-
 import { Plus } from "lucide-react";
 
 import { getApiErrorMessage } from "@/api/apiError";
+
+import CreateMedicalTestDialog from "@/components/medicalTests/CreateMedicalTestDialog";
+import DeleteMedicalTestDialog from "@/components/medicalTests/DeleteMedicalTestDialog";
+import EditMedicalTestDialog from "@/components/medicalTests/EditMedicalTestDialog";
 import MedicalTestFilters from "@/components/medicalTests/MedicalTestFilters";
 import MedicalTestList from "@/components/medicalTests/MedicalTestList";
+
+import CreateTestResultDialog from "@/components/testResults/CreateTestResultDialog";
+import DeleteTestResultDialog from "@/components/testResults/DeleteTestResultDialog";
+import EditTestResultDialog from "@/components/testResults/EditTestResultDialog";
+import TestResultHistoryDialog from "@/components/testResults/TestResultHistoryDialog";
+import TestResultsDialog from "@/components/testResults/TestResultsDialog";
+
 import { Button } from "@/components/ui/button";
+
 import { tr } from "@/i18n/tr";
+
 import { getDiseases } from "@/services/diseaseService";
 import {
   deleteMedicalTest,
   getMedicalTests,
   updateMedicalTest,
 } from "@/services/medicalTestService";
-import { getVisits } from "@/services/visitService";
-import CreateMedicalTestDialog from "@/components/medicalTests/CreateMedicalTestDialog";
-import EditMedicalTestDialog from "@/components/medicalTests/EditMedicalTestDialog";
-import DeleteMedicalTestDialog from "@/components/medicalTests/DeleteMedicalTestDialog";
-import CreateTestResultDialog from "@/components/testResults/CreateTestResultDialog";
-import TestResultsDialog from "@/components/testResults/TestResultsDialog";
-import TestResultHistoryDialog from "@/components/testResults/TestResultHistoryDialog";
 import {
   deleteTestResult,
   getTestResultHistory,
   getTestResults,
   updateTestResult,
 } from "@/services/testResultService";
-import type { TestResult, UpdateTestResultRequest } from "@/types/testResult";
-import EditTestResultDialog from "@/components/testResults/EditTestResultDialog";
-import DeleteTestResultDialog from "@/components/testResults/DeleteTestResultDialog";
+import { getVisits } from "@/services/visitService";
+
 import type {
   MedicalTest,
   MedicalTestFilterOptions,
@@ -36,6 +40,7 @@ import type {
   MedicalTestFormOptions,
   UpdateMedicalTestRequest,
 } from "@/types/medicalTest";
+import type { TestResult, UpdateTestResultRequest } from "@/types/testResult";
 
 function formatVisitOption(visitDate: string) {
   return new Intl.DateTimeFormat("tr-TR", {
@@ -46,9 +51,7 @@ function formatVisitOption(visitDate: string) {
 
 export default function MedicalTestsPage() {
   const [tests, setTests] = useState<MedicalTest[]>([]);
-
   const [isLoading, setIsLoading] = useState(true);
-
   const [error, setError] = useState<string | null>(null);
 
   const [filters, setFilters] = useState<MedicalTestFilterValues>({});
@@ -57,30 +60,45 @@ export default function MedicalTestsPage() {
     diseases: [],
     visits: [],
   });
+
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isPreparingCreate, setIsPreparingCreate] = useState(false);
+
   const [formOptions, setFormOptions] = useState<MedicalTestFormOptions>({
     diseases: [],
     visits: [],
   });
+
   const [selectedMedicalTest, setSelectedMedicalTest] =
     useState<MedicalTest | null>(null);
+
   const [isEditOpen, setIsEditOpen] = useState(false);
+
   const [selectedDeleteTest, setSelectedDeleteTest] =
     useState<MedicalTest | null>(null);
+
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   const [selectedResultsTest, setSelectedResultsTest] =
     useState<MedicalTest | null>(null);
+
   const [testResults, setTestResults] = useState<TestResult[]>([]);
+
   const [isResultsOpen, setIsResultsOpen] = useState(false);
   const [isResultsLoading, setIsResultsLoading] = useState(false);
+
   const [resultsError, setResultsError] = useState<string | null>(null);
+
   const [isCreateResultOpen, setIsCreateResultOpen] = useState(false);
+
   const [selectedEditResult, setSelectedEditResult] =
     useState<TestResult | null>(null);
+
   const [isEditResultOpen, setIsEditResultOpen] = useState(false);
+
   const [selectedDeleteResult, setSelectedDeleteResult] =
     useState<TestResult | null>(null);
+
   const [isDeleteResultOpen, setIsDeleteResultOpen] = useState(false);
 
   const [historyParameter, setHistoryParameter] = useState<string | null>(null);
@@ -88,7 +106,6 @@ export default function MedicalTestsPage() {
   const [historyResults, setHistoryResults] = useState<TestResult[]>([]);
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-
   const [isHistoryLoading, setIsHistoryLoading] = useState(false);
 
   const [historyError, setHistoryError] = useState<string | null>(null);
@@ -132,23 +149,25 @@ export default function MedicalTestsPage() {
           getVisits(),
         ]);
 
-        if (!isCancelled) {
-          setFilterOptions({
-            diseases: diseases
-              .map((disease) => ({
-                id: disease.id,
-                name: disease.name,
-              }))
-              .sort((a, b) => a.name.localeCompare(b.name, "tr")),
-
-            visits: visits
-              .map((visit) => ({
-                id: visit.id,
-                label: formatVisitOption(visit.visitDate),
-              }))
-              .sort((a, b) => a.label.localeCompare(b.label, "tr")),
-          });
+        if (isCancelled) {
+          return;
         }
+
+        setFilterOptions({
+          diseases: diseases
+            .map((disease) => ({
+              id: disease.id,
+              name: disease.name,
+            }))
+            .sort((a, b) => a.name.localeCompare(b.name, "tr")),
+
+          visits: visits
+            .map((visit) => ({
+              id: visit.id,
+              label: formatVisitOption(visit.visitDate),
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label, "tr")),
+        });
       } catch {
         // Test listesi çalışmaya devam edebilir.
         // Filter option'ları ayrı concern.
@@ -186,6 +205,12 @@ export default function MedicalTestsPage() {
     return options;
   }
 
+  async function refreshMedicalTests() {
+    const response = await getMedicalTests(filters);
+
+    setTests(response);
+  }
+
   async function handleOpenCreate() {
     try {
       setIsPreparingCreate(true);
@@ -199,12 +224,6 @@ export default function MedicalTestsPage() {
     } finally {
       setIsPreparingCreate(false);
     }
-  }
-
-  async function refreshMedicalTests() {
-    const response = await getMedicalTests(filters);
-
-    setTests(response);
   }
 
   async function handleCreated() {
@@ -295,6 +314,7 @@ export default function MedicalTestsPage() {
     setSelectedDeleteTest(test);
     setIsDeleteOpen(true);
   }
+
   function handleDeleteOpenChange(open: boolean) {
     setIsDeleteOpen(open);
 
@@ -326,18 +346,18 @@ export default function MedicalTestsPage() {
     }
   }
 
+  async function loadTestResults(medicalTestId: string) {
+    const response = await getTestResults(medicalTestId);
+
+    setTestResults(response);
+  }
+
   async function handleResultCreated() {
     if (!selectedResultsTest) {
       return;
     }
 
     await loadTestResults(selectedResultsTest.id);
-  }
-
-  async function loadTestResults(medicalTestId: string) {
-    const response = await getTestResults(medicalTestId);
-
-    setTestResults(response);
   }
 
   function handleResultsOpenChange(open: boolean) {
@@ -389,7 +409,6 @@ export default function MedicalTestsPage() {
 
   function handleDeleteResultRequest(result: TestResult) {
     setSelectedDeleteResult(result);
-
     setIsDeleteResultOpen(true);
   }
 
@@ -404,7 +423,6 @@ export default function MedicalTestsPage() {
   async function handleResultHistory(result: TestResult) {
     try {
       setHistoryParameter(result.parameterName);
-
       setHistoryResults([]);
       setHistoryError(null);
       setIsHistoryOpen(true);
@@ -431,28 +449,62 @@ export default function MedicalTestsPage() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-sm font-medium text-primary">{tr.tests.eyebrow}</p>
+    <section className="space-y-6">
+      <header
+        className="
+          flex
+          flex-col
+          gap-5
+          sm:flex-row
+          sm:items-end
+          sm:justify-between
+        "
+      >
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold tracking-tight text-primary">
+            {tr.tests.eyebrow}
+          </p>
 
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h1
+            className="
+              mt-2
+              text-3xl
+              font-semibold
+              tracking-tight
+              text-foreground
+              sm:text-[2rem]
+            "
+          >
             {tr.tests.title}
           </h1>
 
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
             {tr.tests.description}
           </p>
         </div>
 
-        <Button onClick={handleOpenCreate} disabled={isPreparingCreate}>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={handleOpenCreate}
+          disabled={isPreparingCreate}
+        >
           <Plus className="size-4" />
 
           {isPreparingCreate ? tr.tests.preparing : tr.tests.add}
         </Button>
-      </div>
+      </header>
 
-      <div className="mt-8">
+      <div
+        className="
+          rounded-xl
+          border
+          border-border
+          bg-card
+          p-4
+          shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+          sm:p-5
+        "
+      >
         <MedicalTestFilters
           value={filters}
           options={filterOptions}
@@ -462,35 +514,37 @@ export default function MedicalTestsPage() {
         />
       </div>
 
-      <div className="mt-6">
-        {isLoading ? (
-          <div className="space-y-4">
-            {Array.from({
-              length: 3,
-            }).map((_, index) => (
-              <div
-                key={index}
-                className="h-56 animate-pulse rounded-2xl border bg-muted/40"
-              />
-            ))}
-          </div>
-        ) : error ? (
-          <div
-            role="alert"
-            className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 text-sm text-destructive"
-          >
-            {error ?? tr.tests.loadError}
-          </div>
-        ) : (
-          <MedicalTestList
-            tests={tests}
-            isFiltered={isFiltered}
-            onShowResults={handleShowResults}
-            onEdit={handleEdit}
-            onDelete={handleDeleteRequest}
-          />
-        )}
-      </div>
+      {error ? (
+        <div
+          role="alert"
+          className="
+            rounded-xl
+            border
+            border-destructive/20
+            bg-destructive/5
+            p-5
+          "
+        >
+          <p className="text-sm font-medium text-destructive">
+            {tr.tests.loadError}
+          </p>
+
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {error}
+          </p>
+        </div>
+      ) : isLoading ? (
+        <MedicalTestsLoading />
+      ) : (
+        <MedicalTestList
+          tests={tests}
+          isFiltered={isFiltered}
+          onShowResults={handleShowResults}
+          onEdit={handleEdit}
+          onDelete={handleDeleteRequest}
+        />
+      )}
+
       <CreateMedicalTestDialog
         open={isCreateOpen}
         onOpenChange={setIsCreateOpen}
@@ -543,6 +597,7 @@ export default function MedicalTestsPage() {
         onOpenChange={handleEditResultOpenChange}
         onUpdated={handleResultUpdated}
       />
+
       <DeleteTestResultDialog
         key={selectedDeleteResult?.id ?? "no-delete-test-result"}
         result={selectedDeleteResult}
@@ -559,6 +614,26 @@ export default function MedicalTestsPage() {
         error={historyError}
         onOpenChange={handleHistoryOpenChange}
       />
+    </section>
+  );
+}
+
+function MedicalTestsLoading() {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <div
+          key={index}
+          className="
+            h-72
+            animate-pulse
+            rounded-xl
+            border
+            border-border
+            bg-card
+          "
+        />
+      ))}
     </div>
   );
 }

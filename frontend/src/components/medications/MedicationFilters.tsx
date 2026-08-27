@@ -1,13 +1,10 @@
 import { useState } from "react";
-
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { tr } from "@/i18n/tr";
-
 import { medicationStatusLabels, medicationStatuses } from "@/lib/medication";
 
 import type {
@@ -20,11 +17,30 @@ type MedicationFiltersProps = {
   value: MedicationFilterValues;
   options: MedicationFormOptions;
   disabled?: boolean;
-
   onApply: (filters: MedicationFilterValues) => void;
-
   onClear: () => void;
 };
+
+const selectClassName = `
+  h-10
+  w-full
+  rounded-lg
+  border
+  border-input
+  bg-card
+  px-3
+  text-sm
+  text-foreground
+  outline-none
+  transition-[color,background-color,border-color,box-shadow]
+  duration-150
+  focus-visible:border-primary
+  focus-visible:ring-3
+  focus-visible:ring-primary/10
+  disabled:cursor-not-allowed
+  disabled:bg-muted
+  disabled:opacity-70
+`;
 
 export default function MedicationFilters({
   value,
@@ -45,14 +61,8 @@ export default function MedicationFilters({
 
   const currentFilters: MedicationFilterValues = {
     ...(diseaseId ? { diseaseId } : {}),
-
     ...(status ? { status } : {}),
-
-    ...(normalizedName
-      ? {
-          name: normalizedName,
-        }
-      : {}),
+    ...(normalizedName ? { name: normalizedName } : {}),
   };
 
   const hasDraftFilter = Boolean(diseaseId || status || normalizedName);
@@ -89,16 +99,18 @@ export default function MedicationFilters({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-4">
+    <div className="space-y-5">
       <div>
-        <h2 className="font-semibold">{tr.medications.filtersTitle}</h2>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.medications.filtersTitle}
+        </h2>
 
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
           {tr.medications.filterHint}
         </p>
       </div>
 
-      <div className="mt-5 grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="medication-filter-disease">
             {tr.medications.disease}
@@ -110,10 +122,9 @@ export default function MedicationFilters({
             disabled={disabled}
             onChange={(event) => {
               clearOtherFilters("disease");
-
               setDiseaseId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.medications.allDiseases}</option>
 
@@ -139,7 +150,7 @@ export default function MedicationFilters({
 
               setStatus(event.target.value as MedicationStatus | "");
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.medications.allStatuses}</option>
 
@@ -164,16 +175,33 @@ export default function MedicationFilters({
             placeholder={tr.medications.nameFilterPlaceholder}
             onChange={(event) => {
               clearOtherFilters("name");
-
               setName(event.target.value);
             }}
           />
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {hasDraftFilter && (
+        <p className="text-xs text-muted-foreground">
+          {tr.medications.singleFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={disabled || !hasDraftFilter || isSameFilter}
           onClick={() => onApply(currentFilters)}
         >
@@ -184,6 +212,7 @@ export default function MedicationFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >

@@ -29,9 +29,31 @@ type TimelineFiltersProps = {
   disabled?: boolean;
 
   onApply: (filters: TimelineFilterDraft) => void;
-
   onClear: () => void;
 };
+
+const controlClassName = `
+  h-10
+  w-full
+  rounded-lg
+  border
+  border-input
+  bg-card
+  px-3
+  text-sm
+  text-foreground
+  outline-none
+  transition-[color,background-color,border-color,box-shadow]
+  duration-150
+
+  focus-visible:border-primary
+  focus-visible:ring-3
+  focus-visible:ring-primary/10
+
+  disabled:cursor-not-allowed
+  disabled:bg-muted
+  disabled:opacity-70
+`;
 
 export default function TimelineFilters({
   value,
@@ -72,12 +94,18 @@ export default function TimelineFilters({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-4">
+    <div className="space-y-5">
       <div>
-        <h2 className="font-semibold">{tr.timeline.filtersTitle}</h2>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.timeline.filtersTitle}
+        </h2>
+
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          {tr.timeline.filterHint}
+        </p>
       </div>
 
-      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <div className="space-y-2">
           <Label htmlFor="timeline-filter-type">{tr.timeline.type}</Label>
 
@@ -88,7 +116,7 @@ export default function TimelineFilters({
             onChange={(event) =>
               setType(event.target.value as TimelineEventType | "")
             }
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={controlClassName}
           >
             <option value="">{tr.timeline.allTypes}</option>
 
@@ -108,7 +136,7 @@ export default function TimelineFilters({
             value={diseaseId}
             disabled={disabled}
             onChange={(event) => setDiseaseId(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={controlClassName}
           >
             <option value="">{tr.timeline.allDiseases}</option>
 
@@ -130,7 +158,7 @@ export default function TimelineFilters({
             disabled={disabled}
             max={toDate || undefined}
             onChange={(event) => setFromDate(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={controlClassName}
           />
         </div>
 
@@ -144,7 +172,7 @@ export default function TimelineFilters({
             disabled={disabled}
             min={fromDate || undefined}
             onChange={(event) => setToDate(event.target.value)}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={controlClassName}
           />
         </div>
       </div>
@@ -152,15 +180,42 @@ export default function TimelineFilters({
       {!isDateRangeValid && (
         <div
           role="alert"
-          className="mt-4 rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive"
+          className="
+            rounded-xl
+            border
+            border-destructive/20
+            bg-destructive/5
+            px-4
+            py-3
+            text-sm
+            text-destructive
+          "
         >
           {tr.timeline.dateRangeError}
         </div>
       )}
 
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {hasDraftFilter && (
+        <p className="text-xs leading-5 text-muted-foreground">
+          {tr.timeline.combinedFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={
             disabled || !hasDraftFilter || !isDateRangeValid || isSameFilter
           }
@@ -180,6 +235,7 @@ export default function TimelineFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >

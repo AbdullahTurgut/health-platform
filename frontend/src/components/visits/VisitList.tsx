@@ -6,6 +6,7 @@ import {
   Stethoscope,
   Trash2,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { tr } from "@/i18n/tr";
 import type { Visit } from "@/types/visit";
@@ -32,16 +33,38 @@ export default function VisitList({
 }: VisitListProps) {
   if (visits.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed bg-card p-10 text-center">
-        <div className="mx-auto flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+      <div
+        className="
+          rounded-xl
+          border
+          border-dashed
+          border-border
+          bg-card
+          px-6
+          py-12
+          text-center
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            size-11
+            items-center
+            justify-center
+            rounded-xl
+            bg-primary/10
+            text-primary
+          "
+        >
           <CalendarDays className="size-5" />
         </div>
 
-        <h2 className="mt-4 font-semibold">
+        <h2 className="mt-4 text-base font-semibold tracking-tight text-foreground">
           {isFiltered ? tr.visits.filteredEmptyTitle : tr.visits.emptyTitle}
         </h2>
 
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
           {isFiltered
             ? tr.visits.filteredEmptyDescription
             : tr.visits.emptyDescription}
@@ -55,98 +78,111 @@ export default function VisitList({
       {visits.map((visit) => (
         <article
           key={visit.id}
-          className="rounded-2xl border bg-card p-5 shadow-sm"
+          className="
+            group
+            rounded-xl
+            border
+            border-border
+            bg-card
+            p-5
+            shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+            transition-[border-color,box-shadow]
+            duration-150
+            hover:border-primary/20
+            hover:shadow-[0_8px_24px_rgba(15,23,42,0.05)]
+            sm:p-6
+          "
         >
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="flex min-w-0 items-start gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <CalendarDays className="size-5" />
-              </div>
+          <div className="flex items-start gap-3">
+            <div
+              className="
+                flex
+                size-10
+                shrink-0
+                items-center
+                justify-center
+                rounded-xl
+                bg-primary/10
+                text-primary
+                transition-colors
+                duration-150
+                group-hover:bg-primary/15
+              "
+            >
+              <CalendarDays className="size-5" />
+            </div>
 
-              <div className="min-w-0">
-                <p className="font-semibold">
-                  {formatVisitDate(visit.visitDate)}
-                </p>
+            <div className="min-w-0">
+              <h2 className="text-base font-semibold tracking-tight text-foreground">
+                {formatVisitDate(visit.visitDate)}
+              </h2>
 
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {visit.department ?? tr.visits.departmentUnknown}
-                </p>
-              </div>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {visit.department ?? tr.visits.departmentUnknown}
+              </p>
             </div>
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <div className="rounded-xl bg-muted/40 p-3">
-              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <HeartPulse className="size-4" />
-                {tr.visits.disease}
-              </div>
+            <VisitRelation
+              icon={HeartPulse}
+              label={tr.visits.disease}
+              value={visit.diseaseName ?? tr.visits.diseaseUnknown}
+            />
 
-              <p className="mt-2 break-words text-sm font-medium">
-                {visit.diseaseName ?? tr.visits.diseaseUnknown}
-              </p>
-            </div>
+            <VisitRelation
+              icon={Stethoscope}
+              label={tr.visits.doctor}
+              value={visit.doctorName ?? tr.visits.doctorUnknown}
+            />
 
-            <div className="rounded-xl bg-muted/40 p-3">
-              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <Stethoscope className="size-4" />
-                {tr.visits.doctor}
-              </div>
-
-              <p className="mt-2 break-words text-sm font-medium">
-                {visit.doctorName ?? tr.visits.doctorUnknown}
-              </p>
-            </div>
-
-            <div className="rounded-xl bg-muted/40 p-3">
-              <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
-                <Building2 className="size-4" />
-                {tr.visits.hospital}
-              </div>
-
-              <p className="mt-2 break-words text-sm font-medium">
-                {visit.hospitalName ?? tr.visits.hospitalUnknown}
-              </p>
-            </div>
+            <VisitRelation
+              icon={Building2}
+              label={tr.visits.hospital}
+              value={visit.hospitalName ?? tr.visits.hospitalUnknown}
+            />
           </div>
 
-          {visit.reason && (
-            <div className="mt-5 border-t pt-4">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                {tr.visits.reason}
-              </p>
+          {(visit.reason || visit.diagnosisNote || visit.notes) && (
+            <div className="mt-5 space-y-4 border-t border-border pt-5">
+              {visit.reason && (
+                <VisitTextSection
+                  label={tr.visits.reason}
+                  value={visit.reason}
+                />
+              )}
 
-              <p className="mt-1 whitespace-pre-wrap break-words text-sm">
-                {visit.reason}
-              </p>
+              {visit.diagnosisNote && (
+                <VisitTextSection
+                  label={tr.visits.diagnosisNote}
+                  value={visit.diagnosisNote}
+                />
+              )}
+
+              {visit.notes && (
+                <VisitTextSection
+                  label={tr.visits.notes}
+                  value={visit.notes}
+                  muted
+                  clamp
+                />
+              )}
             </div>
           )}
 
-          {visit.diagnosisNote && (
-            <div className="mt-4">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                {tr.visits.diagnosisNote}
-              </p>
-
-              <p className="mt-1 whitespace-pre-wrap break-words text-sm">
-                {visit.diagnosisNote}
-              </p>
-            </div>
-          )}
-
-          {visit.notes && (
-            <div className="mt-4">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                {tr.visits.notes}
-              </p>
-
-              <p className="mt-1 line-clamp-3 whitespace-pre-wrap break-words text-sm text-muted-foreground">
-                {visit.notes}
-              </p>
-            </div>
-          )}
-
-          <div className="mt-5 flex flex-col gap-2 border-t pt-4 sm:flex-row sm:justify-end">
+          <div
+            className="
+              mt-5
+              flex
+              flex-wrap
+              items-center
+              justify-end
+              gap-2
+              border-t
+              border-border
+              pt-4
+            "
+          >
             <Button
               type="button"
               variant="outline"
@@ -154,22 +190,83 @@ export default function VisitList({
               onClick={() => onEdit(visit)}
             >
               <Pencil className="size-4" />
+
               {tr.visits.edit}
             </Button>
 
             <Button
               type="button"
-              variant="outline"
+              variant="destructive"
               size="sm"
-              className="text-destructive hover:text-destructive"
               onClick={() => onDelete(visit)}
             >
               <Trash2 className="size-4" />
+
               {tr.visits.delete}
             </Button>
           </div>
         </article>
       ))}
+    </div>
+  );
+}
+
+type VisitRelationProps = {
+  icon: typeof HeartPulse;
+  label: string;
+  value: string;
+};
+
+function VisitRelation({ icon: Icon, label, value }: VisitRelationProps) {
+  return (
+    <div
+      className="
+        rounded-xl
+        border
+        border-border/70
+        bg-muted/30
+        p-3.5
+      "
+    >
+      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+        <Icon className="size-4 shrink-0 text-primary/70" />
+
+        {label}
+      </div>
+
+      <p className="mt-2 break-words text-sm font-medium text-foreground">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+type VisitTextSectionProps = {
+  label: string;
+  value: string;
+  muted?: boolean;
+  clamp?: boolean;
+};
+
+function VisitTextSection({
+  label,
+  value,
+  muted = false,
+  clamp = false,
+}: VisitTextSectionProps) {
+  return (
+    <div>
+      <p className="text-xs font-medium text-muted-foreground">{label}</p>
+
+      <p
+        className={[
+          "mt-1.5 whitespace-pre-wrap break-words text-sm leading-6",
+          muted ? "text-muted-foreground" : "text-foreground",
+          clamp ? "line-clamp-3" : "",
+        ].join(" ")}
+      >
+        {value}
+      </p>
     </div>
   );
 }

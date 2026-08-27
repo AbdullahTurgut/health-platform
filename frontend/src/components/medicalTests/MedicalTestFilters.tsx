@@ -3,6 +3,13 @@ import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { tr } from "@/i18n/tr";
 import { testCategories, testCategoryLabels } from "@/lib/testCategory";
 
@@ -16,9 +23,7 @@ type MedicalTestFiltersProps = {
   value: MedicalTestFilterValues;
   options: MedicalTestFilterOptions;
   disabled?: boolean;
-
   onApply: (filters: MedicalTestFilterValues) => void;
-
   onClear: () => void;
 };
 
@@ -30,7 +35,6 @@ export default function MedicalTestFilters({
   onClear,
 }: MedicalTestFiltersProps) {
   const [diseaseId, setDiseaseId] = useState(value.diseaseId ?? "");
-
   const [visitId, setVisitId] = useState(value.visitId ?? "");
 
   const [category, setCategory] = useState<TestCategory | "">(
@@ -39,9 +43,7 @@ export default function MedicalTestFilters({
 
   const currentFilters: MedicalTestFilterValues = {
     ...(diseaseId ? { diseaseId } : {}),
-
     ...(visitId ? { visitId } : {}),
-
     ...(category ? { category } : {}),
   };
 
@@ -56,6 +58,24 @@ export default function MedicalTestFilters({
     value.diseaseId || value.visitId || value.category,
   );
 
+  function handleDiseaseChange(nextValue: string | null) {
+    setDiseaseId(nextValue ?? "");
+    setVisitId("");
+    setCategory("");
+  }
+
+  function handleVisitChange(nextValue: string | null) {
+    setVisitId(nextValue ?? "");
+    setDiseaseId("");
+    setCategory("");
+  }
+
+  function handleCategoryChange(nextValue: string | null) {
+    setCategory((nextValue ?? "") as TestCategory | "");
+    setDiseaseId("");
+    setVisitId("");
+  }
+
   function handleClear() {
     setDiseaseId("");
     setVisitId("");
@@ -65,60 +85,75 @@ export default function MedicalTestFilters({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-4">
-      <p className="font-medium">{tr.tests.filtersTitle}</p>
+    <div className="space-y-5">
+      <div>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.tests.filtersTitle}
+        </h2>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-3">
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+          {tr.tests.filterHint}
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="medical-test-filter-disease">
             {tr.tests.disease}
           </Label>
 
-          <select
-            id="medical-test-filter-disease"
-            value={diseaseId}
+          <Select
+            value={diseaseId || null}
+            onValueChange={handleDiseaseChange}
             disabled={disabled}
-            onChange={(event) => {
-              setDiseaseId(event.target.value);
-
-              setVisitId("");
-              setCategory("");
-            }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="">{tr.tests.allDiseases}</option>
+            <SelectTrigger id="medical-test-filter-disease" className="w-full">
+              <SelectValue>
+                {diseaseId
+                  ? options.diseases.find((disease) => disease.id === diseaseId)
+                      ?.name
+                  : tr.tests.allDiseases}
+              </SelectValue>
+            </SelectTrigger>
 
-            {options.diseases.map((disease) => (
-              <option key={disease.id} value={disease.id}>
-                {disease.name}
-              </option>
-            ))}
-          </select>
+            <SelectContent>
+              <SelectItem value="">{tr.tests.allDiseases}</SelectItem>
+
+              {options.diseases.map((disease) => (
+                <SelectItem key={disease.id} value={disease.id}>
+                  {disease.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="medical-test-filter-visit">{tr.tests.visit}</Label>
 
-          <select
-            id="medical-test-filter-visit"
-            value={visitId}
+          <Select
+            value={visitId || null}
+            onValueChange={handleVisitChange}
             disabled={disabled}
-            onChange={(event) => {
-              setVisitId(event.target.value);
-
-              setDiseaseId("");
-              setCategory("");
-            }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="">{tr.tests.allVisits}</option>
+            <SelectTrigger id="medical-test-filter-visit" className="w-full">
+              <SelectValue>
+                {visitId
+                  ? options.visits.find((visit) => visit.id === visitId)?.label
+                  : tr.tests.allVisits}
+              </SelectValue>
+            </SelectTrigger>
 
-            {options.visits.map((visit) => (
-              <option key={visit.id} value={visit.id}>
-                {visit.label}
-              </option>
-            ))}
-          </select>
+            <SelectContent>
+              <SelectItem value="">{tr.tests.allVisits}</SelectItem>
+
+              {options.visits.map((visit) => (
+                <SelectItem key={visit.id} value={visit.id}>
+                  {visit.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
@@ -126,32 +161,53 @@ export default function MedicalTestFilters({
             {tr.tests.category}
           </Label>
 
-          <select
-            id="medical-test-filter-category"
-            value={category}
+          <Select
+            value={category || null}
+            onValueChange={handleCategoryChange}
             disabled={disabled}
-            onChange={(event) => {
-              setCategory(event.target.value as TestCategory | "");
-
-              setDiseaseId("");
-              setVisitId("");
-            }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <option value="">{tr.tests.allCategories}</option>
+            <SelectTrigger id="medical-test-filter-category" className="w-full">
+              <SelectValue>
+                {category
+                  ? testCategoryLabels[category]
+                  : tr.tests.allCategories}
+              </SelectValue>
+            </SelectTrigger>
 
-            {testCategories.map((item) => (
-              <option key={item} value={item}>
-                {testCategoryLabels[item]}
-              </option>
-            ))}
-          </select>
+            <SelectContent>
+              <SelectItem value="">{tr.tests.allCategories}</SelectItem>
+
+              {testCategories.map((item) => (
+                <SelectItem key={item} value={item}>
+                  {testCategoryLabels[item]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {hasDraftFilter && (
+        <p className="text-xs text-muted-foreground">
+          {tr.tests.singleFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={disabled || !hasDraftFilter || isSameFilter}
           onClick={() => onApply(currentFilters)}
         >
@@ -162,6 +218,7 @@ export default function MedicalTestFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >

@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -18,11 +17,32 @@ type ImagingFiltersProps = {
   value: ImagingFilterValues;
   options: ImagingFilterOptions;
   disabled?: boolean;
-
   onApply: (filters: ImagingFilterValues) => void;
-
   onClear: () => void;
 };
+
+const selectClassName = `
+  h-10
+  w-full
+  rounded-lg
+  border
+  border-input
+  bg-card
+  px-3
+  text-sm
+  text-foreground
+  outline-none
+  transition-[color,background-color,border-color,box-shadow]
+  duration-150
+
+  focus-visible:border-primary
+  focus-visible:ring-3
+  focus-visible:ring-primary/10
+
+  disabled:cursor-not-allowed
+  disabled:bg-muted
+  disabled:opacity-70
+`;
 
 export default function ImagingFilters({
   value,
@@ -47,20 +67,11 @@ export default function ImagingFilters({
 
   const currentFilters: ImagingFilterValues = {
     ...(diseaseId ? { diseaseId } : {}),
-
     ...(visitId ? { visitId } : {}),
-
     ...(doctorId ? { doctorId } : {}),
-
     ...(hospitalId ? { hospitalId } : {}),
-
     ...(type ? { type } : {}),
-
-    ...(normalizedBodyPart
-      ? {
-          bodyPart: normalizedBodyPart,
-        }
-      : {}),
+    ...(normalizedBodyPart ? { bodyPart: normalizedBodyPart } : {}),
   };
 
   const isSameFilter =
@@ -129,16 +140,18 @@ export default function ImagingFilters({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-4">
+    <div className="space-y-5">
       <div>
-        <p className="font-medium">{tr.imaging.filtersTitle}</p>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.imaging.filtersTitle}
+        </h2>
 
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
           {tr.imaging.filterHint}
         </p>
       </div>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="imaging-filter-disease">{tr.imaging.disease}</Label>
 
@@ -148,10 +161,9 @@ export default function ImagingFilters({
             disabled={disabled}
             onChange={(event) => {
               clearOtherFilters("disease");
-
               setDiseaseId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.imaging.allDiseases}</option>
 
@@ -172,10 +184,9 @@ export default function ImagingFilters({
             disabled={disabled}
             onChange={(event) => {
               clearOtherFilters("visit");
-
               setVisitId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.imaging.allVisits}</option>
 
@@ -196,10 +207,9 @@ export default function ImagingFilters({
             disabled={disabled}
             onChange={(event) => {
               clearOtherFilters("doctor");
-
               setDoctorId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.imaging.allDoctors}</option>
 
@@ -220,10 +230,9 @@ export default function ImagingFilters({
             disabled={disabled}
             onChange={(event) => {
               clearOtherFilters("hospital");
-
               setHospitalId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.imaging.allHospitals}</option>
 
@@ -247,7 +256,7 @@ export default function ImagingFilters({
 
               setType(event.target.value as ImagingType | "");
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.imaging.allTypes}</option>
 
@@ -272,16 +281,33 @@ export default function ImagingFilters({
             placeholder={tr.imaging.bodyPartPlaceholder}
             onChange={(event) => {
               clearOtherFilters("bodyPart");
-
               setBodyPart(event.target.value);
             }}
           />
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {hasDraftFilter && (
+        <p className="text-xs text-muted-foreground">
+          {tr.imaging.singleFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={disabled || !hasDraftFilter || isSameFilter}
           onClick={() => onApply(currentFilters)}
         >
@@ -292,6 +318,7 @@ export default function ImagingFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >

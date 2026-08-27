@@ -3,33 +3,33 @@ import { Plus } from "lucide-react";
 
 import { getApiErrorMessage } from "@/api/apiError";
 import CreateDiseaseDialog from "@/components/diseases/CreateDiseaseDialog";
+import DeleteDiseaseDialog from "@/components/diseases/DeleteDiseaseDialog";
 import DiseaseFilter, {
   type DiseaseFilterValue,
 } from "@/components/diseases/DiseaseFilter";
 import DiseaseList from "@/components/diseases/DiseaseList";
+import EditDiseaseDialog from "@/components/diseases/EditDiseaseDialog";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/i18n/tr";
-import EditDiseaseDialog from "@/components/diseases/EditDiseaseDialog";
 import {
   getDiseases,
   getDiseasesByStatus,
   updateDisease,
 } from "@/services/diseaseService";
-import DeleteDiseaseDialog from "@/components/diseases/DeleteDiseaseDialog";
 import type { Disease, UpdateDiseaseRequest } from "@/types/disease";
 
 export default function DiseasesPage() {
   const [diseases, setDiseases] = useState<Disease[]>([]);
-
   const [isLoading, setIsLoading] = useState(true);
-
   const [error, setError] = useState<string | null>(null);
 
   const [filter, setFilter] = useState<DiseaseFilterValue>("ALL");
-  const [diseaseToDelete, setDiseaseToDelete] = useState<Disease | null>(null);
 
+  const [diseaseToDelete, setDiseaseToDelete] = useState<Disease | null>(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+
   const [selectedDisease, setSelectedDisease] = useState<Disease | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -101,12 +101,7 @@ export default function DiseasesPage() {
       setIsLoading(true);
       setError(null);
 
-      const response =
-        filter === "ALL"
-          ? await getDiseases()
-          : await getDiseasesByStatus(filter);
-
-      setDiseases(response);
+      await refreshDiseases();
     } catch (error) {
       setError(getApiErrorMessage(error));
     } finally {
@@ -116,7 +111,6 @@ export default function DiseasesPage() {
 
   function handleDelete(disease: Disease) {
     setDiseaseToDelete(disease);
-
     setIsDeleteOpen(true);
   }
 
@@ -152,12 +146,27 @@ export default function DiseasesPage() {
 
   if (error) {
     return (
-      <section className="rounded-2xl border border-destructive/30 bg-destructive/5 p-6">
-        <h1 className="font-semibold text-destructive">
+      <section
+        className="
+          rounded-xl
+          border
+          border-destructive/20
+          bg-destructive/5
+          p-6
+        "
+      >
+        <p className="text-sm font-medium text-destructive">
+          {tr.diseases.eyebrow}
+        </p>
+
+        <h1 className="mt-1 text-xl font-semibold tracking-tight text-foreground">
           {tr.diseases.loadError}
         </h1>
 
-        <p role="alert" className="mt-2 text-sm text-muted-foreground">
+        <p
+          role="alert"
+          className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground"
+        >
           {error}
         </p>
       </section>
@@ -165,30 +174,61 @@ export default function DiseasesPage() {
   }
 
   return (
-    <section>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm font-medium text-primary">
+    <section className="space-y-6">
+      <header
+        className="
+          flex
+          flex-col
+          gap-5
+          sm:flex-row
+          sm:items-end
+          sm:justify-between
+        "
+      >
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold tracking-tight text-primary">
             {tr.diseases.eyebrow}
           </p>
 
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+          <h1
+            className="
+              mt-2
+              text-3xl
+              font-semibold
+              tracking-tight
+              text-foreground
+              sm:text-[2rem]
+            "
+          >
             {tr.diseases.title}
           </h1>
 
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
             {tr.diseases.description}
           </p>
         </div>
 
-        <Button onClick={() => setIsCreateOpen(true)}>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={() => setIsCreateOpen(true)}
+        >
           <Plus className="size-4" />
 
           {tr.diseases.add}
         </Button>
-      </div>
+      </header>
 
-      <div className="mt-8">
+      <div
+        className="
+          rounded-xl
+          border
+          border-border
+          bg-card
+          p-4
+          shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+          sm:p-5
+        "
+      >
         <DiseaseFilter
           value={filter}
           onChange={handleFilterChange}
@@ -196,14 +236,12 @@ export default function DiseasesPage() {
         />
       </div>
 
-      <div className="mt-6">
-        <DiseaseList
-          diseases={diseases}
-          isFiltered={filter !== "ALL"}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
-      </div>
+      <DiseaseList
+        diseases={diseases}
+        isFiltered={filter !== "ALL"}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
 
       <CreateDiseaseDialog
         open={isCreateOpen}
@@ -232,22 +270,38 @@ export default function DiseasesPage() {
 
 function DiseasesLoading() {
   return (
-    <section className="space-y-8">
-      <div>
-        <div className="h-4 w-32 animate-pulse rounded bg-muted" />
+    <section className="space-y-6">
+      <div className="space-y-3">
+        <div className="h-4 w-32 animate-pulse rounded-md bg-muted" />
 
-        <div className="mt-3 h-9 w-48 animate-pulse rounded bg-muted" />
+        <div className="h-9 w-48 animate-pulse rounded-lg bg-muted" />
 
-        <div className="mt-3 h-4 w-80 max-w-full animate-pulse rounded bg-muted" />
+        <div className="h-4 w-full max-w-xl animate-pulse rounded-md bg-muted" />
       </div>
 
+      <div
+        className="
+          h-20
+          animate-pulse
+          rounded-xl
+          border
+          border-border
+          bg-card
+        "
+      />
+
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {Array.from({
-          length: 6,
-        }).map((_, index) => (
+        {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
-            className="h-44 animate-pulse rounded-2xl border bg-card"
+            className="
+              h-44
+              animate-pulse
+              rounded-xl
+              border
+              border-border
+              bg-card
+            "
           />
         ))}
       </div>

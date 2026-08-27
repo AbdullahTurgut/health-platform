@@ -92,68 +92,59 @@ export default function ProfilePage() {
   }
 
   if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <div className="h-4 w-24 animate-pulse rounded bg-muted" />
-          <div className="mt-3 h-8 w-48 animate-pulse rounded bg-muted" />
-          <div className="mt-3 h-4 w-80 max-w-full animate-pulse rounded bg-muted" />
-        </div>
-
-        <div className="rounded-xl border bg-card p-6">
-          <div className="space-y-5">
-            {Array.from({
-              length: 5,
-            }).map((_, index) => (
-              <div
-                key={index}
-                className="h-14 animate-pulse rounded-lg bg-muted"
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (error || !profile) {
     return (
-      <div className="space-y-6">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">Hesap</p>
-
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-            Profilim
-          </h1>
-        </div>
+      <section className="space-y-6">
+        <ProfileHeader />
 
         <div
           role="alert"
-          className="rounded-xl border border-destructive/30 bg-destructive/10 p-5 text-sm text-destructive"
+          className="
+            rounded-xl
+            border
+            border-destructive/20
+            bg-destructive/5
+            p-5
+          "
         >
-          {error ?? "Profil bilgileri yüklenemedi."}
+          <p className="text-sm font-medium text-destructive">
+            Profil bilgileri yüklenemedi.
+          </p>
+
+          {error && (
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              {error}
+            </p>
+          )}
         </div>
-      </div>
+      </section>
     );
   }
 
+  const fullName = [profile.firstName, profile.lastName]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div className="space-y-8">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-sm font-medium text-muted-foreground">Hesap</p>
-
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-            Profilim
-          </h1>
-
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Kişisel bilgilerinizi görüntüleyin ve güncelleyin.
-          </p>
-        </div>
+    <section className="space-y-6">
+      <div
+        className="
+          flex
+          flex-col
+          gap-5
+          sm:flex-row
+          sm:items-end
+          sm:justify-between
+        "
+      >
+        <ProfileHeader />
 
         <Button
-          className="gap-2 sm:self-center"
+          type="button"
+          className="w-full sm:w-auto"
           onClick={() => {
             setUpdateError(null);
             setSuccessMessage(null);
@@ -163,55 +154,141 @@ export default function ProfilePage() {
           <Pencil className="size-4" />
           Profili Düzenle
         </Button>
-      </header>
+      </div>
 
       {successMessage && (
         <div
           role="status"
-          className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm"
+          className="
+            flex
+            items-start
+            gap-3
+            rounded-xl
+            border
+            border-primary/20
+            bg-primary/5
+            px-4
+            py-3.5
+          "
         >
-          {successMessage}
+          <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-primary" />
+
+          <p className="text-sm leading-5 text-foreground">{successMessage}</p>
         </div>
       )}
 
-      <section className="overflow-hidden rounded-xl border bg-card">
-        <div className="border-b px-6 py-5">
-          <h2 className="text-lg font-semibold">Kişisel Bilgiler</h2>
+      <section
+        className="
+          overflow-hidden
+          rounded-xl
+          border
+          border-border
+          bg-card
+          shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        "
+      >
+        <div
+          className="
+            flex
+            flex-col
+            gap-4
+            border-b
+            border-border
+            bg-muted/20
+            px-5
+            py-5
+            sm:flex-row
+            sm:items-center
+            sm:px-6
+          "
+        >
+          <div
+            className="
+              flex
+              size-12
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-primary/10
+              text-primary
+            "
+          >
+            <UserRound className="size-6" />
+          </div>
 
-          <p className="mt-1 text-sm text-muted-foreground">
-            Hesabınızla ilişkili temel kişisel bilgiler.
-          </p>
+          <div className="min-w-0">
+            <h2 className="break-words text-lg font-semibold tracking-tight text-foreground">
+              {fullName || "Kullanıcı"}
+            </h2>
+
+            <p className="mt-1 break-all text-sm text-muted-foreground">
+              {profile.email}
+            </p>
+          </div>
         </div>
 
-        <div className="grid gap-0 md:grid-cols-2">
-          <ProfileField icon={UserRound} label="Ad" value={profile.firstName} />
+        <div className="p-5 sm:p-6">
+          <div className="mb-5">
+            <h3 className="text-sm font-semibold tracking-tight text-foreground">
+              Kişisel Bilgiler
+            </h3>
 
-          <ProfileField
-            icon={UserRound}
-            label="Soyad"
-            value={profile.lastName}
-          />
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">
+              Hesabınızla ilişkili temel kişisel bilgiler.
+            </p>
+          </div>
 
-          <ProfileField
-            icon={CalendarDays}
-            label="Doğum Tarihi"
-            value={formatProfileDate(profile.dateOfBirth)}
-          />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <ProfileField
+              icon={UserRound}
+              label="Ad"
+              value={profile.firstName}
+            />
 
-          <ProfileField icon={Mail} label="E-posta" value={profile.email} />
+            <ProfileField
+              icon={UserRound}
+              label="Soyad"
+              value={profile.lastName}
+            />
+
+            <ProfileField
+              icon={CalendarDays}
+              label="Doğum Tarihi"
+              value={formatProfileDate(profile.dateOfBirth)}
+            />
+
+            <ProfileField
+              icon={Mail}
+              label="E-posta"
+              value={profile.email}
+              secondary="E-posta adresi profil ekranından değiştirilemez."
+            />
+          </div>
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-xl border bg-card">
-        <div className="border-b px-6 py-5">
-          <h2 className="text-lg font-semibold">Hesap Bilgileri</h2>
+      <section
+        className="
+          overflow-hidden
+          rounded-xl
+          border
+          border-border
+          bg-card
+          shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        "
+      >
+        <div className="border-b border-border px-5 py-5 sm:px-6">
+          <h2 className="text-sm font-semibold tracking-tight text-foreground">
+            Hesap Bilgileri
+          </h2>
 
-          <p className="mt-1 text-sm text-muted-foreground">
-            Hesabınızın sistem bilgileri.
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            Hesabınızın sistem ve kayıt bilgileri.
           </p>
         </div>
 
-        <div className="grid gap-0 md:grid-cols-2">
+        <div className="grid gap-3 p-5 sm:grid-cols-2 sm:p-6 lg:grid-cols-3">
           <ProfileField
             icon={CheckCircle2}
             label="Hesap Durumu"
@@ -243,7 +320,32 @@ export default function ProfilePage() {
           onSubmit={handleUpdateProfile}
         />
       )}
-    </div>
+    </section>
+  );
+}
+
+function ProfileHeader() {
+  return (
+    <header className="max-w-2xl">
+      <p className="text-sm font-semibold tracking-tight text-primary">Hesap</p>
+
+      <h1
+        className="
+          mt-2
+          text-3xl
+          font-semibold
+          tracking-tight
+          text-foreground
+          sm:text-[2rem]
+        "
+      >
+        Profilim
+      </h1>
+
+      <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
+        Kişisel bilgilerinizi görüntüleyin ve güncelleyin.
+      </p>
+    </header>
   );
 }
 
@@ -253,20 +355,125 @@ type ProfileFieldProps = {
   }>;
   label: string;
   value: string;
+  secondary?: string;
 };
 
-function ProfileField({ icon: Icon, label, value }: ProfileFieldProps) {
+function ProfileField({
+  icon: Icon,
+  label,
+  value,
+  secondary,
+}: ProfileFieldProps) {
   return (
-    <div className="flex gap-4 border-b p-6 last:border-b-0 md:border-r md:[&:nth-child(2n)]:border-r-0">
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted">
-        <Icon className="size-5 text-muted-foreground" />
+    <div
+      className="
+        flex
+        min-w-0
+        items-start
+        gap-3
+        rounded-xl
+        border
+        border-border/70
+        bg-muted/30
+        p-4
+      "
+    >
+      <div
+        className="
+          flex
+          size-9
+          shrink-0
+          items-center
+          justify-center
+          rounded-lg
+          bg-card
+          text-primary
+          shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        "
+      >
+        <Icon className="size-4" />
       </div>
 
       <div className="min-w-0">
-        <p className="text-sm text-muted-foreground">{label}</p>
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
 
-        <p className="mt-1 break-words font-medium">{value}</p>
+        <p className="mt-1 break-words text-sm font-medium text-foreground">
+          {value}
+        </p>
+
+        {secondary && (
+          <p className="mt-1.5 text-xs leading-5 text-muted-foreground">
+            {secondary}
+          </p>
+        )}
       </div>
     </div>
+  );
+}
+
+function ProfileSkeleton() {
+  return (
+    <section className="space-y-6">
+      <div className="space-y-3">
+        <div className="h-4 w-20 animate-pulse rounded-md bg-muted" />
+
+        <div className="h-8 w-44 animate-pulse rounded-md bg-muted" />
+
+        <div className="h-4 w-80 max-w-full animate-pulse rounded-md bg-muted" />
+      </div>
+
+      <div
+        className="
+          overflow-hidden
+          rounded-xl
+          border
+          border-border
+          bg-card
+        "
+      >
+        <div className="flex items-center gap-4 border-b border-border bg-muted/20 p-5 sm:p-6">
+          <div className="size-12 animate-pulse rounded-xl bg-muted" />
+
+          <div className="space-y-2">
+            <div className="h-5 w-40 animate-pulse rounded-md bg-muted" />
+
+            <div className="h-4 w-52 animate-pulse rounded-md bg-muted" />
+          </div>
+        </div>
+
+        <div className="grid gap-3 p-5 sm:grid-cols-2 sm:p-6">
+          {Array.from({
+            length: 4,
+          }).map((_, index) => (
+            <div
+              key={index}
+              className="h-24 animate-pulse rounded-xl bg-muted"
+            />
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="
+          rounded-xl
+          border
+          border-border
+          bg-card
+          p-5
+          sm:p-6
+        "
+      >
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({
+            length: 3,
+          }).map((_, index) => (
+            <div
+              key={index}
+              className="h-24 animate-pulse rounded-xl bg-muted"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

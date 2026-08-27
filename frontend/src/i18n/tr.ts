@@ -49,7 +49,7 @@ export const tr = {
     eyebrow: "Kişisel Sağlık Özeti",
     title: "Genel Bakış",
     description: "Kişisel sağlık kayıtlarınızın güncel özetini görüntüleyin.",
-
+    recentActivity: "Son hareketler",
     activeDiseases: "Aktif Hastalıklar",
     activeMedications: "Aktif İlaçlar",
     visits: "Ziyaretler",
@@ -74,7 +74,10 @@ export const tr = {
     eyebrow: "Sağlık Geçmişi",
 
     title: "Zaman Çizelgesi",
+    filterHint:
+      "Geçmişinizi kayıt türü, hastalık ve tarih aralığına göre inceleyin.",
 
+    combinedFilterHint: "Timeline filtrelerini birlikte kullanabilirsiniz.",
     description:
       "Ziyaretlerinizi, testlerinizi, görüntüleme kayıtlarınızı, belgelerinizi ve ilaç geçmişinizi kronolojik olarak görüntüleyin.",
 
@@ -117,9 +120,15 @@ export const tr = {
 
   search: {
     eyebrow: "Sağlık Kayıtları",
-
+    resultsTitle: "Arama sonuçları",
     title: "Global Arama",
+    filtersTitle: "Arama seçenekleri",
 
+    filterHint:
+      "Kayıtlarınız içinde arama yapın ve sonuçları tür veya hastalığa göre daraltın.",
+
+    combinedFilterHint:
+      "Arama türü ve hastalık filtresini birlikte kullanabilirsiniz.",
     description:
       "Hastalıklarınız, doktorlarınız, ziyaretleriniz, testleriniz, görüntüleme kayıtlarınız, belgeleriniz ve ilaçlarınız arasında arama yapın.",
 
@@ -227,7 +236,9 @@ export const tr = {
       "Sağlık geçmişinizle ilişkili hastane ve sağlık kuruluşlarını görüntüleyin ve yönetin.",
 
     add: "Hastane Ekle",
+    cityFilterDescription: "Hastane kayıtlarını şehre göre filtreleyin.",
 
+    activeCityFilter: "Aktif şehir filtresi",
     emptyTitle: "Henüz hastane kaydı yok",
 
     emptyDescription:
@@ -385,7 +396,10 @@ export const tr = {
       "Sağlık geçmişinizle ilişkili doktorları görüntüleyin ve yönetin.",
 
     add: "Doktor Ekle",
+    specializationFilterDescription:
+      "Doktor kayıtlarını uzmanlık alanına göre filtreleyin.",
 
+    activeSpecializationFilter: "Aktif uzmanlık filtresi",
     createTitle: "Yeni Doktor Kaydı",
     createDescription:
       "Sağlık geçmişinizde yer alan doktorun bilgilerini girin.",
@@ -458,10 +472,10 @@ export const tr = {
     eyebrow: "Sağlık Kayıtları",
 
     title: "Ziyaretler",
-
+    singleFilterHint: "Aynı anda yalnızca bir filtre kullanılabilir.",
     description:
       "Doktor muayenelerinizi, hastane ziyaretlerinizi ve sağlık kontrollerinizi görüntüleyin ve yönetin.",
-
+    filterHint: "Ziyaretleri hastalık, doktor veya hastaneye göre filtreleyin.",
     add: "Ziyaret Ekle",
 
     emptyTitle: "Henüz ziyaret kaydı yok",
@@ -582,7 +596,10 @@ export const tr = {
     eyebrow: "Sağlık Kayıtları",
 
     title: "Tıbbi Testler",
+    filterHint:
+      "Tahlilleri hastalık, ziyaret veya kategoriye göre filtreleyin.",
 
+    singleFilterHint: "Aynı anda yalnızca bir filtre kullanılabilir.",
     description:
       "Laboratuvar testlerinizi, test sonuçlarınızı ve sağlık ölçümlerinizi görüntüleyin ve yönetin.",
 
@@ -784,7 +801,7 @@ export const tr = {
     eyebrow: "Sağlık Kayıtları",
 
     title: "Görüntüleme Kayıtları",
-
+    singleFilterHint: "Aynı anda yalnızca bir filtre kullanılabilir.",
     description:
       "MR, BT, ultrason, röntgen ve diğer tıbbi görüntüleme kayıtlarınızı görüntüleyin ve yönetin.",
 
@@ -916,6 +933,9 @@ export const tr = {
     eyebrow: "Sağlık Kayıtları",
 
     title: "Tıbbi Belgeler",
+    singleFilterHint: "Aynı anda yalnızca bir filtre kullanılabilir.",
+
+    downloadError: "Belge indirilemedi",
 
     description:
       "Laboratuvar raporları, görüntüleme raporları, reçeteler ve diğer sağlık belgelerinizi yönetin.",
@@ -1024,8 +1044,6 @@ export const tr = {
     filteredEmptyDescription:
       "Seçtiğiniz filtreyle eşleşen tıbbi belge bulunmuyor.",
 
-    downloadError: "Belge indirilemedi",
-
     mimeType: "Dosya Türü",
 
     downloading: "İndiriliyor...",
@@ -1046,7 +1064,7 @@ export const tr = {
     eyebrow: "Sağlık Kayıtları",
 
     title: "İlaçlar",
-
+    singleFilterHint: "Aynı anda yalnızca bir filtre kullanılabilir.",
     description:
       "Kullandığınız ilaçları, doz bilgilerini ve kullanım geçmişinizi yönetin.",
 

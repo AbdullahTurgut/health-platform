@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { tr } from "@/i18n/tr";
-
 import { documentTypeLabels, documentTypes } from "@/lib/documentType";
 
 import type {
@@ -20,11 +18,32 @@ type MedicalDocumentFiltersProps = {
   value: MedicalDocumentFilterValues;
   options: MedicalDocumentFormOptions;
   disabled?: boolean;
-
   onApply: (filters: MedicalDocumentFilterValues) => void;
-
   onClear: () => void;
 };
+
+const selectClassName = `
+  h-10
+  w-full
+  rounded-lg
+  border
+  border-input
+  bg-card
+  px-3
+  text-sm
+  text-foreground
+  outline-none
+  transition-[color,background-color,border-color,box-shadow]
+  duration-150
+
+  focus-visible:border-primary
+  focus-visible:ring-3
+  focus-visible:ring-primary/10
+
+  disabled:cursor-not-allowed
+  disabled:bg-muted
+  disabled:opacity-70
+`;
 
 export default function MedicalDocumentFilters({
   value,
@@ -51,20 +70,11 @@ export default function MedicalDocumentFilters({
 
   const currentFilters: MedicalDocumentFilterValues = {
     ...(diseaseId ? { diseaseId } : {}),
-
     ...(visitId ? { visitId } : {}),
-
     ...(medicalTestId ? { medicalTestId } : {}),
-
     ...(imagingId ? { imagingId } : {}),
-
     ...(documentType ? { documentType } : {}),
-
-    ...(normalizedName
-      ? {
-          name: normalizedName,
-        }
-      : {}),
+    ...(normalizedName ? { name: normalizedName } : {}),
   };
 
   const hasDraftFilter = Boolean(
@@ -139,16 +149,18 @@ export default function MedicalDocumentFilters({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-4">
+    <div className="space-y-5">
       <div>
-        <h2 className="font-semibold">{tr.documents.filtersTitle}</h2>
+        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          {tr.documents.filtersTitle}
+        </h2>
 
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-xs leading-5 text-muted-foreground">
           {tr.documents.filterHint}
         </p>
       </div>
 
-      <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <div className="space-y-2">
           <Label htmlFor="document-filter-disease">
             {tr.documents.disease}
@@ -163,7 +175,7 @@ export default function MedicalDocumentFilters({
 
               setDiseaseId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.documents.allDiseases}</option>
 
@@ -187,7 +199,7 @@ export default function MedicalDocumentFilters({
 
               setVisitId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.documents.allVisits}</option>
 
@@ -213,7 +225,7 @@ export default function MedicalDocumentFilters({
 
               setMedicalTestId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.documents.allMedicalTests}</option>
 
@@ -239,7 +251,7 @@ export default function MedicalDocumentFilters({
 
               setImagingId(event.target.value);
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.documents.allImaging}</option>
 
@@ -265,7 +277,7 @@ export default function MedicalDocumentFilters({
 
               setDocumentType(event.target.value as DocumentType | "");
             }}
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            className={selectClassName}
           >
             <option value="">{tr.documents.allDocumentTypes}</option>
 
@@ -297,9 +309,27 @@ export default function MedicalDocumentFilters({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-end">
+      {hasDraftFilter && (
+        <p className="text-xs text-muted-foreground">
+          {tr.documents.singleFilterHint}
+        </p>
+      )}
+
+      <div
+        className="
+          flex
+          flex-col
+          gap-2
+          border-t
+          border-border
+          pt-4
+          sm:flex-row
+          sm:justify-end
+        "
+      >
         <Button
           type="button"
+          className="w-full sm:w-auto"
           disabled={disabled || !hasDraftFilter || isSameFilter}
           onClick={() => onApply(currentFilters)}
         >
@@ -310,6 +340,7 @@ export default function MedicalDocumentFilters({
           <Button
             type="button"
             variant="outline"
+            className="w-full sm:w-auto"
             disabled={disabled}
             onClick={handleClear}
           >

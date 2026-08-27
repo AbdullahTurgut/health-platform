@@ -292,24 +292,43 @@ export default function MedicationPage() {
     }
   }
   return (
-    <div>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <p className="text-sm font-medium text-primary">
+    <section className="space-y-6">
+      <header
+        className="
+        flex
+        flex-col
+        gap-5
+        sm:flex-row
+        sm:items-end
+        sm:justify-between
+      "
+      >
+        <div className="max-w-2xl">
+          <p className="text-sm font-semibold tracking-tight text-primary">
             {tr.medications.eyebrow}
           </p>
 
-          <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h1
+            className="
+            mt-2
+            text-3xl
+            font-semibold
+            tracking-tight
+            text-foreground
+            sm:text-[2rem]
+          "
+          >
             {tr.medications.title}
           </h1>
 
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
             {tr.medications.description}
           </p>
         </div>
 
         <Button
           type="button"
+          className="w-full sm:w-auto"
           onClick={handleOpenCreate}
           disabled={isPreparingCreate}
         >
@@ -317,9 +336,19 @@ export default function MedicationPage() {
 
           {isPreparingCreate ? tr.medications.preparing : tr.medications.create}
         </Button>
-      </div>
+      </header>
 
-      <div className="mt-8">
+      <div
+        className="
+        rounded-xl
+        border
+        border-border
+        bg-card
+        p-4
+        shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        sm:p-5
+      "
+      >
         <MedicationFilters
           value={filters}
           options={filterOptions}
@@ -329,26 +358,36 @@ export default function MedicationPage() {
         />
       </div>
 
-      <div className="mt-6">
-        {isLoading ? (
-          <MedicationListSkeleton />
-        ) : error ? (
-          <div
-            role="alert"
-            className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 text-sm text-destructive"
-          >
-            {error || tr.medications.loadError}
-          </div>
-        ) : (
-          <MedicationList
-            medications={medications}
-            isFiltered={isFiltered}
-            isPreparingEdit={isPreparingEdit}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        )}
-      </div>
+      {error ? (
+        <div
+          role="alert"
+          className="
+          rounded-xl
+          border
+          border-destructive/20
+          bg-destructive/5
+          p-5
+        "
+        >
+          <p className="text-sm font-medium text-destructive">
+            {tr.medications.loadError}
+          </p>
+
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {error}
+          </p>
+        </div>
+      ) : isLoading ? (
+        <MedicationListSkeleton />
+      ) : (
+        <MedicationList
+          medications={medications}
+          isFiltered={isFiltered}
+          isPreparingEdit={isPreparingEdit}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
 
       <CreateMedicationDialog
         open={isCreateOpen}
@@ -373,19 +412,24 @@ export default function MedicationPage() {
         onOpenChange={handleDeleteOpenChange}
         onDeleted={handleDeleted}
       />
-    </div>
+    </section>
   );
 }
 
 function MedicationListSkeleton() {
   return (
     <div className="space-y-4">
-      {Array.from({
-        length: 3,
-      }).map((_, index) => (
+      {Array.from({ length: 3 }).map((_, index) => (
         <div
           key={index}
-          className="h-64 animate-pulse rounded-2xl border bg-muted/40"
+          className="
+            h-72
+            animate-pulse
+            rounded-xl
+            border
+            border-border
+            bg-card
+          "
         />
       ))}
     </div>

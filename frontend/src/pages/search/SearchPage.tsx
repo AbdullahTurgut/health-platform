@@ -194,20 +194,41 @@ export default function SearchPage() {
   }
 
   return (
-    <div>
-      <div>
-        <p className="text-sm font-medium text-primary">{tr.search.eyebrow}</p>
+    <section className="space-y-6">
+      <header className="max-w-2xl">
+        <p className="text-sm font-semibold tracking-tight text-primary">
+          {tr.search.eyebrow}
+        </p>
 
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h1
+          className="
+          mt-2
+          text-3xl
+          font-semibold
+          tracking-tight
+          text-foreground
+          sm:text-[2rem]
+        "
+        >
           {tr.search.title}
         </h1>
 
-        <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
+        <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
           {tr.search.description}
         </p>
-      </div>
+      </header>
 
-      <div className="mt-8">
+      <div
+        className="
+        rounded-xl
+        border
+        border-border
+        bg-card
+        p-4
+        shadow-[0_1px_2px_rgba(15,23,42,0.03)]
+        sm:p-5
+      "
+      >
         <SearchFilters
           value={searchFilters}
           options={filterOptions}
@@ -217,53 +238,78 @@ export default function SearchPage() {
         />
       </div>
 
-      <div className="mt-6">
-        {isLoading ? (
-          <SearchSkeleton />
-        ) : error ? (
-          <div
-            role="alert"
-            className="rounded-2xl border border-destructive/30 bg-destructive/5 p-5 text-sm text-destructive"
-          >
-            {error || tr.search.loadError}
-          </div>
-        ) : (
-          <>
-            <SearchResultsList
-              results={searchResult.content}
-              hasSearched={hasSearched}
-              totalElements={searchResult.totalElements}
-            />
+      {error ? (
+        <div
+          role="alert"
+          className="
+          rounded-xl
+          border
+          border-destructive/20
+          bg-destructive/5
+          p-5
+        "
+        >
+          <p className="text-sm font-medium text-destructive">
+            {tr.search.loadError}
+          </p>
 
-            {hasSearched && (
-              <div className="mt-6">
-                <SearchPagination
-                  page={searchResult.page}
-                  totalPages={searchResult.totalPages}
-                  first={searchResult.first}
-                  last={searchResult.last}
-                  disabled={isLoading}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    </div>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {error}
+          </p>
+        </div>
+      ) : isLoading ? (
+        <SearchSkeleton />
+      ) : (
+        <div className="space-y-6">
+          <SearchResultsList
+            results={searchResult.content}
+            hasSearched={hasSearched}
+            totalElements={searchResult.totalElements}
+          />
+
+          {hasSearched && (
+            <SearchPagination
+              page={searchResult.page}
+              totalPages={searchResult.totalPages}
+              first={searchResult.first}
+              last={searchResult.last}
+              disabled={isLoading}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </div>
+      )}
+    </section>
   );
 }
 
 function SearchSkeleton() {
   return (
-    <div className="space-y-4">
-      {Array.from({
-        length: 5,
-      }).map((_, index) => (
+    <div className="space-y-3">
+      {Array.from({ length: 5 }).map((_, index) => (
         <div
           key={index}
-          className="h-40 animate-pulse rounded-2xl border bg-muted/40"
-        />
+          className="
+            rounded-xl
+            border
+            border-border
+            bg-card
+            p-5
+            sm:p-6
+          "
+        >
+          <div className="flex items-start gap-3">
+            <div className="size-10 animate-pulse rounded-xl bg-muted" />
+
+            <div className="min-w-0 flex-1 space-y-3">
+              <div className="h-5 w-48 max-w-full animate-pulse rounded-md bg-muted" />
+
+              <div className="h-4 w-72 max-w-full animate-pulse rounded-md bg-muted" />
+
+              <div className="h-14 animate-pulse rounded-xl bg-muted/60" />
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );
